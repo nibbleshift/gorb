@@ -1,0 +1,19 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - task: install-deps
+    silent: true
+  install-deps:
+    - task: install-goreleaser
+  install-goreleaser:
+    cmds:
+      - go install github.com/goreleaser/goreleaser@latest
+    status:
+      - test -f $(which goreleaser)
