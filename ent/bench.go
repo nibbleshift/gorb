@@ -12,9 +12,40 @@ import (
 
 // Bench is the model entity for the Bench schema.
 type Bench struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
+	// OS holds the value of the "OS" field.
+	OS string `json:"OS,omitempty"`
+	// Arch holds the value of the "Arch" field.
+	Arch string `json:"Arch,omitempty"`
+	// CPU holds the value of the "CPU" field.
+	CPU string `json:"CPU,omitempty"`
+	// Package holds the value of the "Package" field.
+	Package string `json:"Package,omitempty"`
+	// Pass holds the value of the "Pass" field.
+	Pass bool `json:"Pass,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the BenchQuery when eager-loading is set.
+	Edges BenchEdges `json:"edges"`
+}
+
+// BenchEdges holds the relations/edges for other nodes in the graph.
+type BenchEdges struct {
+	// Results holds the value of the results edge.
+	Results []*BenchResult `json:"results,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// ResultsOrErr returns the Results value or an error if the edge
+// was not loaded in eager-loading.
+func (e BenchEdges) ResultsOrErr() ([]*BenchResult, error) {
+	if e.loadedTypes[0] {
+		return e.Results, nil
+	}
+	return nil, &NotLoadedError{edge: "results"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -22,8 +53,12 @@ func (*Bench) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case bench.FieldPass:
+			values[i] = new(sql.NullBool)
 		case bench.FieldID:
 			values[i] = new(sql.NullInt64)
+		case bench.FieldOS, bench.FieldArch, bench.FieldCPU, bench.FieldPackage:
+			values[i] = new(sql.NullString)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Bench", columns[i])
 		}
@@ -45,9 +80,44 @@ func (b *Bench) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			b.ID = int(value.Int64)
+		case bench.FieldOS:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field OS", values[i])
+			} else if value.Valid {
+				b.OS = value.String
+			}
+		case bench.FieldArch:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Arch", values[i])
+			} else if value.Valid {
+				b.Arch = value.String
+			}
+		case bench.FieldCPU:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field CPU", values[i])
+			} else if value.Valid {
+				b.CPU = value.String
+			}
+		case bench.FieldPackage:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field Package", values[i])
+			} else if value.Valid {
+				b.Package = value.String
+			}
+		case bench.FieldPass:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field Pass", values[i])
+			} else if value.Valid {
+				b.Pass = value.Bool
+			}
 		}
 	}
 	return nil
+}
+
+// QueryResults queries the "results" edge of the Bench entity.
+func (b *Bench) QueryResults() *BenchResultQuery {
+	return NewBenchClient(b.config).QueryResults(b)
 }
 
 // Update returns a builder for updating this Bench.
@@ -72,7 +142,21 @@ func (b *Bench) Unwrap() *Bench {
 func (b *Bench) String() string {
 	var builder strings.Builder
 	builder.WriteString("Bench(")
-	builder.WriteString(fmt.Sprintf("id=%v", b.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", b.ID))
+	builder.WriteString("OS=")
+	builder.WriteString(b.OS)
+	builder.WriteString(", ")
+	builder.WriteString("Arch=")
+	builder.WriteString(b.Arch)
+	builder.WriteString(", ")
+	builder.WriteString("CPU=")
+	builder.WriteString(b.CPU)
+	builder.WriteString(", ")
+	builder.WriteString("Package=")
+	builder.WriteString(b.Package)
+	builder.WriteString(", ")
+	builder.WriteString("Pass=")
+	builder.WriteString(fmt.Sprintf("%v", b.Pass))
 	builder.WriteByte(')')
 	return builder.String()
 }

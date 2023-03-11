@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"fmt"
 	"math"
 
@@ -11,16 +12,18 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/nibbleshift/gorb/ent/bench"
+	"github.com/nibbleshift/gorb/ent/benchresult"
 	"github.com/nibbleshift/gorb/ent/predicate"
 )
 
 // BenchQuery is the builder for querying Bench entities.
 type BenchQuery struct {
 	config
-	ctx        *QueryContext
-	order      []OrderFunc
-	inters     []Interceptor
-	predicates []predicate.Bench
+	ctx         *QueryContext
+	order       []OrderFunc
+	inters      []Interceptor
+	predicates  []predicate.Bench
+	withResults *BenchResultQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -55,6 +58,28 @@ func (bq *BenchQuery) Unique(unique bool) *BenchQuery {
 func (bq *BenchQuery) Order(o ...OrderFunc) *BenchQuery {
 	bq.order = append(bq.order, o...)
 	return bq
+}
+
+// QueryResults chains the current query on the "results" edge.
+func (bq *BenchQuery) QueryResults() *BenchResultQuery {
+	query := (&BenchResultClient{config: bq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := bq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := bq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bench.Table, bench.FieldID, selector),
+			sqlgraph.To(benchresult.Table, benchresult.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bench.ResultsTable, bench.ResultsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(bq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
 }
 
 // First returns the first Bench entity from the query.
@@ -244,19 +269,43 @@ func (bq *BenchQuery) Clone() *BenchQuery {
 		return nil
 	}
 	return &BenchQuery{
-		config:     bq.config,
-		ctx:        bq.ctx.Clone(),
-		order:      append([]OrderFunc{}, bq.order...),
-		inters:     append([]Interceptor{}, bq.inters...),
-		predicates: append([]predicate.Bench{}, bq.predicates...),
+		config:      bq.config,
+		ctx:         bq.ctx.Clone(),
+		order:       append([]OrderFunc{}, bq.order...),
+		inters:      append([]Interceptor{}, bq.inters...),
+		predicates:  append([]predicate.Bench{}, bq.predicates...),
+		withResults: bq.withResults.Clone(),
 		// clone intermediate query.
 		sql:  bq.sql.Clone(),
 		path: bq.path,
 	}
 }
 
+// WithResults tells the query-builder to eager-load the nodes that are connected to
+// the "results" edge. The optional arguments are used to configure the query builder of the edge.
+func (bq *BenchQuery) WithResults(opts ...func(*BenchResultQuery)) *BenchQuery {
+	query := (&BenchResultClient{config: bq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	bq.withResults = query
+	return bq
+}
+
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		OS string `json:"OS,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.Bench.Query().
+//		GroupBy(bench.FieldOS).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
 func (bq *BenchQuery) GroupBy(field string, fields ...string) *BenchGroupBy {
 	bq.ctx.Fields = append([]string{field}, fields...)
 	grbuild := &BenchGroupBy{build: bq}
@@ -268,6 +317,16 @@ func (bq *BenchQuery) GroupBy(field string, fields ...string) *BenchGroupBy {
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		OS string `json:"OS,omitempty"`
+//	}
+//
+//	client.Bench.Query().
+//		Select(bench.FieldOS).
+//		Scan(ctx, &v)
 func (bq *BenchQuery) Select(fields ...string) *BenchSelect {
 	bq.ctx.Fields = append(bq.ctx.Fields, fields...)
 	sbuild := &BenchSelect{BenchQuery: bq}
@@ -309,8 +368,11 @@ func (bq *BenchQuery) prepareQuery(ctx context.Context) error {
 
 func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench, error) {
 	var (
-		nodes = []*Bench{}
-		_spec = bq.querySpec()
+		nodes       = []*Bench{}
+		_spec       = bq.querySpec()
+		loadedTypes = [1]bool{
+			bq.withResults != nil,
+		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Bench).scanValues(nil, columns)
@@ -318,6 +380,7 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 	_spec.Assign = func(columns []string, values []any) error {
 		node := &Bench{config: bq.config}
 		nodes = append(nodes, node)
+		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
@@ -329,7 +392,46 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
+	if query := bq.withResults; query != nil {
+		if err := bq.loadResults(ctx, query, nodes,
+			func(n *Bench) { n.Edges.Results = []*BenchResult{} },
+			func(n *Bench, e *BenchResult) { n.Edges.Results = append(n.Edges.Results, e) }); err != nil {
+			return nil, err
+		}
+	}
 	return nodes, nil
+}
+
+func (bq *BenchQuery) loadResults(ctx context.Context, query *BenchResultQuery, nodes []*Bench, init func(*Bench), assign func(*Bench, *BenchResult)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[int]*Bench)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.BenchResult(func(s *sql.Selector) {
+		s.Where(sql.InValues(bench.ResultsColumn, fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.bench_results
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "bench_results" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "bench_results" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
 }
 
 func (bq *BenchQuery) sqlCount(ctx context.Context) (int, error) {

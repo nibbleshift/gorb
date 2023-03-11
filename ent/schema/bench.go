@@ -1,6 +1,10 @@
 package schema
 
-import "entgo.io/ent"
+import (
+	"entgo.io/ent"
+	"entgo.io/ent/schema/edge"
+	"entgo.io/ent/schema/field"
+)
 
 // Bench holds the schema definition for the Bench entity.
 type Bench struct {
@@ -9,10 +13,18 @@ type Bench struct {
 
 // Fields of the Bench.
 func (Bench) Fields() []ent.Field {
-	return nil
+	return []ent.Field{
+		field.String("OS"),
+		field.String("Arch"),
+		field.String("CPU"),
+		field.String("Package"),
+		field.Bool("Pass"),
+	}
 }
 
 // Edges of the Bench.
 func (Bench) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.To("results", BenchResult.Type),
+	}
 }

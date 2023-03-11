@@ -4,11 +4,13 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/nibbleshift/gorb/ent/bench"
+	"github.com/nibbleshift/gorb/ent/benchresult"
 )
 
 // BenchCreate is the builder for creating a Bench entity.
@@ -16,6 +18,51 @@ type BenchCreate struct {
 	config
 	mutation *BenchMutation
 	hooks    []Hook
+}
+
+// SetOS sets the "OS" field.
+func (bc *BenchCreate) SetOS(s string) *BenchCreate {
+	bc.mutation.SetOS(s)
+	return bc
+}
+
+// SetArch sets the "Arch" field.
+func (bc *BenchCreate) SetArch(s string) *BenchCreate {
+	bc.mutation.SetArch(s)
+	return bc
+}
+
+// SetCPU sets the "CPU" field.
+func (bc *BenchCreate) SetCPU(s string) *BenchCreate {
+	bc.mutation.SetCPU(s)
+	return bc
+}
+
+// SetPackage sets the "Package" field.
+func (bc *BenchCreate) SetPackage(s string) *BenchCreate {
+	bc.mutation.SetPackage(s)
+	return bc
+}
+
+// SetPass sets the "Pass" field.
+func (bc *BenchCreate) SetPass(b bool) *BenchCreate {
+	bc.mutation.SetPass(b)
+	return bc
+}
+
+// AddResultIDs adds the "results" edge to the BenchResult entity by IDs.
+func (bc *BenchCreate) AddResultIDs(ids ...int) *BenchCreate {
+	bc.mutation.AddResultIDs(ids...)
+	return bc
+}
+
+// AddResults adds the "results" edges to the BenchResult entity.
+func (bc *BenchCreate) AddResults(b ...*BenchResult) *BenchCreate {
+	ids := make([]int, len(b))
+	for i := range b {
+		ids[i] = b[i].ID
+	}
+	return bc.AddResultIDs(ids...)
 }
 
 // Mutation returns the BenchMutation object of the builder.
@@ -52,6 +99,21 @@ func (bc *BenchCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (bc *BenchCreate) check() error {
+	if _, ok := bc.mutation.OS(); !ok {
+		return &ValidationError{Name: "OS", err: errors.New(`ent: missing required field "Bench.OS"`)}
+	}
+	if _, ok := bc.mutation.Arch(); !ok {
+		return &ValidationError{Name: "Arch", err: errors.New(`ent: missing required field "Bench.Arch"`)}
+	}
+	if _, ok := bc.mutation.CPU(); !ok {
+		return &ValidationError{Name: "CPU", err: errors.New(`ent: missing required field "Bench.CPU"`)}
+	}
+	if _, ok := bc.mutation.Package(); !ok {
+		return &ValidationError{Name: "Package", err: errors.New(`ent: missing required field "Bench.Package"`)}
+	}
+	if _, ok := bc.mutation.Pass(); !ok {
+		return &ValidationError{Name: "Pass", err: errors.New(`ent: missing required field "Bench.Pass"`)}
+	}
 	return nil
 }
 
@@ -78,6 +140,45 @@ func (bc *BenchCreate) createSpec() (*Bench, *sqlgraph.CreateSpec) {
 		_node = &Bench{config: bc.config}
 		_spec = sqlgraph.NewCreateSpec(bench.Table, sqlgraph.NewFieldSpec(bench.FieldID, field.TypeInt))
 	)
+	if value, ok := bc.mutation.OS(); ok {
+		_spec.SetField(bench.FieldOS, field.TypeString, value)
+		_node.OS = value
+	}
+	if value, ok := bc.mutation.Arch(); ok {
+		_spec.SetField(bench.FieldArch, field.TypeString, value)
+		_node.Arch = value
+	}
+	if value, ok := bc.mutation.CPU(); ok {
+		_spec.SetField(bench.FieldCPU, field.TypeString, value)
+		_node.CPU = value
+	}
+	if value, ok := bc.mutation.Package(); ok {
+		_spec.SetField(bench.FieldPackage, field.TypeString, value)
+		_node.Package = value
+	}
+	if value, ok := bc.mutation.Pass(); ok {
+		_spec.SetField(bench.FieldPass, field.TypeBool, value)
+		_node.Pass = value
+	}
+	if nodes := bc.mutation.ResultsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   bench.ResultsTable,
+			Columns: []string{bench.ResultsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: benchresult.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
+	}
 	return _node, _spec
 }
 

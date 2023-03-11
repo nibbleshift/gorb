@@ -14,6 +14,8 @@ type Tx struct {
 	config
 	// Bench is the client for interacting with the Bench builders.
 	Bench *BenchClient
+	// BenchResult is the client for interacting with the BenchResult builders.
+	BenchResult *BenchResultClient
 
 	// lazily loaded.
 	client     *Client
@@ -146,6 +148,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Bench = NewBenchClient(tx.config)
+	tx.BenchResult = NewBenchResultClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

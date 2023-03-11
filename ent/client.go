@@ -13,7 +13,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/nibbleshift/gorb/ent/bench"
+	"github.com/nibbleshift/gorb/ent/benchresult"
 )
 
 // Client is the client that holds all ent builders.
@@ -23,6 +25,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Bench is the client for interacting with the Bench builders.
 	Bench *BenchClient
+	// BenchResult is the client for interacting with the BenchResult builders.
+	BenchResult *BenchResultClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -37,6 +41,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Bench = NewBenchClient(c.config)
+	c.BenchResult = NewBenchResultClient(c.config)
 }
 
 type (
@@ -117,9 +122,10 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Bench:  NewBenchClient(cfg),
+		ctx:         ctx,
+		config:      cfg,
+		Bench:       NewBenchClient(cfg),
+		BenchResult: NewBenchResultClient(cfg),
 	}, nil
 }
 
@@ -137,9 +143,10 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Bench:  NewBenchClient(cfg),
+		ctx:         ctx,
+		config:      cfg,
+		Bench:       NewBenchClient(cfg),
+		BenchResult: NewBenchResultClient(cfg),
 	}, nil
 }
 
@@ -169,12 +176,14 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Bench.Use(hooks...)
+	c.BenchResult.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.Bench.Intercept(interceptors...)
+	c.BenchResult.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -182,6 +191,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *BenchMutation:
 		return c.Bench.mutate(ctx, m)
+	case *BenchResultMutation:
+		return c.BenchResult.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -280,6 +291,22 @@ func (c *BenchClient) GetX(ctx context.Context, id int) *Bench {
 	return obj
 }
 
+// QueryResults queries the results edge of a Bench.
+func (c *BenchClient) QueryResults(b *Bench) *BenchResultQuery {
+	query := (&BenchResultClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := b.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(bench.Table, bench.FieldID, id),
+			sqlgraph.To(benchresult.Table, benchresult.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, bench.ResultsTable, bench.ResultsColumn),
+		)
+		fromV = sqlgraph.Neighbors(b.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *BenchClient) Hooks() []Hook {
 	return c.hooks.Bench
@@ -305,12 +332,130 @@ func (c *BenchClient) mutate(ctx context.Context, m *BenchMutation) (Value, erro
 	}
 }
 
+// BenchResultClient is a client for the BenchResult schema.
+type BenchResultClient struct {
+	config
+}
+
+// NewBenchResultClient returns a client for the BenchResult from the given config.
+func NewBenchResultClient(c config) *BenchResultClient {
+	return &BenchResultClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `benchresult.Hooks(f(g(h())))`.
+func (c *BenchResultClient) Use(hooks ...Hook) {
+	c.hooks.BenchResult = append(c.hooks.BenchResult, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `benchresult.Intercept(f(g(h())))`.
+func (c *BenchResultClient) Intercept(interceptors ...Interceptor) {
+	c.inters.BenchResult = append(c.inters.BenchResult, interceptors...)
+}
+
+// Create returns a builder for creating a BenchResult entity.
+func (c *BenchResultClient) Create() *BenchResultCreate {
+	mutation := newBenchResultMutation(c.config, OpCreate)
+	return &BenchResultCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of BenchResult entities.
+func (c *BenchResultClient) CreateBulk(builders ...*BenchResultCreate) *BenchResultCreateBulk {
+	return &BenchResultCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for BenchResult.
+func (c *BenchResultClient) Update() *BenchResultUpdate {
+	mutation := newBenchResultMutation(c.config, OpUpdate)
+	return &BenchResultUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *BenchResultClient) UpdateOne(br *BenchResult) *BenchResultUpdateOne {
+	mutation := newBenchResultMutation(c.config, OpUpdateOne, withBenchResult(br))
+	return &BenchResultUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *BenchResultClient) UpdateOneID(id int) *BenchResultUpdateOne {
+	mutation := newBenchResultMutation(c.config, OpUpdateOne, withBenchResultID(id))
+	return &BenchResultUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for BenchResult.
+func (c *BenchResultClient) Delete() *BenchResultDelete {
+	mutation := newBenchResultMutation(c.config, OpDelete)
+	return &BenchResultDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *BenchResultClient) DeleteOne(br *BenchResult) *BenchResultDeleteOne {
+	return c.DeleteOneID(br.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *BenchResultClient) DeleteOneID(id int) *BenchResultDeleteOne {
+	builder := c.Delete().Where(benchresult.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &BenchResultDeleteOne{builder}
+}
+
+// Query returns a query builder for BenchResult.
+func (c *BenchResultClient) Query() *BenchResultQuery {
+	return &BenchResultQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeBenchResult},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a BenchResult entity by its id.
+func (c *BenchResultClient) Get(ctx context.Context, id int) (*BenchResult, error) {
+	return c.Query().Where(benchresult.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *BenchResultClient) GetX(ctx context.Context, id int) *BenchResult {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *BenchResultClient) Hooks() []Hook {
+	return c.hooks.BenchResult
+}
+
+// Interceptors returns the client interceptors.
+func (c *BenchResultClient) Interceptors() []Interceptor {
+	return c.inters.BenchResult
+}
+
+func (c *BenchResultClient) mutate(ctx context.Context, m *BenchResultMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&BenchResultCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&BenchResultUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&BenchResultUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&BenchResultDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown BenchResult mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Bench []ent.Hook
+		Bench, BenchResult []ent.Hook
 	}
 	inters struct {
-		Bench []ent.Interceptor
+		Bench, BenchResult []ent.Interceptor
 	}
 )

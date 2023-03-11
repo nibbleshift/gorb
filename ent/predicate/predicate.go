@@ -8,3 +8,6 @@ import (
 
 // Bench is the predicate function for bench builders.
 type Bench func(*sql.Selector)
+
+// BenchResult is the predicate function for benchresult builders.
+type BenchResult func(*sql.Selector)

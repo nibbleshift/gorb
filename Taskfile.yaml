@@ -17,4 +17,6 @@ tasks:
       - go install github.com/goreleaser/goreleaser@latest
     status:
       - test -f $(which goreleaser)
-
+  generate:
+    cmds:
+      - go generate ./ent

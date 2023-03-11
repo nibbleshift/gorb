@@ -7,13 +7,37 @@ const (
 	Label = "bench"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
+	// FieldOS holds the string denoting the os field in the database.
+	FieldOS = "os"
+	// FieldArch holds the string denoting the arch field in the database.
+	FieldArch = "arch"
+	// FieldCPU holds the string denoting the cpu field in the database.
+	FieldCPU = "cpu"
+	// FieldPackage holds the string denoting the package field in the database.
+	FieldPackage = "package"
+	// FieldPass holds the string denoting the pass field in the database.
+	FieldPass = "pass"
+	// EdgeResults holds the string denoting the results edge name in mutations.
+	EdgeResults = "results"
 	// Table holds the table name of the bench in the database.
 	Table = "benches"
+	// ResultsTable is the table that holds the results relation/edge.
+	ResultsTable = "bench_results"
+	// ResultsInverseTable is the table name for the BenchResult entity.
+	// It exists in this package in order to avoid circular dependency with the "benchresult" package.
+	ResultsInverseTable = "bench_results"
+	// ResultsColumn is the table column denoting the results relation/edge.
+	ResultsColumn = "bench_results"
 )
 
 // Columns holds all SQL columns for bench fields.
 var Columns = []string{
 	FieldID,
+	FieldOS,
+	FieldArch,
+	FieldCPU,
+	FieldPackage,
+	FieldPass,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
