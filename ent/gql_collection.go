@@ -21,9 +21,9 @@ func (b *BenchQuery) CollectFields(ctx context.Context, satisfies ...string) (*B
 	return b, nil
 }
 
-func (b *BenchQuery) collectField(ctx context.Context, op *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
+func (b *BenchQuery) collectField(ctx context.Context, opCtx *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
-	for _, field := range graphql.CollectFields(op, field.Selections, satisfies) {
+	for _, field := range graphql.CollectFields(opCtx, field.Selections, satisfies) {
 		switch field.Name {
 		case "results":
 			var (
@@ -31,7 +31,7 @@ func (b *BenchQuery) collectField(ctx context.Context, op *graphql.OperationCont
 				path  = append(path, alias)
 				query = (&BenchResultClient{config: b.config}).Query()
 			)
-			if err := query.collectField(ctx, op, field, path, satisfies...); err != nil {
+			if err := query.collectField(ctx, opCtx, field, path, satisfies...); err != nil {
 				return err
 			}
 			b.WithNamedResults(alias, func(wq *BenchResultQuery) {
@@ -80,7 +80,7 @@ func (br *BenchResultQuery) CollectFields(ctx context.Context, satisfies ...stri
 	return br, nil
 }
 
-func (br *BenchResultQuery) collectField(ctx context.Context, op *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
+func (br *BenchResultQuery) collectField(ctx context.Context, opCtx *graphql.OperationContext, field graphql.CollectedField, path []string, satisfies ...string) error {
 	path = append([]string(nil), path...)
 	return nil
 }
