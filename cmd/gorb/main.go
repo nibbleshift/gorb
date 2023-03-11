@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/nibbleshift/internal/exec"
+)
 
 func main() {
 	fmt.Println("test")
+
+	exec.Run("ls")
 }
