@@ -9,6 +9,8 @@ tasks:
   default:
     cmds:
       - task: install-deps
+      - task: generate
+      - task: build-all
     silent: true
   install-deps:
     - task: install-goreleaser
@@ -20,3 +22,13 @@ tasks:
   generate:
     cmds:
       - go generate ./ent
+  build-gorb:
+    cmds:
+      - go build -o gorb cmd/gorb/main.go
+  build-gorbd:
+    cmds:
+      - go build -o gorbd cmd/gorbd/main.go
+  build-all:
+    deps:
+      - build-gorb
+      - build-gorbd
