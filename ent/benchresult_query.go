@@ -22,6 +22,8 @@ type BenchResultQuery struct {
 	inters     []Interceptor
 	predicates []predicate.BenchResult
 	withFKs    bool
+	modifiers  []func(*sql.Selector)
+	loadTotal  []func(context.Context, []*BenchResult) error
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -347,6 +349,9 @@ func (brq *BenchResultQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
+	if len(brq.modifiers) > 0 {
+		_spec.Modifiers = brq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -356,11 +361,19 @@ func (brq *BenchResultQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
+	for i := range brq.loadTotal {
+		if err := brq.loadTotal[i](ctx, nodes); err != nil {
+			return nil, err
+		}
+	}
 	return nodes, nil
 }
 
 func (brq *BenchResultQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := brq.querySpec()
+	if len(brq.modifiers) > 0 {
+		_spec.Modifiers = brq.modifiers
+	}
 	_spec.Node.Columns = brq.ctx.Fields
 	if len(brq.ctx.Fields) > 0 {
 		_spec.Unique = brq.ctx.Unique != nil && *brq.ctx.Unique

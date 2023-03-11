@@ -19,11 +19,14 @@ import (
 // BenchQuery is the builder for querying Bench entities.
 type BenchQuery struct {
 	config
-	ctx         *QueryContext
-	order       []OrderFunc
-	inters      []Interceptor
-	predicates  []predicate.Bench
-	withResults *BenchResultQuery
+	ctx              *QueryContext
+	order            []OrderFunc
+	inters           []Interceptor
+	predicates       []predicate.Bench
+	withResults      *BenchResultQuery
+	modifiers        []func(*sql.Selector)
+	loadTotal        []func(context.Context, []*Bench) error
+	withNamedResults map[string]*BenchResultQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -383,6 +386,9 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
+	if len(bq.modifiers) > 0 {
+		_spec.Modifiers = bq.modifiers
+	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
@@ -396,6 +402,18 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 		if err := bq.loadResults(ctx, query, nodes,
 			func(n *Bench) { n.Edges.Results = []*BenchResult{} },
 			func(n *Bench, e *BenchResult) { n.Edges.Results = append(n.Edges.Results, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for name, query := range bq.withNamedResults {
+		if err := bq.loadResults(ctx, query, nodes,
+			func(n *Bench) { n.appendNamedResults(name) },
+			func(n *Bench, e *BenchResult) { n.appendNamedResults(name, e) }); err != nil {
+			return nil, err
+		}
+	}
+	for i := range bq.loadTotal {
+		if err := bq.loadTotal[i](ctx, nodes); err != nil {
 			return nil, err
 		}
 	}
@@ -436,6 +454,9 @@ func (bq *BenchQuery) loadResults(ctx context.Context, query *BenchResultQuery, 
 
 func (bq *BenchQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := bq.querySpec()
+	if len(bq.modifiers) > 0 {
+		_spec.Modifiers = bq.modifiers
+	}
 	_spec.Node.Columns = bq.ctx.Fields
 	if len(bq.ctx.Fields) > 0 {
 		_spec.Unique = bq.ctx.Unique != nil && *bq.ctx.Unique
@@ -513,6 +534,20 @@ func (bq *BenchQuery) sqlQuery(ctx context.Context) *sql.Selector {
 		selector.Limit(*limit)
 	}
 	return selector
+}
+
+// WithNamedResults tells the query-builder to eager-load the nodes that are connected to the "results"
+// edge with the given name. The optional arguments are used to configure the query builder of the edge.
+func (bq *BenchQuery) WithNamedResults(name string, opts ...func(*BenchResultQuery)) *BenchQuery {
+	query := (&BenchResultClient{config: bq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	if bq.withNamedResults == nil {
+		bq.withNamedResults = make(map[string]*BenchResultQuery)
+	}
+	bq.withNamedResults[name] = query
+	return bq
 }
 
 // BenchGroupBy is the group-by builder for Bench entities.

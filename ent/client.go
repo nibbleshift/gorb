@@ -27,6 +27,8 @@ type Client struct {
 	Bench *BenchClient
 	// BenchResult is the client for interacting with the BenchResult builders.
 	BenchResult *BenchResultClient
+	// additional fields for node api
+	tables tables
 }
 
 // NewClient creates a new client configured with the given options.

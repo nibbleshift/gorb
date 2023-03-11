@@ -37,6 +37,10 @@ type BenchEdges struct {
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
+	// totalCount holds the count of the edges above.
+	totalCount [1]map[string]int
+
+	namedResults map[string][]*BenchResult
 }
 
 // ResultsOrErr returns the Results value or an error if the edge
@@ -159,6 +163,30 @@ func (b *Bench) String() string {
 	builder.WriteString(fmt.Sprintf("%v", b.Pass))
 	builder.WriteByte(')')
 	return builder.String()
+}
+
+// NamedResults returns the Results named value or an error if the edge was not
+// loaded in eager-loading with this name.
+func (b *Bench) NamedResults(name string) ([]*BenchResult, error) {
+	if b.Edges.namedResults == nil {
+		return nil, &NotLoadedError{edge: name}
+	}
+	nodes, ok := b.Edges.namedResults[name]
+	if !ok {
+		return nil, &NotLoadedError{edge: name}
+	}
+	return nodes, nil
+}
+
+func (b *Bench) appendNamedResults(name string, edges ...*BenchResult) {
+	if b.Edges.namedResults == nil {
+		b.Edges.namedResults = make(map[string][]*BenchResult)
+	}
+	if len(edges) == 0 {
+		b.Edges.namedResults[name] = []*BenchResult{}
+	} else {
+		b.Edges.namedResults[name] = append(b.Edges.namedResults[name], edges...)
+	}
 }
 
 // Benches is a parsable slice of Bench.
