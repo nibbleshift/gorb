@@ -38,6 +38,7 @@ type Config struct {
 
 type ResolverRoot interface {
 	BenchResult() BenchResultResolver
+	Mutation() MutationResolver
 	Query() QueryResolver
 }
 
@@ -67,6 +68,10 @@ type ComplexityRoot struct {
 		Ord               func(childComplexity int) int
 	}
 
+	Mutation struct {
+		CreateBenchmark func(childComplexity int, input ent.CreateBenchInput) int
+	}
+
 	PageInfo struct {
 		EndCursor       func(childComplexity int) int
 		HasNextPage     func(childComplexity int) int
@@ -84,6 +89,9 @@ type ComplexityRoot struct {
 type BenchResultResolver interface {
 	AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResult) (int, error)
 	AllocsPerOp(ctx context.Context, obj *ent.BenchResult) (int, error)
+}
+type MutationResolver interface {
+	CreateBenchmark(ctx context.Context, input ent.CreateBenchInput) (*ent.Bench, error)
 }
 type QueryResolver interface {
 	Node(ctx context.Context, id int) (ent.Noder, error)
@@ -218,6 +226,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.BenchResult.Ord(childComplexity), true
 
+	case "Mutation.createBenchmark":
+		if e.complexity.Mutation.CreateBenchmark == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createBenchmark_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateBenchmark(childComplexity, args["input"].(ent.CreateBenchInput)), true
+
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
 			break
@@ -298,6 +318,21 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 			first = false
 			ctx = graphql.WithUnmarshalerMap(ctx, inputUnmarshalMap)
 			data := ec._Query(ctx, rc.Operation.SelectionSet)
+			var buf bytes.Buffer
+			data.MarshalGQL(&buf)
+
+			return &graphql.Response{
+				Data: buf.Bytes(),
+			}
+		}
+	case ast.Mutation:
+		return func(ctx context.Context) *graphql.Response {
+			if !first {
+				return nil
+			}
+			first = false
+			ctx = graphql.WithUnmarshalerMap(ctx, inputUnmarshalMap)
+			data := ec._Mutation(ctx, rc.Operation.SelectionSet)
 			var buf bytes.Buffer
 			data.MarshalGQL(&buf)
 
@@ -413,12 +448,31 @@ type Query {
   benches: [Bench!]!
 }
 `, BuiltIn: false},
+	{Name: "gorb.graphql", Input: `type Mutation {
+    createBenchmark(input: CreateBenchInput!): Bench
+}
+`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_createBenchmark_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 ent.CreateBenchInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNCreateBenchInput2githubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -1220,6 +1274,74 @@ func (ec *executionContext) fieldContext_BenchResult_ord(ctx context.Context, fi
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createBenchmark(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createBenchmark(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateBenchmark(rctx, fc.Args["input"].(ent.CreateBenchInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*ent.Bench)
+	fc.Result = res
+	return ec.marshalOBench2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐBench(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createBenchmark(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Bench_id(ctx, field)
+			case "os":
+				return ec.fieldContext_Bench_os(ctx, field)
+			case "arch":
+				return ec.fieldContext_Bench_arch(ctx, field)
+			case "cpu":
+				return ec.fieldContext_Bench_cpu(ctx, field)
+			case "package":
+				return ec.fieldContext_Bench_package(ctx, field)
+			case "pass":
+				return ec.fieldContext_Bench_pass(ctx, field)
+			case "results":
+				return ec.fieldContext_Bench_results(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Bench", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createBenchmark_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
 	}
 	return fc, nil
 }
@@ -3743,6 +3865,42 @@ func (ec *executionContext) _BenchResult(ctx context.Context, sel ast.SelectionS
 	return out
 }
 
+var mutationImplementors = []string{"Mutation"}
+
+func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mutationImplementors)
+	ctx = graphql.WithFieldContext(ctx, &graphql.FieldContext{
+		Object: "Mutation",
+	})
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		innerCtx := graphql.WithRootFieldContext(ctx, &graphql.RootFieldContext{
+			Object: field.Name,
+			Field:  field,
+		})
+
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Mutation")
+		case "createBenchmark":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createBenchmark(ctx, field)
+			})
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var pageInfoImplementors = []string{"PageInfo"}
 
 func (ec *executionContext) _PageInfo(ctx context.Context, sel ast.SelectionSet, obj *entgql.PageInfo[int]) graphql.Marshaler {
@@ -4291,6 +4449,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
+func (ec *executionContext) unmarshalNCreateBenchInput2githubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchInput(ctx context.Context, v interface{}) (ent.CreateBenchInput, error) {
+	res, err := ec.unmarshalInputCreateBenchInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	res, err := graphql.UnmarshalFloatContext(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -4672,6 +4835,13 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) marshalOBench2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐBench(ctx context.Context, sel ast.SelectionSet, v *ent.Bench) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Bench(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOBenchResult2ᚕᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐBenchResultᚄ(ctx context.Context, sel ast.SelectionSet, v []*ent.BenchResult) graphql.Marshaler {

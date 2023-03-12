@@ -21,7 +21,7 @@ tasks:
       - test -f $(which goreleaser)
   generate:
     cmds:
-      - go generate ./ent
+      - go generate .
   build-gorb:
     cmds:
       - go build -o gorb cmd/gorb/main.go

@@ -1,5 +1,6 @@
 schema:
   - ent.graphql
+  - gorb.graphql
 
 resolver:
   # Tell gqlgen to generate resolvers next to the schema file.
