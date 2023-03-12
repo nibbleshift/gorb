@@ -31,21 +31,21 @@ const (
 // BenchMutation represents an operation that mutates the Bench nodes in the graph.
 type BenchMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *int
-	os             *string
-	arch           *string
-	cpu            *string
-	_package       *string
-	pass           *bool
-	clearedFields  map[string]struct{}
-	results        map[int]struct{}
-	removedresults map[int]struct{}
-	clearedresults bool
-	done           bool
-	oldValue       func(context.Context) (*Bench, error)
-	predicates     []predicate.Bench
+	op                  Op
+	typ                 string
+	id                  *int
+	os                  *string
+	arch                *string
+	cpu                 *string
+	_package            *string
+	pass                *bool
+	clearedFields       map[string]struct{}
+	bench_result        map[int]struct{}
+	removedbench_result map[int]struct{}
+	clearedbench_result bool
+	done                bool
+	oldValue            func(context.Context) (*Bench, error)
+	predicates          []predicate.Bench
 }
 
 var _ ent.Mutation = (*BenchMutation)(nil)
@@ -326,58 +326,58 @@ func (m *BenchMutation) ResetPass() {
 	m.pass = nil
 }
 
-// AddResultIDs adds the "results" edge to the BenchResult entity by ids.
-func (m *BenchMutation) AddResultIDs(ids ...int) {
-	if m.results == nil {
-		m.results = make(map[int]struct{})
+// AddBenchResultIDs adds the "bench_result" edge to the BenchResult entity by ids.
+func (m *BenchMutation) AddBenchResultIDs(ids ...int) {
+	if m.bench_result == nil {
+		m.bench_result = make(map[int]struct{})
 	}
 	for i := range ids {
-		m.results[ids[i]] = struct{}{}
+		m.bench_result[ids[i]] = struct{}{}
 	}
 }
 
-// ClearResults clears the "results" edge to the BenchResult entity.
-func (m *BenchMutation) ClearResults() {
-	m.clearedresults = true
+// ClearBenchResult clears the "bench_result" edge to the BenchResult entity.
+func (m *BenchMutation) ClearBenchResult() {
+	m.clearedbench_result = true
 }
 
-// ResultsCleared reports if the "results" edge to the BenchResult entity was cleared.
-func (m *BenchMutation) ResultsCleared() bool {
-	return m.clearedresults
+// BenchResultCleared reports if the "bench_result" edge to the BenchResult entity was cleared.
+func (m *BenchMutation) BenchResultCleared() bool {
+	return m.clearedbench_result
 }
 
-// RemoveResultIDs removes the "results" edge to the BenchResult entity by IDs.
-func (m *BenchMutation) RemoveResultIDs(ids ...int) {
-	if m.removedresults == nil {
-		m.removedresults = make(map[int]struct{})
+// RemoveBenchResultIDs removes the "bench_result" edge to the BenchResult entity by IDs.
+func (m *BenchMutation) RemoveBenchResultIDs(ids ...int) {
+	if m.removedbench_result == nil {
+		m.removedbench_result = make(map[int]struct{})
 	}
 	for i := range ids {
-		delete(m.results, ids[i])
-		m.removedresults[ids[i]] = struct{}{}
+		delete(m.bench_result, ids[i])
+		m.removedbench_result[ids[i]] = struct{}{}
 	}
 }
 
-// RemovedResults returns the removed IDs of the "results" edge to the BenchResult entity.
-func (m *BenchMutation) RemovedResultsIDs() (ids []int) {
-	for id := range m.removedresults {
+// RemovedBenchResult returns the removed IDs of the "bench_result" edge to the BenchResult entity.
+func (m *BenchMutation) RemovedBenchResultIDs() (ids []int) {
+	for id := range m.removedbench_result {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResultsIDs returns the "results" edge IDs in the mutation.
-func (m *BenchMutation) ResultsIDs() (ids []int) {
-	for id := range m.results {
+// BenchResultIDs returns the "bench_result" edge IDs in the mutation.
+func (m *BenchMutation) BenchResultIDs() (ids []int) {
+	for id := range m.bench_result {
 		ids = append(ids, id)
 	}
 	return
 }
 
-// ResetResults resets all changes to the "results" edge.
-func (m *BenchMutation) ResetResults() {
-	m.results = nil
-	m.clearedresults = false
-	m.removedresults = nil
+// ResetBenchResult resets all changes to the "bench_result" edge.
+func (m *BenchMutation) ResetBenchResult() {
+	m.bench_result = nil
+	m.clearedbench_result = false
+	m.removedbench_result = nil
 }
 
 // Where appends a list predicates to the BenchMutation builder.
@@ -582,8 +582,8 @@ func (m *BenchMutation) ResetField(name string) error {
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *BenchMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.results != nil {
-		edges = append(edges, bench.EdgeResults)
+	if m.bench_result != nil {
+		edges = append(edges, bench.EdgeBenchResult)
 	}
 	return edges
 }
@@ -592,9 +592,9 @@ func (m *BenchMutation) AddedEdges() []string {
 // name in this mutation.
 func (m *BenchMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case bench.EdgeResults:
-		ids := make([]ent.Value, 0, len(m.results))
-		for id := range m.results {
+	case bench.EdgeBenchResult:
+		ids := make([]ent.Value, 0, len(m.bench_result))
+		for id := range m.bench_result {
 			ids = append(ids, id)
 		}
 		return ids
@@ -605,8 +605,8 @@ func (m *BenchMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *BenchMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.removedresults != nil {
-		edges = append(edges, bench.EdgeResults)
+	if m.removedbench_result != nil {
+		edges = append(edges, bench.EdgeBenchResult)
 	}
 	return edges
 }
@@ -615,9 +615,9 @@ func (m *BenchMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *BenchMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case bench.EdgeResults:
-		ids := make([]ent.Value, 0, len(m.removedresults))
-		for id := range m.removedresults {
+	case bench.EdgeBenchResult:
+		ids := make([]ent.Value, 0, len(m.removedbench_result))
+		for id := range m.removedbench_result {
 			ids = append(ids, id)
 		}
 		return ids
@@ -628,8 +628,8 @@ func (m *BenchMutation) RemovedIDs(name string) []ent.Value {
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *BenchMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedresults {
-		edges = append(edges, bench.EdgeResults)
+	if m.clearedbench_result {
+		edges = append(edges, bench.EdgeBenchResult)
 	}
 	return edges
 }
@@ -638,8 +638,8 @@ func (m *BenchMutation) ClearedEdges() []string {
 // was cleared in this mutation.
 func (m *BenchMutation) EdgeCleared(name string) bool {
 	switch name {
-	case bench.EdgeResults:
-		return m.clearedresults
+	case bench.EdgeBenchResult:
+		return m.clearedbench_result
 	}
 	return false
 }
@@ -656,8 +656,8 @@ func (m *BenchMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *BenchMutation) ResetEdge(name string) error {
 	switch name {
-	case bench.EdgeResults:
-		m.ResetResults()
+	case bench.EdgeBenchResult:
+		m.ResetBenchResult()
 		return nil
 	}
 	return fmt.Errorf("unknown Bench edge %s", name)

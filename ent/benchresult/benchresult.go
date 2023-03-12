@@ -43,7 +43,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "bench_results"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"bench_results",
+	"bench_bench_result",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

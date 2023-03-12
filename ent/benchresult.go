@@ -30,8 +30,8 @@ type BenchResult struct {
 	// Measured holds the value of the "measured" field.
 	Measured int `json:"measured,omitempty"`
 	// Ord holds the value of the "ord" field.
-	Ord           int `json:"ord,omitempty"`
-	bench_results *int
+	Ord                int `json:"ord,omitempty"`
+	bench_bench_result *int
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -45,7 +45,7 @@ func (*BenchResult) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case benchresult.FieldName:
 			values[i] = new(sql.NullString)
-		case benchresult.ForeignKeys[0]: // bench_results
+		case benchresult.ForeignKeys[0]: // bench_bench_result
 			values[i] = new(sql.NullInt64)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type BenchResult", columns[i])
@@ -118,10 +118,10 @@ func (br *BenchResult) assignValues(columns []string, values []any) error {
 			}
 		case benchresult.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field bench_results", value)
+				return fmt.Errorf("unexpected type %T for edge-field bench_bench_result", value)
 			} else if value.Valid {
-				br.bench_results = new(int)
-				*br.bench_results = int(value.Int64)
+				br.bench_bench_result = new(int)
+				*br.bench_bench_result = int(value.Int64)
 			}
 		}
 	}

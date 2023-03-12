@@ -17,17 +17,17 @@ const (
 	FieldPackage = "package"
 	// FieldPass holds the string denoting the pass field in the database.
 	FieldPass = "pass"
-	// EdgeResults holds the string denoting the results edge name in mutations.
-	EdgeResults = "results"
+	// EdgeBenchResult holds the string denoting the bench_result edge name in mutations.
+	EdgeBenchResult = "bench_result"
 	// Table holds the table name of the bench in the database.
 	Table = "benches"
-	// ResultsTable is the table that holds the results relation/edge.
-	ResultsTable = "bench_results"
-	// ResultsInverseTable is the table name for the BenchResult entity.
+	// BenchResultTable is the table that holds the bench_result relation/edge.
+	BenchResultTable = "bench_results"
+	// BenchResultInverseTable is the table name for the BenchResult entity.
 	// It exists in this package in order to avoid circular dependency with the "benchresult" package.
-	ResultsInverseTable = "bench_results"
-	// ResultsColumn is the table column denoting the results relation/edge.
-	ResultsColumn = "bench_results"
+	BenchResultInverseTable = "bench_results"
+	// BenchResultColumn is the table column denoting the bench_result relation/edge.
+	BenchResultColumn = "bench_bench_result"
 )
 
 // Columns holds all SQL columns for bench fields.

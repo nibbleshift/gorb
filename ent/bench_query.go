@@ -19,14 +19,14 @@ import (
 // BenchQuery is the builder for querying Bench entities.
 type BenchQuery struct {
 	config
-	ctx              *QueryContext
-	order            []OrderFunc
-	inters           []Interceptor
-	predicates       []predicate.Bench
-	withResults      *BenchResultQuery
-	modifiers        []func(*sql.Selector)
-	loadTotal        []func(context.Context, []*Bench) error
-	withNamedResults map[string]*BenchResultQuery
+	ctx                  *QueryContext
+	order                []OrderFunc
+	inters               []Interceptor
+	predicates           []predicate.Bench
+	withBenchResult      *BenchResultQuery
+	modifiers            []func(*sql.Selector)
+	loadTotal            []func(context.Context, []*Bench) error
+	withNamedBenchResult map[string]*BenchResultQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -63,8 +63,8 @@ func (bq *BenchQuery) Order(o ...OrderFunc) *BenchQuery {
 	return bq
 }
 
-// QueryResults chains the current query on the "results" edge.
-func (bq *BenchQuery) QueryResults() *BenchResultQuery {
+// QueryBenchResult chains the current query on the "bench_result" edge.
+func (bq *BenchQuery) QueryBenchResult() *BenchResultQuery {
 	query := (&BenchResultClient{config: bq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := bq.prepareQuery(ctx); err != nil {
@@ -77,7 +77,7 @@ func (bq *BenchQuery) QueryResults() *BenchResultQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(bench.Table, bench.FieldID, selector),
 			sqlgraph.To(benchresult.Table, benchresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, bench.ResultsTable, bench.ResultsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, bench.BenchResultTable, bench.BenchResultColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(bq.driver.Dialect(), step)
 		return fromU, nil
@@ -272,26 +272,26 @@ func (bq *BenchQuery) Clone() *BenchQuery {
 		return nil
 	}
 	return &BenchQuery{
-		config:      bq.config,
-		ctx:         bq.ctx.Clone(),
-		order:       append([]OrderFunc{}, bq.order...),
-		inters:      append([]Interceptor{}, bq.inters...),
-		predicates:  append([]predicate.Bench{}, bq.predicates...),
-		withResults: bq.withResults.Clone(),
+		config:          bq.config,
+		ctx:             bq.ctx.Clone(),
+		order:           append([]OrderFunc{}, bq.order...),
+		inters:          append([]Interceptor{}, bq.inters...),
+		predicates:      append([]predicate.Bench{}, bq.predicates...),
+		withBenchResult: bq.withBenchResult.Clone(),
 		// clone intermediate query.
 		sql:  bq.sql.Clone(),
 		path: bq.path,
 	}
 }
 
-// WithResults tells the query-builder to eager-load the nodes that are connected to
-// the "results" edge. The optional arguments are used to configure the query builder of the edge.
-func (bq *BenchQuery) WithResults(opts ...func(*BenchResultQuery)) *BenchQuery {
+// WithBenchResult tells the query-builder to eager-load the nodes that are connected to
+// the "bench_result" edge. The optional arguments are used to configure the query builder of the edge.
+func (bq *BenchQuery) WithBenchResult(opts ...func(*BenchResultQuery)) *BenchQuery {
 	query := (&BenchResultClient{config: bq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	bq.withResults = query
+	bq.withBenchResult = query
 	return bq
 }
 
@@ -374,7 +374,7 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 		nodes       = []*Bench{}
 		_spec       = bq.querySpec()
 		loadedTypes = [1]bool{
-			bq.withResults != nil,
+			bq.withBenchResult != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -398,17 +398,17 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := bq.withResults; query != nil {
-		if err := bq.loadResults(ctx, query, nodes,
-			func(n *Bench) { n.Edges.Results = []*BenchResult{} },
-			func(n *Bench, e *BenchResult) { n.Edges.Results = append(n.Edges.Results, e) }); err != nil {
+	if query := bq.withBenchResult; query != nil {
+		if err := bq.loadBenchResult(ctx, query, nodes,
+			func(n *Bench) { n.Edges.BenchResult = []*BenchResult{} },
+			func(n *Bench, e *BenchResult) { n.Edges.BenchResult = append(n.Edges.BenchResult, e) }); err != nil {
 			return nil, err
 		}
 	}
-	for name, query := range bq.withNamedResults {
-		if err := bq.loadResults(ctx, query, nodes,
-			func(n *Bench) { n.appendNamedResults(name) },
-			func(n *Bench, e *BenchResult) { n.appendNamedResults(name, e) }); err != nil {
+	for name, query := range bq.withNamedBenchResult {
+		if err := bq.loadBenchResult(ctx, query, nodes,
+			func(n *Bench) { n.appendNamedBenchResult(name) },
+			func(n *Bench, e *BenchResult) { n.appendNamedBenchResult(name, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -420,7 +420,7 @@ func (bq *BenchQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Bench,
 	return nodes, nil
 }
 
-func (bq *BenchQuery) loadResults(ctx context.Context, query *BenchResultQuery, nodes []*Bench, init func(*Bench), assign func(*Bench, *BenchResult)) error {
+func (bq *BenchQuery) loadBenchResult(ctx context.Context, query *BenchResultQuery, nodes []*Bench, init func(*Bench), assign func(*Bench, *BenchResult)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[int]*Bench)
 	for i := range nodes {
@@ -432,20 +432,20 @@ func (bq *BenchQuery) loadResults(ctx context.Context, query *BenchResultQuery, 
 	}
 	query.withFKs = true
 	query.Where(predicate.BenchResult(func(s *sql.Selector) {
-		s.Where(sql.InValues(bench.ResultsColumn, fks...))
+		s.Where(sql.InValues(bench.BenchResultColumn, fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.bench_results
+		fk := n.bench_bench_result
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "bench_results" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "bench_bench_result" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "bench_results" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "bench_bench_result" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}
@@ -536,17 +536,17 @@ func (bq *BenchQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	return selector
 }
 
-// WithNamedResults tells the query-builder to eager-load the nodes that are connected to the "results"
+// WithNamedBenchResult tells the query-builder to eager-load the nodes that are connected to the "bench_result"
 // edge with the given name. The optional arguments are used to configure the query builder of the edge.
-func (bq *BenchQuery) WithNamedResults(name string, opts ...func(*BenchResultQuery)) *BenchQuery {
+func (bq *BenchQuery) WithNamedBenchResult(name string, opts ...func(*BenchResultQuery)) *BenchQuery {
 	query := (&BenchResultClient{config: bq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	if bq.withNamedResults == nil {
-		bq.withNamedResults = make(map[string]*BenchResultQuery)
+	if bq.withNamedBenchResult == nil {
+		bq.withNamedBenchResult = make(map[string]*BenchResultQuery)
 	}
-	bq.withNamedResults[name] = query
+	bq.withNamedBenchResult[name] = query
 	return bq
 }
 

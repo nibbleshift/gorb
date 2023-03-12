@@ -34,7 +34,7 @@ var (
 		{Name: "mb_per_s", Type: field.TypeFloat64},
 		{Name: "measured", Type: field.TypeInt},
 		{Name: "ord", Type: field.TypeInt},
-		{Name: "bench_results", Type: field.TypeInt, Nullable: true},
+		{Name: "bench_bench_result", Type: field.TypeInt, Nullable: true},
 	}
 	// BenchResultsTable holds the schema information for the "bench_results" table.
 	BenchResultsTable = &schema.Table{
@@ -43,7 +43,7 @@ var (
 		PrimaryKey: []*schema.Column{BenchResultsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "bench_results_benches_results",
+				Symbol:     "bench_results_benches_bench_result",
 				Columns:    []*schema.Column{BenchResultsColumns[9]},
 				RefColumns: []*schema.Column{BenchesColumns[0]},
 				OnDelete:   schema.SetNull,

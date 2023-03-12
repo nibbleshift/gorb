@@ -58,19 +58,19 @@ func (bu *BenchUpdate) SetPass(b bool) *BenchUpdate {
 	return bu
 }
 
-// AddResultIDs adds the "results" edge to the BenchResult entity by IDs.
-func (bu *BenchUpdate) AddResultIDs(ids ...int) *BenchUpdate {
-	bu.mutation.AddResultIDs(ids...)
+// AddBenchResultIDs adds the "bench_result" edge to the BenchResult entity by IDs.
+func (bu *BenchUpdate) AddBenchResultIDs(ids ...int) *BenchUpdate {
+	bu.mutation.AddBenchResultIDs(ids...)
 	return bu
 }
 
-// AddResults adds the "results" edges to the BenchResult entity.
-func (bu *BenchUpdate) AddResults(b ...*BenchResult) *BenchUpdate {
+// AddBenchResult adds the "bench_result" edges to the BenchResult entity.
+func (bu *BenchUpdate) AddBenchResult(b ...*BenchResult) *BenchUpdate {
 	ids := make([]int, len(b))
 	for i := range b {
 		ids[i] = b[i].ID
 	}
-	return bu.AddResultIDs(ids...)
+	return bu.AddBenchResultIDs(ids...)
 }
 
 // Mutation returns the BenchMutation object of the builder.
@@ -78,25 +78,25 @@ func (bu *BenchUpdate) Mutation() *BenchMutation {
 	return bu.mutation
 }
 
-// ClearResults clears all "results" edges to the BenchResult entity.
-func (bu *BenchUpdate) ClearResults() *BenchUpdate {
-	bu.mutation.ClearResults()
+// ClearBenchResult clears all "bench_result" edges to the BenchResult entity.
+func (bu *BenchUpdate) ClearBenchResult() *BenchUpdate {
+	bu.mutation.ClearBenchResult()
 	return bu
 }
 
-// RemoveResultIDs removes the "results" edge to BenchResult entities by IDs.
-func (bu *BenchUpdate) RemoveResultIDs(ids ...int) *BenchUpdate {
-	bu.mutation.RemoveResultIDs(ids...)
+// RemoveBenchResultIDs removes the "bench_result" edge to BenchResult entities by IDs.
+func (bu *BenchUpdate) RemoveBenchResultIDs(ids ...int) *BenchUpdate {
+	bu.mutation.RemoveBenchResultIDs(ids...)
 	return bu
 }
 
-// RemoveResults removes "results" edges to BenchResult entities.
-func (bu *BenchUpdate) RemoveResults(b ...*BenchResult) *BenchUpdate {
+// RemoveBenchResult removes "bench_result" edges to BenchResult entities.
+func (bu *BenchUpdate) RemoveBenchResult(b ...*BenchResult) *BenchUpdate {
 	ids := make([]int, len(b))
 	for i := range b {
 		ids[i] = b[i].ID
 	}
-	return bu.RemoveResultIDs(ids...)
+	return bu.RemoveBenchResultIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -150,12 +150,12 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := bu.mutation.Pass(); ok {
 		_spec.SetField(bench.FieldPass, field.TypeBool, value)
 	}
-	if bu.mutation.ResultsCleared() {
+	if bu.mutation.BenchResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -166,12 +166,12 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := bu.mutation.RemovedResultsIDs(); len(nodes) > 0 && !bu.mutation.ResultsCleared() {
+	if nodes := bu.mutation.RemovedBenchResultIDs(); len(nodes) > 0 && !bu.mutation.BenchResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -185,12 +185,12 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := bu.mutation.ResultsIDs(); len(nodes) > 0 {
+	if nodes := bu.mutation.BenchResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -254,19 +254,19 @@ func (buo *BenchUpdateOne) SetPass(b bool) *BenchUpdateOne {
 	return buo
 }
 
-// AddResultIDs adds the "results" edge to the BenchResult entity by IDs.
-func (buo *BenchUpdateOne) AddResultIDs(ids ...int) *BenchUpdateOne {
-	buo.mutation.AddResultIDs(ids...)
+// AddBenchResultIDs adds the "bench_result" edge to the BenchResult entity by IDs.
+func (buo *BenchUpdateOne) AddBenchResultIDs(ids ...int) *BenchUpdateOne {
+	buo.mutation.AddBenchResultIDs(ids...)
 	return buo
 }
 
-// AddResults adds the "results" edges to the BenchResult entity.
-func (buo *BenchUpdateOne) AddResults(b ...*BenchResult) *BenchUpdateOne {
+// AddBenchResult adds the "bench_result" edges to the BenchResult entity.
+func (buo *BenchUpdateOne) AddBenchResult(b ...*BenchResult) *BenchUpdateOne {
 	ids := make([]int, len(b))
 	for i := range b {
 		ids[i] = b[i].ID
 	}
-	return buo.AddResultIDs(ids...)
+	return buo.AddBenchResultIDs(ids...)
 }
 
 // Mutation returns the BenchMutation object of the builder.
@@ -274,25 +274,25 @@ func (buo *BenchUpdateOne) Mutation() *BenchMutation {
 	return buo.mutation
 }
 
-// ClearResults clears all "results" edges to the BenchResult entity.
-func (buo *BenchUpdateOne) ClearResults() *BenchUpdateOne {
-	buo.mutation.ClearResults()
+// ClearBenchResult clears all "bench_result" edges to the BenchResult entity.
+func (buo *BenchUpdateOne) ClearBenchResult() *BenchUpdateOne {
+	buo.mutation.ClearBenchResult()
 	return buo
 }
 
-// RemoveResultIDs removes the "results" edge to BenchResult entities by IDs.
-func (buo *BenchUpdateOne) RemoveResultIDs(ids ...int) *BenchUpdateOne {
-	buo.mutation.RemoveResultIDs(ids...)
+// RemoveBenchResultIDs removes the "bench_result" edge to BenchResult entities by IDs.
+func (buo *BenchUpdateOne) RemoveBenchResultIDs(ids ...int) *BenchUpdateOne {
+	buo.mutation.RemoveBenchResultIDs(ids...)
 	return buo
 }
 
-// RemoveResults removes "results" edges to BenchResult entities.
-func (buo *BenchUpdateOne) RemoveResults(b ...*BenchResult) *BenchUpdateOne {
+// RemoveBenchResult removes "bench_result" edges to BenchResult entities.
+func (buo *BenchUpdateOne) RemoveBenchResult(b ...*BenchResult) *BenchUpdateOne {
 	ids := make([]int, len(b))
 	for i := range b {
 		ids[i] = b[i].ID
 	}
-	return buo.RemoveResultIDs(ids...)
+	return buo.RemoveBenchResultIDs(ids...)
 }
 
 // Where appends a list predicates to the BenchUpdate builder.
@@ -376,12 +376,12 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 	if value, ok := buo.mutation.Pass(); ok {
 		_spec.SetField(bench.FieldPass, field.TypeBool, value)
 	}
-	if buo.mutation.ResultsCleared() {
+	if buo.mutation.BenchResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -392,12 +392,12 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := buo.mutation.RemovedResultsIDs(); len(nodes) > 0 && !buo.mutation.ResultsCleared() {
+	if nodes := buo.mutation.RemovedBenchResultIDs(); len(nodes) > 0 && !buo.mutation.BenchResultCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -411,12 +411,12 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := buo.mutation.ResultsIDs(); len(nodes) > 0 {
+	if nodes := buo.mutation.BenchResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

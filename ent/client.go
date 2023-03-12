@@ -293,15 +293,15 @@ func (c *BenchClient) GetX(ctx context.Context, id int) *Bench {
 	return obj
 }
 
-// QueryResults queries the results edge of a Bench.
-func (c *BenchClient) QueryResults(b *Bench) *BenchResultQuery {
+// QueryBenchResult queries the bench_result edge of a Bench.
+func (c *BenchClient) QueryBenchResult(b *Bench) *BenchResultQuery {
 	query := (&BenchResultClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := b.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(bench.Table, bench.FieldID, id),
 			sqlgraph.To(benchresult.Table, benchresult.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, bench.ResultsTable, bench.ResultsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, bench.BenchResultTable, bench.BenchResultColumn),
 		)
 		fromV = sqlgraph.Neighbors(b.driver.Dialect(), step)
 		return fromV, nil

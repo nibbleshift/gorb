@@ -50,19 +50,19 @@ func (bc *BenchCreate) SetPass(b bool) *BenchCreate {
 	return bc
 }
 
-// AddResultIDs adds the "results" edge to the BenchResult entity by IDs.
-func (bc *BenchCreate) AddResultIDs(ids ...int) *BenchCreate {
-	bc.mutation.AddResultIDs(ids...)
+// AddBenchResultIDs adds the "bench_result" edge to the BenchResult entity by IDs.
+func (bc *BenchCreate) AddBenchResultIDs(ids ...int) *BenchCreate {
+	bc.mutation.AddBenchResultIDs(ids...)
 	return bc
 }
 
-// AddResults adds the "results" edges to the BenchResult entity.
-func (bc *BenchCreate) AddResults(b ...*BenchResult) *BenchCreate {
+// AddBenchResult adds the "bench_result" edges to the BenchResult entity.
+func (bc *BenchCreate) AddBenchResult(b ...*BenchResult) *BenchCreate {
 	ids := make([]int, len(b))
 	for i := range b {
 		ids[i] = b[i].ID
 	}
-	return bc.AddResultIDs(ids...)
+	return bc.AddBenchResultIDs(ids...)
 }
 
 // Mutation returns the BenchMutation object of the builder.
@@ -160,12 +160,12 @@ func (bc *BenchCreate) createSpec() (*Bench, *sqlgraph.CreateSpec) {
 		_spec.SetField(bench.FieldPass, field.TypeBool, value)
 		_node.Pass = value
 	}
-	if nodes := bc.mutation.ResultsIDs(); len(nodes) > 0 {
+	if nodes := bc.mutation.BenchResultIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
-			Table:   bench.ResultsTable,
-			Columns: []string{bench.ResultsColumn},
+			Table:   bench.BenchResultTable,
+			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

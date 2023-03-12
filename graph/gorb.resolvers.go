@@ -6,6 +6,7 @@ package graph
 
 import (
 	"context"
+	"log"
 
 	"github.com/nibbleshift/gorb/ent"
 	"github.com/nibbleshift/gorb/graph/generated"
@@ -13,17 +14,26 @@ import (
 
 // CreateBenchmark is the resolver for the createBenchmark field.
 func (r *mutationResolver) CreateBenchmark(ctx context.Context, input ent.CreateBenchInput, results []*ent.CreateBenchResultInput) (*ent.Bench, error) {
+	benchResultIds := make([]int, 0, len(results))
 
-	var benchResultIds []int
-	for _, r := range results {
-		res, err := r.client.BenchResult.Create().SetInput(input).Save(ctx)
+	for _, result := range results {
+		res, err := r.client.BenchResult.Create().
+			SetName(result.Name).
+			SetN(result.N).
+			SetNsPerOp(result.NsPerOp).
+			SetAllocedBytesPerOp(result.AllocedBytesPerOp).
+			SetAllocsPerOp(result.AllocsPerOp).
+			SetMBPerS(result.MBPerS).
+			SetMeasured(result.Measured).
+			SetOrd(result.Ord).Save(ctx)
 
+		if err != nil {
+			log.Println(err)
+			continue
+		}
 		benchResultIds = append(benchResultIds, res.ID)
 	}
-
-	input.BenchResult = 
-
-	res, err := r.client.Bench.Create().SetInput(input).Save(ctx)
+	res, err := r.client.Bench.Create().SetInput(input).AddBenchResultIDs(benchResultIds...).Save(ctx)
 
 	return res, err
 }

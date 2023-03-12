@@ -27,7 +27,7 @@ func (Bench) Fields() []ent.Field {
 // Edges of the Bench.
 func (Bench) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("results", BenchResult.Type),
+		edge.To("bench_result", BenchResult.Type),
 	}
 }
 

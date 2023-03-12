@@ -32,24 +32,24 @@ type Bench struct {
 
 // BenchEdges holds the relations/edges for other nodes in the graph.
 type BenchEdges struct {
-	// Results holds the value of the results edge.
-	Results []*BenchResult `json:"results,omitempty"`
+	// BenchResult holds the value of the bench_result edge.
+	BenchResult []*BenchResult `json:"bench_result,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 	// totalCount holds the count of the edges above.
 	totalCount [1]map[string]int
 
-	namedResults map[string][]*BenchResult
+	namedBenchResult map[string][]*BenchResult
 }
 
-// ResultsOrErr returns the Results value or an error if the edge
+// BenchResultOrErr returns the BenchResult value or an error if the edge
 // was not loaded in eager-loading.
-func (e BenchEdges) ResultsOrErr() ([]*BenchResult, error) {
+func (e BenchEdges) BenchResultOrErr() ([]*BenchResult, error) {
 	if e.loadedTypes[0] {
-		return e.Results, nil
+		return e.BenchResult, nil
 	}
-	return nil, &NotLoadedError{edge: "results"}
+	return nil, &NotLoadedError{edge: "bench_result"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -119,9 +119,9 @@ func (b *Bench) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// QueryResults queries the "results" edge of the Bench entity.
-func (b *Bench) QueryResults() *BenchResultQuery {
-	return NewBenchClient(b.config).QueryResults(b)
+// QueryBenchResult queries the "bench_result" edge of the Bench entity.
+func (b *Bench) QueryBenchResult() *BenchResultQuery {
+	return NewBenchClient(b.config).QueryBenchResult(b)
 }
 
 // Update returns a builder for updating this Bench.
@@ -165,27 +165,27 @@ func (b *Bench) String() string {
 	return builder.String()
 }
 
-// NamedResults returns the Results named value or an error if the edge was not
+// NamedBenchResult returns the BenchResult named value or an error if the edge was not
 // loaded in eager-loading with this name.
-func (b *Bench) NamedResults(name string) ([]*BenchResult, error) {
-	if b.Edges.namedResults == nil {
+func (b *Bench) NamedBenchResult(name string) ([]*BenchResult, error) {
+	if b.Edges.namedBenchResult == nil {
 		return nil, &NotLoadedError{edge: name}
 	}
-	nodes, ok := b.Edges.namedResults[name]
+	nodes, ok := b.Edges.namedBenchResult[name]
 	if !ok {
 		return nil, &NotLoadedError{edge: name}
 	}
 	return nodes, nil
 }
 
-func (b *Bench) appendNamedResults(name string, edges ...*BenchResult) {
-	if b.Edges.namedResults == nil {
-		b.Edges.namedResults = make(map[string][]*BenchResult)
+func (b *Bench) appendNamedBenchResult(name string, edges ...*BenchResult) {
+	if b.Edges.namedBenchResult == nil {
+		b.Edges.namedBenchResult = make(map[string][]*BenchResult)
 	}
 	if len(edges) == 0 {
-		b.Edges.namedResults[name] = []*BenchResult{}
+		b.Edges.namedBenchResult[name] = []*BenchResult{}
 	} else {
-		b.Edges.namedResults[name] = append(b.Edges.namedResults[name], edges...)
+		b.Edges.namedBenchResult[name] = append(b.Edges.namedBenchResult[name], edges...)
 	}
 }
 

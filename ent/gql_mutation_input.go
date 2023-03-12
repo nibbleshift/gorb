@@ -4,12 +4,12 @@ package ent
 
 // CreateBenchInput represents a mutation input for creating benches.
 type CreateBenchInput struct {
-	Os        string
-	Arch      string
-	CPU       string
-	Package   string
-	Pass      bool
-	ResultIDs []int
+	Os             string
+	Arch           string
+	CPU            string
+	Package        string
+	Pass           bool
+	BenchResultIDs []int
 }
 
 // Mutate applies the CreateBenchInput on the BenchMutation builder.
@@ -19,8 +19,8 @@ func (i *CreateBenchInput) Mutate(m *BenchMutation) {
 	m.SetCPU(i.CPU)
 	m.SetPackage(i.Package)
 	m.SetPass(i.Pass)
-	if v := i.ResultIDs; len(v) > 0 {
-		m.AddResultIDs(v...)
+	if v := i.BenchResultIDs; len(v) > 0 {
+		m.AddBenchResultIDs(v...)
 	}
 }
 

@@ -348,24 +348,24 @@ func PassNEQ(v bool) predicate.Bench {
 	return predicate.Bench(sql.FieldNEQ(FieldPass, v))
 }
 
-// HasResults applies the HasEdge predicate on the "results" edge.
-func HasResults() predicate.Bench {
+// HasBenchResult applies the HasEdge predicate on the "bench_result" edge.
+func HasBenchResult() predicate.Bench {
 	return predicate.Bench(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, ResultsTable, ResultsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, BenchResultTable, BenchResultColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasResultsWith applies the HasEdge predicate on the "results" edge with a given conditions (other predicates).
-func HasResultsWith(preds ...predicate.BenchResult) predicate.Bench {
+// HasBenchResultWith applies the HasEdge predicate on the "bench_result" edge with a given conditions (other predicates).
+func HasBenchResultWith(preds ...predicate.BenchResult) predicate.Bench {
 	return predicate.Bench(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(ResultsInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, ResultsTable, ResultsColumn),
+			sqlgraph.To(BenchResultInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, BenchResultTable, BenchResultColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

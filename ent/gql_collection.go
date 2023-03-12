@@ -25,7 +25,7 @@ func (b *BenchQuery) collectField(ctx context.Context, opCtx *graphql.OperationC
 	path = append([]string(nil), path...)
 	for _, field := range graphql.CollectFields(opCtx, field.Selections, satisfies) {
 		switch field.Name {
-		case "results":
+		case "benchResult":
 			var (
 				alias = field.Alias
 				path  = append(path, alias)
@@ -34,7 +34,7 @@ func (b *BenchQuery) collectField(ctx context.Context, opCtx *graphql.OperationC
 			if err := query.collectField(ctx, opCtx, field, path, satisfies...); err != nil {
 				return err
 			}
-			b.WithNamedResults(alias, func(wq *BenchResultQuery) {
+			b.WithNamedBenchResult(alias, func(wq *BenchResultQuery) {
 				*wq = *query
 			})
 		}
@@ -64,6 +64,9 @@ func newBenchPaginateArgs(rv map[string]interface{}) *benchPaginateArgs {
 	}
 	if v := rv[beforeField]; v != nil {
 		args.before = v.(*Cursor)
+	}
+	if v, ok := rv[whereField].(*BenchWhereInput); ok {
+		args.opts = append(args.opts, WithBenchFilter(v.Filter))
 	}
 	return args
 }
@@ -107,6 +110,9 @@ func newBenchResultPaginateArgs(rv map[string]interface{}) *benchresultPaginateA
 	}
 	if v := rv[beforeField]; v != nil {
 		args.before = v.(*Cursor)
+	}
+	if v, ok := rv[whereField].(*BenchResultWhereInput); ok {
+		args.opts = append(args.opts, WithBenchResultFilter(v.Filter))
 	}
 	return args
 }
