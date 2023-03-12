@@ -53,297 +53,297 @@ func IDLTE(id int) predicate.Bench {
 	return predicate.Bench(sql.FieldLTE(FieldID, id))
 }
 
-// OS applies equality check predicate on the "OS" field. It's identical to OSEQ.
-func OS(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldEQ(FieldOS, v))
+// Os applies equality check predicate on the "os" field. It's identical to OsEQ.
+func Os(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldEQ(FieldOs, v))
 }
 
-// Arch applies equality check predicate on the "Arch" field. It's identical to ArchEQ.
+// Arch applies equality check predicate on the "arch" field. It's identical to ArchEQ.
 func Arch(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldArch, v))
 }
 
-// CPU applies equality check predicate on the "CPU" field. It's identical to CPUEQ.
+// CPU applies equality check predicate on the "cpu" field. It's identical to CPUEQ.
 func CPU(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldCPU, v))
 }
 
-// Package applies equality check predicate on the "Package" field. It's identical to PackageEQ.
+// Package applies equality check predicate on the "package" field. It's identical to PackageEQ.
 func Package(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldPackage, v))
 }
 
-// Pass applies equality check predicate on the "Pass" field. It's identical to PassEQ.
+// Pass applies equality check predicate on the "pass" field. It's identical to PassEQ.
 func Pass(v bool) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldPass, v))
 }
 
-// OSEQ applies the EQ predicate on the "OS" field.
-func OSEQ(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldEQ(FieldOS, v))
+// OsEQ applies the EQ predicate on the "os" field.
+func OsEQ(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldEQ(FieldOs, v))
 }
 
-// OSNEQ applies the NEQ predicate on the "OS" field.
-func OSNEQ(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldNEQ(FieldOS, v))
+// OsNEQ applies the NEQ predicate on the "os" field.
+func OsNEQ(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldNEQ(FieldOs, v))
 }
 
-// OSIn applies the In predicate on the "OS" field.
-func OSIn(vs ...string) predicate.Bench {
-	return predicate.Bench(sql.FieldIn(FieldOS, vs...))
+// OsIn applies the In predicate on the "os" field.
+func OsIn(vs ...string) predicate.Bench {
+	return predicate.Bench(sql.FieldIn(FieldOs, vs...))
 }
 
-// OSNotIn applies the NotIn predicate on the "OS" field.
-func OSNotIn(vs ...string) predicate.Bench {
-	return predicate.Bench(sql.FieldNotIn(FieldOS, vs...))
+// OsNotIn applies the NotIn predicate on the "os" field.
+func OsNotIn(vs ...string) predicate.Bench {
+	return predicate.Bench(sql.FieldNotIn(FieldOs, vs...))
 }
 
-// OSGT applies the GT predicate on the "OS" field.
-func OSGT(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldGT(FieldOS, v))
+// OsGT applies the GT predicate on the "os" field.
+func OsGT(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldGT(FieldOs, v))
 }
 
-// OSGTE applies the GTE predicate on the "OS" field.
-func OSGTE(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldGTE(FieldOS, v))
+// OsGTE applies the GTE predicate on the "os" field.
+func OsGTE(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldGTE(FieldOs, v))
 }
 
-// OSLT applies the LT predicate on the "OS" field.
-func OSLT(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldLT(FieldOS, v))
+// OsLT applies the LT predicate on the "os" field.
+func OsLT(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldLT(FieldOs, v))
 }
 
-// OSLTE applies the LTE predicate on the "OS" field.
-func OSLTE(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldLTE(FieldOS, v))
+// OsLTE applies the LTE predicate on the "os" field.
+func OsLTE(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldLTE(FieldOs, v))
 }
 
-// OSContains applies the Contains predicate on the "OS" field.
-func OSContains(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldContains(FieldOS, v))
+// OsContains applies the Contains predicate on the "os" field.
+func OsContains(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldContains(FieldOs, v))
 }
 
-// OSHasPrefix applies the HasPrefix predicate on the "OS" field.
-func OSHasPrefix(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldHasPrefix(FieldOS, v))
+// OsHasPrefix applies the HasPrefix predicate on the "os" field.
+func OsHasPrefix(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldHasPrefix(FieldOs, v))
 }
 
-// OSHasSuffix applies the HasSuffix predicate on the "OS" field.
-func OSHasSuffix(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldHasSuffix(FieldOS, v))
+// OsHasSuffix applies the HasSuffix predicate on the "os" field.
+func OsHasSuffix(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldHasSuffix(FieldOs, v))
 }
 
-// OSEqualFold applies the EqualFold predicate on the "OS" field.
-func OSEqualFold(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldEqualFold(FieldOS, v))
+// OsEqualFold applies the EqualFold predicate on the "os" field.
+func OsEqualFold(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldEqualFold(FieldOs, v))
 }
 
-// OSContainsFold applies the ContainsFold predicate on the "OS" field.
-func OSContainsFold(v string) predicate.Bench {
-	return predicate.Bench(sql.FieldContainsFold(FieldOS, v))
+// OsContainsFold applies the ContainsFold predicate on the "os" field.
+func OsContainsFold(v string) predicate.Bench {
+	return predicate.Bench(sql.FieldContainsFold(FieldOs, v))
 }
 
-// ArchEQ applies the EQ predicate on the "Arch" field.
+// ArchEQ applies the EQ predicate on the "arch" field.
 func ArchEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldArch, v))
 }
 
-// ArchNEQ applies the NEQ predicate on the "Arch" field.
+// ArchNEQ applies the NEQ predicate on the "arch" field.
 func ArchNEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldNEQ(FieldArch, v))
 }
 
-// ArchIn applies the In predicate on the "Arch" field.
+// ArchIn applies the In predicate on the "arch" field.
 func ArchIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldIn(FieldArch, vs...))
 }
 
-// ArchNotIn applies the NotIn predicate on the "Arch" field.
+// ArchNotIn applies the NotIn predicate on the "arch" field.
 func ArchNotIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldNotIn(FieldArch, vs...))
 }
 
-// ArchGT applies the GT predicate on the "Arch" field.
+// ArchGT applies the GT predicate on the "arch" field.
 func ArchGT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGT(FieldArch, v))
 }
 
-// ArchGTE applies the GTE predicate on the "Arch" field.
+// ArchGTE applies the GTE predicate on the "arch" field.
 func ArchGTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGTE(FieldArch, v))
 }
 
-// ArchLT applies the LT predicate on the "Arch" field.
+// ArchLT applies the LT predicate on the "arch" field.
 func ArchLT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLT(FieldArch, v))
 }
 
-// ArchLTE applies the LTE predicate on the "Arch" field.
+// ArchLTE applies the LTE predicate on the "arch" field.
 func ArchLTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLTE(FieldArch, v))
 }
 
-// ArchContains applies the Contains predicate on the "Arch" field.
+// ArchContains applies the Contains predicate on the "arch" field.
 func ArchContains(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContains(FieldArch, v))
 }
 
-// ArchHasPrefix applies the HasPrefix predicate on the "Arch" field.
+// ArchHasPrefix applies the HasPrefix predicate on the "arch" field.
 func ArchHasPrefix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasPrefix(FieldArch, v))
 }
 
-// ArchHasSuffix applies the HasSuffix predicate on the "Arch" field.
+// ArchHasSuffix applies the HasSuffix predicate on the "arch" field.
 func ArchHasSuffix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasSuffix(FieldArch, v))
 }
 
-// ArchEqualFold applies the EqualFold predicate on the "Arch" field.
+// ArchEqualFold applies the EqualFold predicate on the "arch" field.
 func ArchEqualFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEqualFold(FieldArch, v))
 }
 
-// ArchContainsFold applies the ContainsFold predicate on the "Arch" field.
+// ArchContainsFold applies the ContainsFold predicate on the "arch" field.
 func ArchContainsFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContainsFold(FieldArch, v))
 }
 
-// CPUEQ applies the EQ predicate on the "CPU" field.
+// CPUEQ applies the EQ predicate on the "cpu" field.
 func CPUEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldCPU, v))
 }
 
-// CPUNEQ applies the NEQ predicate on the "CPU" field.
+// CPUNEQ applies the NEQ predicate on the "cpu" field.
 func CPUNEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldNEQ(FieldCPU, v))
 }
 
-// CPUIn applies the In predicate on the "CPU" field.
+// CPUIn applies the In predicate on the "cpu" field.
 func CPUIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldIn(FieldCPU, vs...))
 }
 
-// CPUNotIn applies the NotIn predicate on the "CPU" field.
+// CPUNotIn applies the NotIn predicate on the "cpu" field.
 func CPUNotIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldNotIn(FieldCPU, vs...))
 }
 
-// CPUGT applies the GT predicate on the "CPU" field.
+// CPUGT applies the GT predicate on the "cpu" field.
 func CPUGT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGT(FieldCPU, v))
 }
 
-// CPUGTE applies the GTE predicate on the "CPU" field.
+// CPUGTE applies the GTE predicate on the "cpu" field.
 func CPUGTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGTE(FieldCPU, v))
 }
 
-// CPULT applies the LT predicate on the "CPU" field.
+// CPULT applies the LT predicate on the "cpu" field.
 func CPULT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLT(FieldCPU, v))
 }
 
-// CPULTE applies the LTE predicate on the "CPU" field.
+// CPULTE applies the LTE predicate on the "cpu" field.
 func CPULTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLTE(FieldCPU, v))
 }
 
-// CPUContains applies the Contains predicate on the "CPU" field.
+// CPUContains applies the Contains predicate on the "cpu" field.
 func CPUContains(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContains(FieldCPU, v))
 }
 
-// CPUHasPrefix applies the HasPrefix predicate on the "CPU" field.
+// CPUHasPrefix applies the HasPrefix predicate on the "cpu" field.
 func CPUHasPrefix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasPrefix(FieldCPU, v))
 }
 
-// CPUHasSuffix applies the HasSuffix predicate on the "CPU" field.
+// CPUHasSuffix applies the HasSuffix predicate on the "cpu" field.
 func CPUHasSuffix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasSuffix(FieldCPU, v))
 }
 
-// CPUEqualFold applies the EqualFold predicate on the "CPU" field.
+// CPUEqualFold applies the EqualFold predicate on the "cpu" field.
 func CPUEqualFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEqualFold(FieldCPU, v))
 }
 
-// CPUContainsFold applies the ContainsFold predicate on the "CPU" field.
+// CPUContainsFold applies the ContainsFold predicate on the "cpu" field.
 func CPUContainsFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContainsFold(FieldCPU, v))
 }
 
-// PackageEQ applies the EQ predicate on the "Package" field.
+// PackageEQ applies the EQ predicate on the "package" field.
 func PackageEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldPackage, v))
 }
 
-// PackageNEQ applies the NEQ predicate on the "Package" field.
+// PackageNEQ applies the NEQ predicate on the "package" field.
 func PackageNEQ(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldNEQ(FieldPackage, v))
 }
 
-// PackageIn applies the In predicate on the "Package" field.
+// PackageIn applies the In predicate on the "package" field.
 func PackageIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldIn(FieldPackage, vs...))
 }
 
-// PackageNotIn applies the NotIn predicate on the "Package" field.
+// PackageNotIn applies the NotIn predicate on the "package" field.
 func PackageNotIn(vs ...string) predicate.Bench {
 	return predicate.Bench(sql.FieldNotIn(FieldPackage, vs...))
 }
 
-// PackageGT applies the GT predicate on the "Package" field.
+// PackageGT applies the GT predicate on the "package" field.
 func PackageGT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGT(FieldPackage, v))
 }
 
-// PackageGTE applies the GTE predicate on the "Package" field.
+// PackageGTE applies the GTE predicate on the "package" field.
 func PackageGTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldGTE(FieldPackage, v))
 }
 
-// PackageLT applies the LT predicate on the "Package" field.
+// PackageLT applies the LT predicate on the "package" field.
 func PackageLT(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLT(FieldPackage, v))
 }
 
-// PackageLTE applies the LTE predicate on the "Package" field.
+// PackageLTE applies the LTE predicate on the "package" field.
 func PackageLTE(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldLTE(FieldPackage, v))
 }
 
-// PackageContains applies the Contains predicate on the "Package" field.
+// PackageContains applies the Contains predicate on the "package" field.
 func PackageContains(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContains(FieldPackage, v))
 }
 
-// PackageHasPrefix applies the HasPrefix predicate on the "Package" field.
+// PackageHasPrefix applies the HasPrefix predicate on the "package" field.
 func PackageHasPrefix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasPrefix(FieldPackage, v))
 }
 
-// PackageHasSuffix applies the HasSuffix predicate on the "Package" field.
+// PackageHasSuffix applies the HasSuffix predicate on the "package" field.
 func PackageHasSuffix(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldHasSuffix(FieldPackage, v))
 }
 
-// PackageEqualFold applies the EqualFold predicate on the "Package" field.
+// PackageEqualFold applies the EqualFold predicate on the "package" field.
 func PackageEqualFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldEqualFold(FieldPackage, v))
 }
 
-// PackageContainsFold applies the ContainsFold predicate on the "Package" field.
+// PackageContainsFold applies the ContainsFold predicate on the "package" field.
 func PackageContainsFold(v string) predicate.Bench {
 	return predicate.Bench(sql.FieldContainsFold(FieldPackage, v))
 }
 
-// PassEQ applies the EQ predicate on the "Pass" field.
+// PassEQ applies the EQ predicate on the "pass" field.
 func PassEQ(v bool) predicate.Bench {
 	return predicate.Bench(sql.FieldEQ(FieldPass, v))
 }
 
-// PassNEQ applies the NEQ predicate on the "Pass" field.
+// PassNEQ applies the NEQ predicate on the "pass" field.
 func PassNEQ(v bool) predicate.Bench {
 	return predicate.Bench(sql.FieldNEQ(FieldPass, v))
 }

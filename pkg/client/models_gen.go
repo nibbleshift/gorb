@@ -42,10 +42,10 @@ type BenchResult struct {
 	ID                string  `json:"id"`
 	Name              string  `json:"name"`
 	N                 int64   `json:"n"`
-	NsPerOp           float64 `json:"nsperop"`
-	AllocedBytesPerOp int64   `json:"allocedbytesperop"`
-	AllocsPerOp       int64   `json:"allocsperop"`
-	MBPerS            float64 `json:"mbpers"`
+	NsPerOp           float64 `json:"nsPerOp"`
+	AllocedBytesPerOp int64   `json:"allocedBytesPerOp"`
+	AllocsPerOp       int64   `json:"allocsPerOp"`
+	MbPerS            float64 `json:"mbPerS"`
 	Measured          int64   `json:"measured"`
 	Ord               int64   `json:"ord"`
 }
@@ -86,10 +86,10 @@ type CreateBenchInput struct {
 type CreateBenchResultInput struct {
 	Name              string  `json:"name"`
 	N                 int64   `json:"n"`
-	Nsperop           float64 `json:"nsperop"`
-	Allocedbytesperop int64   `json:"allocedbytesperop"`
-	Allocsperop       int64   `json:"allocsperop"`
-	Mbpers            float64 `json:"mbpers"`
+	NsPerOp           float64 `json:"nsPerOp"`
+	AllocedBytesPerOp int64   `json:"allocedBytesPerOp"`
+	AllocsPerOp       int64   `json:"allocsPerOp"`
+	MbPerS            float64 `json:"mbPerS"`
 	Measured          int64   `json:"measured"`
 	Ord               int64   `json:"ord"`
 }

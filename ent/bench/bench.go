@@ -7,8 +7,8 @@ const (
 	Label = "bench"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldOS holds the string denoting the os field in the database.
-	FieldOS = "os"
+	// FieldOs holds the string denoting the os field in the database.
+	FieldOs = "os"
 	// FieldArch holds the string denoting the arch field in the database.
 	FieldArch = "arch"
 	// FieldCPU holds the string denoting the cpu field in the database.
@@ -33,7 +33,7 @@ const (
 // Columns holds all SQL columns for bench fields.
 var Columns = []string{
 	FieldID,
-	FieldOS,
+	FieldOs,
 	FieldArch,
 	FieldCPU,
 	FieldPackage,

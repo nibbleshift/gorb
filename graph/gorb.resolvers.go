@@ -13,6 +13,16 @@ import (
 
 // CreateBenchmark is the resolver for the createBenchmark field.
 func (r *mutationResolver) CreateBenchmark(ctx context.Context, input ent.CreateBenchInput, results []*ent.CreateBenchResultInput) (*ent.Bench, error) {
+
+	var benchResultIds []int
+	for _, r := range results {
+		res, err := r.client.BenchResult.Create().SetInput(input).Save(ctx)
+
+		benchResultIds = append(benchResultIds, res.ID)
+	}
+
+	input.BenchResult = 
+
 	res, err := r.client.Bench.Create().SetInput(input).Save(ctx)
 
 	return res, err

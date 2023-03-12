@@ -19,49 +19,49 @@ type BenchResultCreate struct {
 	hooks    []Hook
 }
 
-// SetName sets the "Name" field.
+// SetName sets the "name" field.
 func (brc *BenchResultCreate) SetName(s string) *BenchResultCreate {
 	brc.mutation.SetName(s)
 	return brc
 }
 
-// SetN sets the "N" field.
-func (brc *BenchResultCreate) SetN(i int) *BenchResultCreate {
+// SetN sets the "n" field.
+func (brc *BenchResultCreate) SetN(i int64) *BenchResultCreate {
 	brc.mutation.SetN(i)
 	return brc
 }
 
-// SetNsPerOp sets the "NsPerOp" field.
+// SetNsPerOp sets the "ns_per_op" field.
 func (brc *BenchResultCreate) SetNsPerOp(f float64) *BenchResultCreate {
 	brc.mutation.SetNsPerOp(f)
 	return brc
 }
 
-// SetAllocedBytesPerOp sets the "AllocedBytesPerOp" field.
+// SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
 func (brc *BenchResultCreate) SetAllocedBytesPerOp(u uint64) *BenchResultCreate {
 	brc.mutation.SetAllocedBytesPerOp(u)
 	return brc
 }
 
-// SetAllocsPerOp sets the "AllocsPerOp" field.
+// SetAllocsPerOp sets the "allocs_per_op" field.
 func (brc *BenchResultCreate) SetAllocsPerOp(u uint64) *BenchResultCreate {
 	brc.mutation.SetAllocsPerOp(u)
 	return brc
 }
 
-// SetMBPerS sets the "MBPerS" field.
+// SetMBPerS sets the "mb_per_s" field.
 func (brc *BenchResultCreate) SetMBPerS(f float64) *BenchResultCreate {
 	brc.mutation.SetMBPerS(f)
 	return brc
 }
 
-// SetMeasured sets the "Measured" field.
+// SetMeasured sets the "measured" field.
 func (brc *BenchResultCreate) SetMeasured(i int) *BenchResultCreate {
 	brc.mutation.SetMeasured(i)
 	return brc
 }
 
-// SetOrd sets the "Ord" field.
+// SetOrd sets the "ord" field.
 func (brc *BenchResultCreate) SetOrd(i int) *BenchResultCreate {
 	brc.mutation.SetOrd(i)
 	return brc
@@ -102,28 +102,28 @@ func (brc *BenchResultCreate) ExecX(ctx context.Context) {
 // check runs all checks and user-defined validators on the builder.
 func (brc *BenchResultCreate) check() error {
 	if _, ok := brc.mutation.Name(); !ok {
-		return &ValidationError{Name: "Name", err: errors.New(`ent: missing required field "BenchResult.Name"`)}
+		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "BenchResult.name"`)}
 	}
 	if _, ok := brc.mutation.N(); !ok {
-		return &ValidationError{Name: "N", err: errors.New(`ent: missing required field "BenchResult.N"`)}
+		return &ValidationError{Name: "n", err: errors.New(`ent: missing required field "BenchResult.n"`)}
 	}
 	if _, ok := brc.mutation.NsPerOp(); !ok {
-		return &ValidationError{Name: "NsPerOp", err: errors.New(`ent: missing required field "BenchResult.NsPerOp"`)}
+		return &ValidationError{Name: "ns_per_op", err: errors.New(`ent: missing required field "BenchResult.ns_per_op"`)}
 	}
 	if _, ok := brc.mutation.AllocedBytesPerOp(); !ok {
-		return &ValidationError{Name: "AllocedBytesPerOp", err: errors.New(`ent: missing required field "BenchResult.AllocedBytesPerOp"`)}
+		return &ValidationError{Name: "alloced_bytes_per_op", err: errors.New(`ent: missing required field "BenchResult.alloced_bytes_per_op"`)}
 	}
 	if _, ok := brc.mutation.AllocsPerOp(); !ok {
-		return &ValidationError{Name: "AllocsPerOp", err: errors.New(`ent: missing required field "BenchResult.AllocsPerOp"`)}
+		return &ValidationError{Name: "allocs_per_op", err: errors.New(`ent: missing required field "BenchResult.allocs_per_op"`)}
 	}
 	if _, ok := brc.mutation.MBPerS(); !ok {
-		return &ValidationError{Name: "MBPerS", err: errors.New(`ent: missing required field "BenchResult.MBPerS"`)}
+		return &ValidationError{Name: "mb_per_s", err: errors.New(`ent: missing required field "BenchResult.mb_per_s"`)}
 	}
 	if _, ok := brc.mutation.Measured(); !ok {
-		return &ValidationError{Name: "Measured", err: errors.New(`ent: missing required field "BenchResult.Measured"`)}
+		return &ValidationError{Name: "measured", err: errors.New(`ent: missing required field "BenchResult.measured"`)}
 	}
 	if _, ok := brc.mutation.Ord(); !ok {
-		return &ValidationError{Name: "Ord", err: errors.New(`ent: missing required field "BenchResult.Ord"`)}
+		return &ValidationError{Name: "ord", err: errors.New(`ent: missing required field "BenchResult.ord"`)}
 	}
 	return nil
 }
@@ -156,7 +156,7 @@ func (brc *BenchResultCreate) createSpec() (*BenchResult, *sqlgraph.CreateSpec) 
 		_node.Name = value
 	}
 	if value, ok := brc.mutation.N(); ok {
-		_spec.SetField(benchresult.FieldN, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldN, field.TypeInt64, value)
 		_node.N = value
 	}
 	if value, ok := brc.mutation.NsPerOp(); ok {

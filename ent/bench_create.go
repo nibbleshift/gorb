@@ -20,31 +20,31 @@ type BenchCreate struct {
 	hooks    []Hook
 }
 
-// SetOS sets the "OS" field.
-func (bc *BenchCreate) SetOS(s string) *BenchCreate {
-	bc.mutation.SetOS(s)
+// SetOs sets the "os" field.
+func (bc *BenchCreate) SetOs(s string) *BenchCreate {
+	bc.mutation.SetOs(s)
 	return bc
 }
 
-// SetArch sets the "Arch" field.
+// SetArch sets the "arch" field.
 func (bc *BenchCreate) SetArch(s string) *BenchCreate {
 	bc.mutation.SetArch(s)
 	return bc
 }
 
-// SetCPU sets the "CPU" field.
+// SetCPU sets the "cpu" field.
 func (bc *BenchCreate) SetCPU(s string) *BenchCreate {
 	bc.mutation.SetCPU(s)
 	return bc
 }
 
-// SetPackage sets the "Package" field.
+// SetPackage sets the "package" field.
 func (bc *BenchCreate) SetPackage(s string) *BenchCreate {
 	bc.mutation.SetPackage(s)
 	return bc
 }
 
-// SetPass sets the "Pass" field.
+// SetPass sets the "pass" field.
 func (bc *BenchCreate) SetPass(b bool) *BenchCreate {
 	bc.mutation.SetPass(b)
 	return bc
@@ -99,20 +99,20 @@ func (bc *BenchCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (bc *BenchCreate) check() error {
-	if _, ok := bc.mutation.OS(); !ok {
-		return &ValidationError{Name: "OS", err: errors.New(`ent: missing required field "Bench.OS"`)}
+	if _, ok := bc.mutation.Os(); !ok {
+		return &ValidationError{Name: "os", err: errors.New(`ent: missing required field "Bench.os"`)}
 	}
 	if _, ok := bc.mutation.Arch(); !ok {
-		return &ValidationError{Name: "Arch", err: errors.New(`ent: missing required field "Bench.Arch"`)}
+		return &ValidationError{Name: "arch", err: errors.New(`ent: missing required field "Bench.arch"`)}
 	}
 	if _, ok := bc.mutation.CPU(); !ok {
-		return &ValidationError{Name: "CPU", err: errors.New(`ent: missing required field "Bench.CPU"`)}
+		return &ValidationError{Name: "cpu", err: errors.New(`ent: missing required field "Bench.cpu"`)}
 	}
 	if _, ok := bc.mutation.Package(); !ok {
-		return &ValidationError{Name: "Package", err: errors.New(`ent: missing required field "Bench.Package"`)}
+		return &ValidationError{Name: "package", err: errors.New(`ent: missing required field "Bench.package"`)}
 	}
 	if _, ok := bc.mutation.Pass(); !ok {
-		return &ValidationError{Name: "Pass", err: errors.New(`ent: missing required field "Bench.Pass"`)}
+		return &ValidationError{Name: "pass", err: errors.New(`ent: missing required field "Bench.pass"`)}
 	}
 	return nil
 }
@@ -140,9 +140,9 @@ func (bc *BenchCreate) createSpec() (*Bench, *sqlgraph.CreateSpec) {
 		_node = &Bench{config: bc.config}
 		_spec = sqlgraph.NewCreateSpec(bench.Table, sqlgraph.NewFieldSpec(bench.FieldID, field.TypeInt))
 	)
-	if value, ok := bc.mutation.OS(); ok {
-		_spec.SetField(bench.FieldOS, field.TypeString, value)
-		_node.OS = value
+	if value, ok := bc.mutation.Os(); ok {
+		_spec.SetField(bench.FieldOs, field.TypeString, value)
+		_node.Os = value
 	}
 	if value, ok := bc.mutation.Arch(); ok {
 		_spec.SetField(bench.FieldArch, field.TypeString, value)

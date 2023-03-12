@@ -15,22 +15,22 @@ import (
 
 // AllocedBytesPerOp is the resolver for the allocedbytesperop field.
 func (r *benchResultResolver) AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResult) (int, error) {
-	panic(fmt.Errorf("not implemented"))
+	return int(obj.AllocedBytesPerOp), nil
 }
 
 // AllocsPerOp is the resolver for the allocsperop field.
 func (r *benchResultResolver) AllocsPerOp(ctx context.Context, obj *ent.BenchResult) (int, error) {
-	panic(fmt.Errorf("not implemented"))
+	return int(obj.AllocsPerOp), nil
 }
 
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id int) (ent.Noder, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.client.Noder(ctx, id)
 }
 
 // Nodes is the resolver for the nodes field.
 func (r *queryResolver) Nodes(ctx context.Context, ids []int) ([]ent.Noder, error) {
-	panic(fmt.Errorf("not implemented: Nodes - nodes"))
+	return r.client.Noders(ctx, ids)
 }
 
 // Benches is the resolver for the benches field.
@@ -44,14 +44,14 @@ func (r *queryResolver) BenchResults(ctx context.Context, after *entgql.Cursor[i
 	panic(fmt.Errorf("not implemented: BenchResults - benchResults"))
 }
 
-// Allocedbytesperop is the resolver for the allocedbytesperop field.
-func (r *createBenchResultInputResolver) Allocedbytesperop(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
-	panic(fmt.Errorf("not implemented: Allocedbytesperop - allocedbytesperop"))
+// AllocedBytesPerOp is the resolver for the allocedBytesPerOp field.
+func (r *createBenchResultInputResolver) AllocedBytesPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
+	return nil
 }
 
-// Allocsperop is the resolver for the allocsperop field.
-func (r *createBenchResultInputResolver) Allocsperop(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
-	panic(fmt.Errorf("not implemented: Allocsperop - allocsperop"))
+// AllocsPerOp is the resolver for the allocsPerOp field.
+func (r *createBenchResultInputResolver) AllocsPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
+	return nil
 }
 
 // BenchResult returns generated.BenchResultResolver implementation.

@@ -16,11 +16,11 @@ type Bench struct {
 // Fields of the Bench.
 func (Bench) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("OS"),
-		field.String("Arch"),
-		field.String("CPU"),
-		field.String("Package"),
-		field.Bool("Pass"),
+		field.String("os"),
+		field.String("arch"),
+		field.String("cpu"),
+		field.String("package"),
+		field.Bool("pass"),
 	}
 }
 

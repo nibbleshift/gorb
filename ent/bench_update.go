@@ -28,31 +28,31 @@ func (bu *BenchUpdate) Where(ps ...predicate.Bench) *BenchUpdate {
 	return bu
 }
 
-// SetOS sets the "OS" field.
-func (bu *BenchUpdate) SetOS(s string) *BenchUpdate {
-	bu.mutation.SetOS(s)
+// SetOs sets the "os" field.
+func (bu *BenchUpdate) SetOs(s string) *BenchUpdate {
+	bu.mutation.SetOs(s)
 	return bu
 }
 
-// SetArch sets the "Arch" field.
+// SetArch sets the "arch" field.
 func (bu *BenchUpdate) SetArch(s string) *BenchUpdate {
 	bu.mutation.SetArch(s)
 	return bu
 }
 
-// SetCPU sets the "CPU" field.
+// SetCPU sets the "cpu" field.
 func (bu *BenchUpdate) SetCPU(s string) *BenchUpdate {
 	bu.mutation.SetCPU(s)
 	return bu
 }
 
-// SetPackage sets the "Package" field.
+// SetPackage sets the "package" field.
 func (bu *BenchUpdate) SetPackage(s string) *BenchUpdate {
 	bu.mutation.SetPackage(s)
 	return bu
 }
 
-// SetPass sets the "Pass" field.
+// SetPass sets the "pass" field.
 func (bu *BenchUpdate) SetPass(b bool) *BenchUpdate {
 	bu.mutation.SetPass(b)
 	return bu
@@ -135,8 +135,8 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := bu.mutation.OS(); ok {
-		_spec.SetField(bench.FieldOS, field.TypeString, value)
+	if value, ok := bu.mutation.Os(); ok {
+		_spec.SetField(bench.FieldOs, field.TypeString, value)
 	}
 	if value, ok := bu.mutation.Arch(); ok {
 		_spec.SetField(bench.FieldArch, field.TypeString, value)
@@ -224,31 +224,31 @@ type BenchUpdateOne struct {
 	mutation *BenchMutation
 }
 
-// SetOS sets the "OS" field.
-func (buo *BenchUpdateOne) SetOS(s string) *BenchUpdateOne {
-	buo.mutation.SetOS(s)
+// SetOs sets the "os" field.
+func (buo *BenchUpdateOne) SetOs(s string) *BenchUpdateOne {
+	buo.mutation.SetOs(s)
 	return buo
 }
 
-// SetArch sets the "Arch" field.
+// SetArch sets the "arch" field.
 func (buo *BenchUpdateOne) SetArch(s string) *BenchUpdateOne {
 	buo.mutation.SetArch(s)
 	return buo
 }
 
-// SetCPU sets the "CPU" field.
+// SetCPU sets the "cpu" field.
 func (buo *BenchUpdateOne) SetCPU(s string) *BenchUpdateOne {
 	buo.mutation.SetCPU(s)
 	return buo
 }
 
-// SetPackage sets the "Package" field.
+// SetPackage sets the "package" field.
 func (buo *BenchUpdateOne) SetPackage(s string) *BenchUpdateOne {
 	buo.mutation.SetPackage(s)
 	return buo
 }
 
-// SetPass sets the "Pass" field.
+// SetPass sets the "pass" field.
 func (buo *BenchUpdateOne) SetPass(b bool) *BenchUpdateOne {
 	buo.mutation.SetPass(b)
 	return buo
@@ -361,8 +361,8 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 			}
 		}
 	}
-	if value, ok := buo.mutation.OS(); ok {
-		_spec.SetField(bench.FieldOS, field.TypeString, value)
+	if value, ok := buo.mutation.Os(); ok {
+		_spec.SetField(bench.FieldOs, field.TypeString, value)
 	}
 	if value, ok := buo.mutation.Arch(); ok {
 		_spec.SetField(bench.FieldArch, field.TypeString, value)

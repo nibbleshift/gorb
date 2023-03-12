@@ -15,16 +15,16 @@ type Bench struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// OS holds the value of the "OS" field.
-	OS string `json:"OS,omitempty"`
-	// Arch holds the value of the "Arch" field.
-	Arch string `json:"Arch,omitempty"`
-	// CPU holds the value of the "CPU" field.
-	CPU string `json:"CPU,omitempty"`
-	// Package holds the value of the "Package" field.
-	Package string `json:"Package,omitempty"`
-	// Pass holds the value of the "Pass" field.
-	Pass bool `json:"Pass,omitempty"`
+	// Os holds the value of the "os" field.
+	Os string `json:"os,omitempty"`
+	// Arch holds the value of the "arch" field.
+	Arch string `json:"arch,omitempty"`
+	// CPU holds the value of the "cpu" field.
+	CPU string `json:"cpu,omitempty"`
+	// Package holds the value of the "package" field.
+	Package string `json:"package,omitempty"`
+	// Pass holds the value of the "pass" field.
+	Pass bool `json:"pass,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the BenchQuery when eager-loading is set.
 	Edges BenchEdges `json:"edges"`
@@ -61,7 +61,7 @@ func (*Bench) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case bench.FieldID:
 			values[i] = new(sql.NullInt64)
-		case bench.FieldOS, bench.FieldArch, bench.FieldCPU, bench.FieldPackage:
+		case bench.FieldOs, bench.FieldArch, bench.FieldCPU, bench.FieldPackage:
 			values[i] = new(sql.NullString)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Bench", columns[i])
@@ -84,33 +84,33 @@ func (b *Bench) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			b.ID = int(value.Int64)
-		case bench.FieldOS:
+		case bench.FieldOs:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field OS", values[i])
+				return fmt.Errorf("unexpected type %T for field os", values[i])
 			} else if value.Valid {
-				b.OS = value.String
+				b.Os = value.String
 			}
 		case bench.FieldArch:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Arch", values[i])
+				return fmt.Errorf("unexpected type %T for field arch", values[i])
 			} else if value.Valid {
 				b.Arch = value.String
 			}
 		case bench.FieldCPU:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field CPU", values[i])
+				return fmt.Errorf("unexpected type %T for field cpu", values[i])
 			} else if value.Valid {
 				b.CPU = value.String
 			}
 		case bench.FieldPackage:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Package", values[i])
+				return fmt.Errorf("unexpected type %T for field package", values[i])
 			} else if value.Valid {
 				b.Package = value.String
 			}
 		case bench.FieldPass:
 			if value, ok := values[i].(*sql.NullBool); !ok {
-				return fmt.Errorf("unexpected type %T for field Pass", values[i])
+				return fmt.Errorf("unexpected type %T for field pass", values[i])
 			} else if value.Valid {
 				b.Pass = value.Bool
 			}
@@ -147,19 +147,19 @@ func (b *Bench) String() string {
 	var builder strings.Builder
 	builder.WriteString("Bench(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", b.ID))
-	builder.WriteString("OS=")
-	builder.WriteString(b.OS)
+	builder.WriteString("os=")
+	builder.WriteString(b.Os)
 	builder.WriteString(", ")
-	builder.WriteString("Arch=")
+	builder.WriteString("arch=")
 	builder.WriteString(b.Arch)
 	builder.WriteString(", ")
-	builder.WriteString("CPU=")
+	builder.WriteString("cpu=")
 	builder.WriteString(b.CPU)
 	builder.WriteString(", ")
-	builder.WriteString("Package=")
+	builder.WriteString("package=")
 	builder.WriteString(b.Package)
 	builder.WriteString(", ")
-	builder.WriteString("Pass=")
+	builder.WriteString("pass=")
 	builder.WriteString(fmt.Sprintf("%v", b.Pass))
 	builder.WriteByte(')')
 	return builder.String()

@@ -11,14 +11,14 @@ const (
 	FieldName = "name"
 	// FieldN holds the string denoting the n field in the database.
 	FieldN = "n"
-	// FieldNsPerOp holds the string denoting the nsperop field in the database.
+	// FieldNsPerOp holds the string denoting the ns_per_op field in the database.
 	FieldNsPerOp = "ns_per_op"
-	// FieldAllocedBytesPerOp holds the string denoting the allocedbytesperop field in the database.
+	// FieldAllocedBytesPerOp holds the string denoting the alloced_bytes_per_op field in the database.
 	FieldAllocedBytesPerOp = "alloced_bytes_per_op"
-	// FieldAllocsPerOp holds the string denoting the allocsperop field in the database.
+	// FieldAllocsPerOp holds the string denoting the allocs_per_op field in the database.
 	FieldAllocsPerOp = "allocs_per_op"
-	// FieldMBPerS holds the string denoting the mbpers field in the database.
-	FieldMBPerS = "mb_pers"
+	// FieldMBPerS holds the string denoting the mb_per_s field in the database.
+	FieldMBPerS = "mb_per_s"
 	// FieldMeasured holds the string denoting the measured field in the database.
 	FieldMeasured = "measured"
 	// FieldOrd holds the string denoting the ord field in the database.

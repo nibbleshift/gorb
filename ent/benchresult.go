@@ -15,22 +15,22 @@ type BenchResult struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Name holds the value of the "Name" field.
-	Name string `json:"Name,omitempty"`
-	// N holds the value of the "N" field.
-	N int `json:"N,omitempty"`
-	// NsPerOp holds the value of the "NsPerOp" field.
-	NsPerOp float64 `json:"NsPerOp,omitempty"`
-	// AllocedBytesPerOp holds the value of the "AllocedBytesPerOp" field.
-	AllocedBytesPerOp uint64 `json:"AllocedBytesPerOp,omitempty"`
-	// AllocsPerOp holds the value of the "AllocsPerOp" field.
-	AllocsPerOp uint64 `json:"AllocsPerOp,omitempty"`
-	// MBPerS holds the value of the "MBPerS" field.
-	MBPerS float64 `json:"MBPerS,omitempty"`
-	// Measured holds the value of the "Measured" field.
-	Measured int `json:"Measured,omitempty"`
-	// Ord holds the value of the "Ord" field.
-	Ord           int `json:"Ord,omitempty"`
+	// Name holds the value of the "name" field.
+	Name string `json:"name,omitempty"`
+	// N holds the value of the "n" field.
+	N int64 `json:"n,omitempty"`
+	// NsPerOp holds the value of the "ns_per_op" field.
+	NsPerOp float64 `json:"ns_per_op,omitempty"`
+	// AllocedBytesPerOp holds the value of the "alloced_bytes_per_op" field.
+	AllocedBytesPerOp uint64 `json:"alloced_bytes_per_op,omitempty"`
+	// AllocsPerOp holds the value of the "allocs_per_op" field.
+	AllocsPerOp uint64 `json:"allocs_per_op,omitempty"`
+	// MBPerS holds the value of the "mb_per_s" field.
+	MBPerS float64 `json:"mb_per_s,omitempty"`
+	// Measured holds the value of the "measured" field.
+	Measured int `json:"measured,omitempty"`
+	// Ord holds the value of the "ord" field.
+	Ord           int `json:"ord,omitempty"`
 	bench_results *int
 }
 
@@ -70,49 +70,49 @@ func (br *BenchResult) assignValues(columns []string, values []any) error {
 			br.ID = int(value.Int64)
 		case benchresult.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field Name", values[i])
+				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
 				br.Name = value.String
 			}
 		case benchresult.FieldN:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field N", values[i])
+				return fmt.Errorf("unexpected type %T for field n", values[i])
 			} else if value.Valid {
-				br.N = int(value.Int64)
+				br.N = value.Int64
 			}
 		case benchresult.FieldNsPerOp:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field NsPerOp", values[i])
+				return fmt.Errorf("unexpected type %T for field ns_per_op", values[i])
 			} else if value.Valid {
 				br.NsPerOp = value.Float64
 			}
 		case benchresult.FieldAllocedBytesPerOp:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field AllocedBytesPerOp", values[i])
+				return fmt.Errorf("unexpected type %T for field alloced_bytes_per_op", values[i])
 			} else if value.Valid {
 				br.AllocedBytesPerOp = uint64(value.Int64)
 			}
 		case benchresult.FieldAllocsPerOp:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field AllocsPerOp", values[i])
+				return fmt.Errorf("unexpected type %T for field allocs_per_op", values[i])
 			} else if value.Valid {
 				br.AllocsPerOp = uint64(value.Int64)
 			}
 		case benchresult.FieldMBPerS:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
-				return fmt.Errorf("unexpected type %T for field MBPerS", values[i])
+				return fmt.Errorf("unexpected type %T for field mb_per_s", values[i])
 			} else if value.Valid {
 				br.MBPerS = value.Float64
 			}
 		case benchresult.FieldMeasured:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Measured", values[i])
+				return fmt.Errorf("unexpected type %T for field measured", values[i])
 			} else if value.Valid {
 				br.Measured = int(value.Int64)
 			}
 		case benchresult.FieldOrd:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field Ord", values[i])
+				return fmt.Errorf("unexpected type %T for field ord", values[i])
 			} else if value.Valid {
 				br.Ord = int(value.Int64)
 			}
@@ -151,28 +151,28 @@ func (br *BenchResult) String() string {
 	var builder strings.Builder
 	builder.WriteString("BenchResult(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", br.ID))
-	builder.WriteString("Name=")
+	builder.WriteString("name=")
 	builder.WriteString(br.Name)
 	builder.WriteString(", ")
-	builder.WriteString("N=")
+	builder.WriteString("n=")
 	builder.WriteString(fmt.Sprintf("%v", br.N))
 	builder.WriteString(", ")
-	builder.WriteString("NsPerOp=")
+	builder.WriteString("ns_per_op=")
 	builder.WriteString(fmt.Sprintf("%v", br.NsPerOp))
 	builder.WriteString(", ")
-	builder.WriteString("AllocedBytesPerOp=")
+	builder.WriteString("alloced_bytes_per_op=")
 	builder.WriteString(fmt.Sprintf("%v", br.AllocedBytesPerOp))
 	builder.WriteString(", ")
-	builder.WriteString("AllocsPerOp=")
+	builder.WriteString("allocs_per_op=")
 	builder.WriteString(fmt.Sprintf("%v", br.AllocsPerOp))
 	builder.WriteString(", ")
-	builder.WriteString("MBPerS=")
+	builder.WriteString("mb_per_s=")
 	builder.WriteString(fmt.Sprintf("%v", br.MBPerS))
 	builder.WriteString(", ")
-	builder.WriteString("Measured=")
+	builder.WriteString("measured=")
 	builder.WriteString(fmt.Sprintf("%v", br.Measured))
 	builder.WriteString(", ")
-	builder.WriteString("Ord=")
+	builder.WriteString("ord=")
 	builder.WriteString(fmt.Sprintf("%v", br.Ord))
 	builder.WriteByte(')')
 	return builder.String()

@@ -15,14 +15,14 @@ type BenchResult struct {
 // Fields of the BenchResult.
 func (BenchResult) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("Name"),              // benchmark name
-		field.Int("N"),                    // number of iterations
-		field.Float("NsPerOp"),            // nanoseconds per iteration
-		field.Uint64("AllocedBytesPerOp"), // bytes allocated per iteration
-		field.Uint64("AllocsPerOp"),       // allocs per iteration
-		field.Float("MBPerS"),             // MB processed per second
-		field.Int("Measured"),             // which measurements were recorded
-		field.Int("Ord"),                  // ordinal position within a benchmark run
+		field.String("name"),                 // benchmark name
+		field.Int64("n"),                     // number of iterations
+		field.Float("ns_per_op"),             // nanoseconds per iteration
+		field.Uint64("alloced_bytes_per_op"), // bytes allocated per iteration
+		field.Uint64("allocs_per_op"),        // allocs per iteration
+		field.Float("mb_per_s"),              // MB processed per second
+		field.Int("measured"),                // which measurements were recorded
+		field.Int("ord"),                     // ordinal position within a benchmark run
 	}
 }
 

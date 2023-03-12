@@ -264,7 +264,7 @@ func (brq *BenchResultQuery) Clone() *BenchResultQuery {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		Name string `json:"name,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
@@ -287,7 +287,7 @@ func (brq *BenchResultQuery) GroupBy(field string, fields ...string) *BenchResul
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"Name,omitempty"`
+//		Name string `json:"name,omitempty"`
 //	}
 //
 //	client.BenchResult.Query().

@@ -34,11 +34,11 @@ type BenchMutation struct {
 	op             Op
 	typ            string
 	id             *int
-	_OS            *string
-	_Arch          *string
-	_CPU           *string
-	_Package       *string
-	_Pass          *bool
+	os             *string
+	arch           *string
+	cpu            *string
+	_package       *string
+	pass           *bool
 	clearedFields  map[string]struct{}
 	results        map[int]struct{}
 	removedresults map[int]struct{}
@@ -146,57 +146,57 @@ func (m *BenchMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetOS sets the "OS" field.
-func (m *BenchMutation) SetOS(s string) {
-	m._OS = &s
+// SetOs sets the "os" field.
+func (m *BenchMutation) SetOs(s string) {
+	m.os = &s
 }
 
-// OS returns the value of the "OS" field in the mutation.
-func (m *BenchMutation) OS() (r string, exists bool) {
-	v := m._OS
+// Os returns the value of the "os" field in the mutation.
+func (m *BenchMutation) Os() (r string, exists bool) {
+	v := m.os
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldOS returns the old "OS" field's value of the Bench entity.
+// OldOs returns the old "os" field's value of the Bench entity.
 // If the Bench object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchMutation) OldOS(ctx context.Context) (v string, err error) {
+func (m *BenchMutation) OldOs(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOS is only allowed on UpdateOne operations")
+		return v, errors.New("OldOs is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOS requires an ID field in the mutation")
+		return v, errors.New("OldOs requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOS: %w", err)
+		return v, fmt.Errorf("querying old value for OldOs: %w", err)
 	}
-	return oldValue.OS, nil
+	return oldValue.Os, nil
 }
 
-// ResetOS resets all changes to the "OS" field.
-func (m *BenchMutation) ResetOS() {
-	m._OS = nil
+// ResetOs resets all changes to the "os" field.
+func (m *BenchMutation) ResetOs() {
+	m.os = nil
 }
 
-// SetArch sets the "Arch" field.
+// SetArch sets the "arch" field.
 func (m *BenchMutation) SetArch(s string) {
-	m._Arch = &s
+	m.arch = &s
 }
 
-// Arch returns the value of the "Arch" field in the mutation.
+// Arch returns the value of the "arch" field in the mutation.
 func (m *BenchMutation) Arch() (r string, exists bool) {
-	v := m._Arch
+	v := m.arch
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldArch returns the old "Arch" field's value of the Bench entity.
+// OldArch returns the old "arch" field's value of the Bench entity.
 // If the Bench object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchMutation) OldArch(ctx context.Context) (v string, err error) {
@@ -213,26 +213,26 @@ func (m *BenchMutation) OldArch(ctx context.Context) (v string, err error) {
 	return oldValue.Arch, nil
 }
 
-// ResetArch resets all changes to the "Arch" field.
+// ResetArch resets all changes to the "arch" field.
 func (m *BenchMutation) ResetArch() {
-	m._Arch = nil
+	m.arch = nil
 }
 
-// SetCPU sets the "CPU" field.
+// SetCPU sets the "cpu" field.
 func (m *BenchMutation) SetCPU(s string) {
-	m._CPU = &s
+	m.cpu = &s
 }
 
-// CPU returns the value of the "CPU" field in the mutation.
+// CPU returns the value of the "cpu" field in the mutation.
 func (m *BenchMutation) CPU() (r string, exists bool) {
-	v := m._CPU
+	v := m.cpu
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldCPU returns the old "CPU" field's value of the Bench entity.
+// OldCPU returns the old "cpu" field's value of the Bench entity.
 // If the Bench object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchMutation) OldCPU(ctx context.Context) (v string, err error) {
@@ -249,26 +249,26 @@ func (m *BenchMutation) OldCPU(ctx context.Context) (v string, err error) {
 	return oldValue.CPU, nil
 }
 
-// ResetCPU resets all changes to the "CPU" field.
+// ResetCPU resets all changes to the "cpu" field.
 func (m *BenchMutation) ResetCPU() {
-	m._CPU = nil
+	m.cpu = nil
 }
 
-// SetPackage sets the "Package" field.
+// SetPackage sets the "package" field.
 func (m *BenchMutation) SetPackage(s string) {
-	m._Package = &s
+	m._package = &s
 }
 
-// Package returns the value of the "Package" field in the mutation.
+// Package returns the value of the "package" field in the mutation.
 func (m *BenchMutation) Package() (r string, exists bool) {
-	v := m._Package
+	v := m._package
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPackage returns the old "Package" field's value of the Bench entity.
+// OldPackage returns the old "package" field's value of the Bench entity.
 // If the Bench object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchMutation) OldPackage(ctx context.Context) (v string, err error) {
@@ -285,26 +285,26 @@ func (m *BenchMutation) OldPackage(ctx context.Context) (v string, err error) {
 	return oldValue.Package, nil
 }
 
-// ResetPackage resets all changes to the "Package" field.
+// ResetPackage resets all changes to the "package" field.
 func (m *BenchMutation) ResetPackage() {
-	m._Package = nil
+	m._package = nil
 }
 
-// SetPass sets the "Pass" field.
+// SetPass sets the "pass" field.
 func (m *BenchMutation) SetPass(b bool) {
-	m._Pass = &b
+	m.pass = &b
 }
 
-// Pass returns the value of the "Pass" field in the mutation.
+// Pass returns the value of the "pass" field in the mutation.
 func (m *BenchMutation) Pass() (r bool, exists bool) {
-	v := m._Pass
+	v := m.pass
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldPass returns the old "Pass" field's value of the Bench entity.
+// OldPass returns the old "pass" field's value of the Bench entity.
 // If the Bench object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchMutation) OldPass(ctx context.Context) (v bool, err error) {
@@ -321,9 +321,9 @@ func (m *BenchMutation) OldPass(ctx context.Context) (v bool, err error) {
 	return oldValue.Pass, nil
 }
 
-// ResetPass resets all changes to the "Pass" field.
+// ResetPass resets all changes to the "pass" field.
 func (m *BenchMutation) ResetPass() {
-	m._Pass = nil
+	m.pass = nil
 }
 
 // AddResultIDs adds the "results" edge to the BenchResult entity by ids.
@@ -415,19 +415,19 @@ func (m *BenchMutation) Type() string {
 // AddedFields().
 func (m *BenchMutation) Fields() []string {
 	fields := make([]string, 0, 5)
-	if m._OS != nil {
-		fields = append(fields, bench.FieldOS)
+	if m.os != nil {
+		fields = append(fields, bench.FieldOs)
 	}
-	if m._Arch != nil {
+	if m.arch != nil {
 		fields = append(fields, bench.FieldArch)
 	}
-	if m._CPU != nil {
+	if m.cpu != nil {
 		fields = append(fields, bench.FieldCPU)
 	}
-	if m._Package != nil {
+	if m._package != nil {
 		fields = append(fields, bench.FieldPackage)
 	}
-	if m._Pass != nil {
+	if m.pass != nil {
 		fields = append(fields, bench.FieldPass)
 	}
 	return fields
@@ -438,8 +438,8 @@ func (m *BenchMutation) Fields() []string {
 // schema.
 func (m *BenchMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case bench.FieldOS:
-		return m.OS()
+	case bench.FieldOs:
+		return m.Os()
 	case bench.FieldArch:
 		return m.Arch()
 	case bench.FieldCPU:
@@ -457,8 +457,8 @@ func (m *BenchMutation) Field(name string) (ent.Value, bool) {
 // database failed.
 func (m *BenchMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case bench.FieldOS:
-		return m.OldOS(ctx)
+	case bench.FieldOs:
+		return m.OldOs(ctx)
 	case bench.FieldArch:
 		return m.OldArch(ctx)
 	case bench.FieldCPU:
@@ -476,12 +476,12 @@ func (m *BenchMutation) OldField(ctx context.Context, name string) (ent.Value, e
 // type.
 func (m *BenchMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case bench.FieldOS:
+	case bench.FieldOs:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetOS(v)
+		m.SetOs(v)
 		return nil
 	case bench.FieldArch:
 		v, ok := value.(string)
@@ -560,8 +560,8 @@ func (m *BenchMutation) ClearField(name string) error {
 // It returns an error if the field is not defined in the schema.
 func (m *BenchMutation) ResetField(name string) error {
 	switch name {
-	case bench.FieldOS:
-		m.ResetOS()
+	case bench.FieldOs:
+		m.ResetOs()
 		return nil
 	case bench.FieldArch:
 		m.ResetArch()
@@ -666,28 +666,28 @@ func (m *BenchMutation) ResetEdge(name string) error {
 // BenchResultMutation represents an operation that mutates the BenchResult nodes in the graph.
 type BenchResultMutation struct {
 	config
-	op                    Op
-	typ                   string
-	id                    *int
-	_Name                 *string
-	_N                    *int
-	add_N                 *int
-	_NsPerOp              *float64
-	add_NsPerOp           *float64
-	_AllocedBytesPerOp    *uint64
-	add_AllocedBytesPerOp *int64
-	_AllocsPerOp          *uint64
-	add_AllocsPerOp       *int64
-	_MBPerS               *float64
-	add_MBPerS            *float64
-	_Measured             *int
-	add_Measured          *int
-	_Ord                  *int
-	add_Ord               *int
-	clearedFields         map[string]struct{}
-	done                  bool
-	oldValue              func(context.Context) (*BenchResult, error)
-	predicates            []predicate.BenchResult
+	op                      Op
+	typ                     string
+	id                      *int
+	name                    *string
+	n                       *int64
+	addn                    *int64
+	ns_per_op               *float64
+	addns_per_op            *float64
+	alloced_bytes_per_op    *uint64
+	addalloced_bytes_per_op *int64
+	allocs_per_op           *uint64
+	addallocs_per_op        *int64
+	mb_per_s                *float64
+	addmb_per_s             *float64
+	measured                *int
+	addmeasured             *int
+	ord                     *int
+	addord                  *int
+	clearedFields           map[string]struct{}
+	done                    bool
+	oldValue                func(context.Context) (*BenchResult, error)
+	predicates              []predicate.BenchResult
 }
 
 var _ ent.Mutation = (*BenchResultMutation)(nil)
@@ -788,21 +788,21 @@ func (m *BenchResultMutation) IDs(ctx context.Context) ([]int, error) {
 	}
 }
 
-// SetName sets the "Name" field.
+// SetName sets the "name" field.
 func (m *BenchResultMutation) SetName(s string) {
-	m._Name = &s
+	m.name = &s
 }
 
-// Name returns the value of the "Name" field in the mutation.
+// Name returns the value of the "name" field in the mutation.
 func (m *BenchResultMutation) Name() (r string, exists bool) {
-	v := m._Name
+	v := m.name
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldName returns the old "Name" field's value of the BenchResult entity.
+// OldName returns the old "name" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldName(ctx context.Context) (v string, err error) {
@@ -819,30 +819,30 @@ func (m *BenchResultMutation) OldName(ctx context.Context) (v string, err error)
 	return oldValue.Name, nil
 }
 
-// ResetName resets all changes to the "Name" field.
+// ResetName resets all changes to the "name" field.
 func (m *BenchResultMutation) ResetName() {
-	m._Name = nil
+	m.name = nil
 }
 
-// SetN sets the "N" field.
-func (m *BenchResultMutation) SetN(i int) {
-	m._N = &i
-	m.add_N = nil
+// SetN sets the "n" field.
+func (m *BenchResultMutation) SetN(i int64) {
+	m.n = &i
+	m.addn = nil
 }
 
-// N returns the value of the "N" field in the mutation.
-func (m *BenchResultMutation) N() (r int, exists bool) {
-	v := m._N
+// N returns the value of the "n" field in the mutation.
+func (m *BenchResultMutation) N() (r int64, exists bool) {
+	v := m.n
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldN returns the old "N" field's value of the BenchResult entity.
+// OldN returns the old "n" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchResultMutation) OldN(ctx context.Context) (v int, err error) {
+func (m *BenchResultMutation) OldN(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldN is only allowed on UpdateOne operations")
 	}
@@ -856,46 +856,46 @@ func (m *BenchResultMutation) OldN(ctx context.Context) (v int, err error) {
 	return oldValue.N, nil
 }
 
-// AddN adds i to the "N" field.
-func (m *BenchResultMutation) AddN(i int) {
-	if m.add_N != nil {
-		*m.add_N += i
+// AddN adds i to the "n" field.
+func (m *BenchResultMutation) AddN(i int64) {
+	if m.addn != nil {
+		*m.addn += i
 	} else {
-		m.add_N = &i
+		m.addn = &i
 	}
 }
 
-// AddedN returns the value that was added to the "N" field in this mutation.
-func (m *BenchResultMutation) AddedN() (r int, exists bool) {
-	v := m.add_N
+// AddedN returns the value that was added to the "n" field in this mutation.
+func (m *BenchResultMutation) AddedN() (r int64, exists bool) {
+	v := m.addn
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetN resets all changes to the "N" field.
+// ResetN resets all changes to the "n" field.
 func (m *BenchResultMutation) ResetN() {
-	m._N = nil
-	m.add_N = nil
+	m.n = nil
+	m.addn = nil
 }
 
-// SetNsPerOp sets the "NsPerOp" field.
+// SetNsPerOp sets the "ns_per_op" field.
 func (m *BenchResultMutation) SetNsPerOp(f float64) {
-	m._NsPerOp = &f
-	m.add_NsPerOp = nil
+	m.ns_per_op = &f
+	m.addns_per_op = nil
 }
 
-// NsPerOp returns the value of the "NsPerOp" field in the mutation.
+// NsPerOp returns the value of the "ns_per_op" field in the mutation.
 func (m *BenchResultMutation) NsPerOp() (r float64, exists bool) {
-	v := m._NsPerOp
+	v := m.ns_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNsPerOp returns the old "NsPerOp" field's value of the BenchResult entity.
+// OldNsPerOp returns the old "ns_per_op" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldNsPerOp(ctx context.Context) (v float64, err error) {
@@ -912,46 +912,46 @@ func (m *BenchResultMutation) OldNsPerOp(ctx context.Context) (v float64, err er
 	return oldValue.NsPerOp, nil
 }
 
-// AddNsPerOp adds f to the "NsPerOp" field.
+// AddNsPerOp adds f to the "ns_per_op" field.
 func (m *BenchResultMutation) AddNsPerOp(f float64) {
-	if m.add_NsPerOp != nil {
-		*m.add_NsPerOp += f
+	if m.addns_per_op != nil {
+		*m.addns_per_op += f
 	} else {
-		m.add_NsPerOp = &f
+		m.addns_per_op = &f
 	}
 }
 
-// AddedNsPerOp returns the value that was added to the "NsPerOp" field in this mutation.
+// AddedNsPerOp returns the value that was added to the "ns_per_op" field in this mutation.
 func (m *BenchResultMutation) AddedNsPerOp() (r float64, exists bool) {
-	v := m.add_NsPerOp
+	v := m.addns_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetNsPerOp resets all changes to the "NsPerOp" field.
+// ResetNsPerOp resets all changes to the "ns_per_op" field.
 func (m *BenchResultMutation) ResetNsPerOp() {
-	m._NsPerOp = nil
-	m.add_NsPerOp = nil
+	m.ns_per_op = nil
+	m.addns_per_op = nil
 }
 
-// SetAllocedBytesPerOp sets the "AllocedBytesPerOp" field.
+// SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
 func (m *BenchResultMutation) SetAllocedBytesPerOp(u uint64) {
-	m._AllocedBytesPerOp = &u
-	m.add_AllocedBytesPerOp = nil
+	m.alloced_bytes_per_op = &u
+	m.addalloced_bytes_per_op = nil
 }
 
-// AllocedBytesPerOp returns the value of the "AllocedBytesPerOp" field in the mutation.
+// AllocedBytesPerOp returns the value of the "alloced_bytes_per_op" field in the mutation.
 func (m *BenchResultMutation) AllocedBytesPerOp() (r uint64, exists bool) {
-	v := m._AllocedBytesPerOp
+	v := m.alloced_bytes_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAllocedBytesPerOp returns the old "AllocedBytesPerOp" field's value of the BenchResult entity.
+// OldAllocedBytesPerOp returns the old "alloced_bytes_per_op" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldAllocedBytesPerOp(ctx context.Context) (v uint64, err error) {
@@ -968,46 +968,46 @@ func (m *BenchResultMutation) OldAllocedBytesPerOp(ctx context.Context) (v uint6
 	return oldValue.AllocedBytesPerOp, nil
 }
 
-// AddAllocedBytesPerOp adds u to the "AllocedBytesPerOp" field.
+// AddAllocedBytesPerOp adds u to the "alloced_bytes_per_op" field.
 func (m *BenchResultMutation) AddAllocedBytesPerOp(u int64) {
-	if m.add_AllocedBytesPerOp != nil {
-		*m.add_AllocedBytesPerOp += u
+	if m.addalloced_bytes_per_op != nil {
+		*m.addalloced_bytes_per_op += u
 	} else {
-		m.add_AllocedBytesPerOp = &u
+		m.addalloced_bytes_per_op = &u
 	}
 }
 
-// AddedAllocedBytesPerOp returns the value that was added to the "AllocedBytesPerOp" field in this mutation.
+// AddedAllocedBytesPerOp returns the value that was added to the "alloced_bytes_per_op" field in this mutation.
 func (m *BenchResultMutation) AddedAllocedBytesPerOp() (r int64, exists bool) {
-	v := m.add_AllocedBytesPerOp
+	v := m.addalloced_bytes_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetAllocedBytesPerOp resets all changes to the "AllocedBytesPerOp" field.
+// ResetAllocedBytesPerOp resets all changes to the "alloced_bytes_per_op" field.
 func (m *BenchResultMutation) ResetAllocedBytesPerOp() {
-	m._AllocedBytesPerOp = nil
-	m.add_AllocedBytesPerOp = nil
+	m.alloced_bytes_per_op = nil
+	m.addalloced_bytes_per_op = nil
 }
 
-// SetAllocsPerOp sets the "AllocsPerOp" field.
+// SetAllocsPerOp sets the "allocs_per_op" field.
 func (m *BenchResultMutation) SetAllocsPerOp(u uint64) {
-	m._AllocsPerOp = &u
-	m.add_AllocsPerOp = nil
+	m.allocs_per_op = &u
+	m.addallocs_per_op = nil
 }
 
-// AllocsPerOp returns the value of the "AllocsPerOp" field in the mutation.
+// AllocsPerOp returns the value of the "allocs_per_op" field in the mutation.
 func (m *BenchResultMutation) AllocsPerOp() (r uint64, exists bool) {
-	v := m._AllocsPerOp
+	v := m.allocs_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAllocsPerOp returns the old "AllocsPerOp" field's value of the BenchResult entity.
+// OldAllocsPerOp returns the old "allocs_per_op" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldAllocsPerOp(ctx context.Context) (v uint64, err error) {
@@ -1024,46 +1024,46 @@ func (m *BenchResultMutation) OldAllocsPerOp(ctx context.Context) (v uint64, err
 	return oldValue.AllocsPerOp, nil
 }
 
-// AddAllocsPerOp adds u to the "AllocsPerOp" field.
+// AddAllocsPerOp adds u to the "allocs_per_op" field.
 func (m *BenchResultMutation) AddAllocsPerOp(u int64) {
-	if m.add_AllocsPerOp != nil {
-		*m.add_AllocsPerOp += u
+	if m.addallocs_per_op != nil {
+		*m.addallocs_per_op += u
 	} else {
-		m.add_AllocsPerOp = &u
+		m.addallocs_per_op = &u
 	}
 }
 
-// AddedAllocsPerOp returns the value that was added to the "AllocsPerOp" field in this mutation.
+// AddedAllocsPerOp returns the value that was added to the "allocs_per_op" field in this mutation.
 func (m *BenchResultMutation) AddedAllocsPerOp() (r int64, exists bool) {
-	v := m.add_AllocsPerOp
+	v := m.addallocs_per_op
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetAllocsPerOp resets all changes to the "AllocsPerOp" field.
+// ResetAllocsPerOp resets all changes to the "allocs_per_op" field.
 func (m *BenchResultMutation) ResetAllocsPerOp() {
-	m._AllocsPerOp = nil
-	m.add_AllocsPerOp = nil
+	m.allocs_per_op = nil
+	m.addallocs_per_op = nil
 }
 
-// SetMBPerS sets the "MBPerS" field.
+// SetMBPerS sets the "mb_per_s" field.
 func (m *BenchResultMutation) SetMBPerS(f float64) {
-	m._MBPerS = &f
-	m.add_MBPerS = nil
+	m.mb_per_s = &f
+	m.addmb_per_s = nil
 }
 
-// MBPerS returns the value of the "MBPerS" field in the mutation.
+// MBPerS returns the value of the "mb_per_s" field in the mutation.
 func (m *BenchResultMutation) MBPerS() (r float64, exists bool) {
-	v := m._MBPerS
+	v := m.mb_per_s
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldMBPerS returns the old "MBPerS" field's value of the BenchResult entity.
+// OldMBPerS returns the old "mb_per_s" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldMBPerS(ctx context.Context) (v float64, err error) {
@@ -1080,46 +1080,46 @@ func (m *BenchResultMutation) OldMBPerS(ctx context.Context) (v float64, err err
 	return oldValue.MBPerS, nil
 }
 
-// AddMBPerS adds f to the "MBPerS" field.
+// AddMBPerS adds f to the "mb_per_s" field.
 func (m *BenchResultMutation) AddMBPerS(f float64) {
-	if m.add_MBPerS != nil {
-		*m.add_MBPerS += f
+	if m.addmb_per_s != nil {
+		*m.addmb_per_s += f
 	} else {
-		m.add_MBPerS = &f
+		m.addmb_per_s = &f
 	}
 }
 
-// AddedMBPerS returns the value that was added to the "MBPerS" field in this mutation.
+// AddedMBPerS returns the value that was added to the "mb_per_s" field in this mutation.
 func (m *BenchResultMutation) AddedMBPerS() (r float64, exists bool) {
-	v := m.add_MBPerS
+	v := m.addmb_per_s
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetMBPerS resets all changes to the "MBPerS" field.
+// ResetMBPerS resets all changes to the "mb_per_s" field.
 func (m *BenchResultMutation) ResetMBPerS() {
-	m._MBPerS = nil
-	m.add_MBPerS = nil
+	m.mb_per_s = nil
+	m.addmb_per_s = nil
 }
 
-// SetMeasured sets the "Measured" field.
+// SetMeasured sets the "measured" field.
 func (m *BenchResultMutation) SetMeasured(i int) {
-	m._Measured = &i
-	m.add_Measured = nil
+	m.measured = &i
+	m.addmeasured = nil
 }
 
-// Measured returns the value of the "Measured" field in the mutation.
+// Measured returns the value of the "measured" field in the mutation.
 func (m *BenchResultMutation) Measured() (r int, exists bool) {
-	v := m._Measured
+	v := m.measured
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldMeasured returns the old "Measured" field's value of the BenchResult entity.
+// OldMeasured returns the old "measured" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldMeasured(ctx context.Context) (v int, err error) {
@@ -1136,46 +1136,46 @@ func (m *BenchResultMutation) OldMeasured(ctx context.Context) (v int, err error
 	return oldValue.Measured, nil
 }
 
-// AddMeasured adds i to the "Measured" field.
+// AddMeasured adds i to the "measured" field.
 func (m *BenchResultMutation) AddMeasured(i int) {
-	if m.add_Measured != nil {
-		*m.add_Measured += i
+	if m.addmeasured != nil {
+		*m.addmeasured += i
 	} else {
-		m.add_Measured = &i
+		m.addmeasured = &i
 	}
 }
 
-// AddedMeasured returns the value that was added to the "Measured" field in this mutation.
+// AddedMeasured returns the value that was added to the "measured" field in this mutation.
 func (m *BenchResultMutation) AddedMeasured() (r int, exists bool) {
-	v := m.add_Measured
+	v := m.addmeasured
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetMeasured resets all changes to the "Measured" field.
+// ResetMeasured resets all changes to the "measured" field.
 func (m *BenchResultMutation) ResetMeasured() {
-	m._Measured = nil
-	m.add_Measured = nil
+	m.measured = nil
+	m.addmeasured = nil
 }
 
-// SetOrd sets the "Ord" field.
+// SetOrd sets the "ord" field.
 func (m *BenchResultMutation) SetOrd(i int) {
-	m._Ord = &i
-	m.add_Ord = nil
+	m.ord = &i
+	m.addord = nil
 }
 
-// Ord returns the value of the "Ord" field in the mutation.
+// Ord returns the value of the "ord" field in the mutation.
 func (m *BenchResultMutation) Ord() (r int, exists bool) {
-	v := m._Ord
+	v := m.ord
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldOrd returns the old "Ord" field's value of the BenchResult entity.
+// OldOrd returns the old "ord" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
 func (m *BenchResultMutation) OldOrd(ctx context.Context) (v int, err error) {
@@ -1192,28 +1192,28 @@ func (m *BenchResultMutation) OldOrd(ctx context.Context) (v int, err error) {
 	return oldValue.Ord, nil
 }
 
-// AddOrd adds i to the "Ord" field.
+// AddOrd adds i to the "ord" field.
 func (m *BenchResultMutation) AddOrd(i int) {
-	if m.add_Ord != nil {
-		*m.add_Ord += i
+	if m.addord != nil {
+		*m.addord += i
 	} else {
-		m.add_Ord = &i
+		m.addord = &i
 	}
 }
 
-// AddedOrd returns the value that was added to the "Ord" field in this mutation.
+// AddedOrd returns the value that was added to the "ord" field in this mutation.
 func (m *BenchResultMutation) AddedOrd() (r int, exists bool) {
-	v := m.add_Ord
+	v := m.addord
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ResetOrd resets all changes to the "Ord" field.
+// ResetOrd resets all changes to the "ord" field.
 func (m *BenchResultMutation) ResetOrd() {
-	m._Ord = nil
-	m.add_Ord = nil
+	m.ord = nil
+	m.addord = nil
 }
 
 // Where appends a list predicates to the BenchResultMutation builder.
@@ -1251,28 +1251,28 @@ func (m *BenchResultMutation) Type() string {
 // AddedFields().
 func (m *BenchResultMutation) Fields() []string {
 	fields := make([]string, 0, 8)
-	if m._Name != nil {
+	if m.name != nil {
 		fields = append(fields, benchresult.FieldName)
 	}
-	if m._N != nil {
+	if m.n != nil {
 		fields = append(fields, benchresult.FieldN)
 	}
-	if m._NsPerOp != nil {
+	if m.ns_per_op != nil {
 		fields = append(fields, benchresult.FieldNsPerOp)
 	}
-	if m._AllocedBytesPerOp != nil {
+	if m.alloced_bytes_per_op != nil {
 		fields = append(fields, benchresult.FieldAllocedBytesPerOp)
 	}
-	if m._AllocsPerOp != nil {
+	if m.allocs_per_op != nil {
 		fields = append(fields, benchresult.FieldAllocsPerOp)
 	}
-	if m._MBPerS != nil {
+	if m.mb_per_s != nil {
 		fields = append(fields, benchresult.FieldMBPerS)
 	}
-	if m._Measured != nil {
+	if m.measured != nil {
 		fields = append(fields, benchresult.FieldMeasured)
 	}
-	if m._Ord != nil {
+	if m.ord != nil {
 		fields = append(fields, benchresult.FieldOrd)
 	}
 	return fields
@@ -1341,7 +1341,7 @@ func (m *BenchResultMutation) SetField(name string, value ent.Value) error {
 		m.SetName(v)
 		return nil
 	case benchresult.FieldN:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1397,25 +1397,25 @@ func (m *BenchResultMutation) SetField(name string, value ent.Value) error {
 // this mutation.
 func (m *BenchResultMutation) AddedFields() []string {
 	var fields []string
-	if m.add_N != nil {
+	if m.addn != nil {
 		fields = append(fields, benchresult.FieldN)
 	}
-	if m.add_NsPerOp != nil {
+	if m.addns_per_op != nil {
 		fields = append(fields, benchresult.FieldNsPerOp)
 	}
-	if m.add_AllocedBytesPerOp != nil {
+	if m.addalloced_bytes_per_op != nil {
 		fields = append(fields, benchresult.FieldAllocedBytesPerOp)
 	}
-	if m.add_AllocsPerOp != nil {
+	if m.addallocs_per_op != nil {
 		fields = append(fields, benchresult.FieldAllocsPerOp)
 	}
-	if m.add_MBPerS != nil {
+	if m.addmb_per_s != nil {
 		fields = append(fields, benchresult.FieldMBPerS)
 	}
-	if m.add_Measured != nil {
+	if m.addmeasured != nil {
 		fields = append(fields, benchresult.FieldMeasured)
 	}
-	if m.add_Ord != nil {
+	if m.addord != nil {
 		fields = append(fields, benchresult.FieldOrd)
 	}
 	return fields
@@ -1450,7 +1450,7 @@ func (m *BenchResultMutation) AddedField(name string) (ent.Value, bool) {
 func (m *BenchResultMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case benchresult.FieldN:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

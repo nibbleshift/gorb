@@ -42,10 +42,10 @@ func main() {
 		br := &client.CreateBenchResultInput{
 			Name:              r.Name,
 			N:                 int64(r.N),
-			Nsperop:           r.NsPerOp,
-			Allocedbytesperop: int64(r.AllocedBytesPerOp),
-			Allocsperop:       int64(r.AllocsPerOp),
-			Mbpers:            float64(r.MBPerS),
+			NsPerOp:           r.NsPerOp,
+			AllocedBytesPerOp: int64(r.AllocedBytesPerOp),
+			AllocsPerOp:       int64(r.AllocsPerOp),
+			MbPerS:            float64(r.MBPerS),
 			Measured:          int64(r.Measured),
 			Ord:               int64(r.Ord),
 		}

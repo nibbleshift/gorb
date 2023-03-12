@@ -27,11 +27,11 @@ var (
 	BenchResultsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
-		{Name: "n", Type: field.TypeInt},
+		{Name: "n", Type: field.TypeInt64},
 		{Name: "ns_per_op", Type: field.TypeFloat64},
 		{Name: "alloced_bytes_per_op", Type: field.TypeUint64},
 		{Name: "allocs_per_op", Type: field.TypeUint64},
-		{Name: "mb_pers", Type: field.TypeFloat64},
+		{Name: "mb_per_s", Type: field.TypeFloat64},
 		{Name: "measured", Type: field.TypeInt},
 		{Name: "ord", Type: field.TypeInt},
 		{Name: "bench_results", Type: field.TypeInt, Nullable: true},

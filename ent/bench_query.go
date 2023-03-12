@@ -301,12 +301,12 @@ func (bq *BenchQuery) WithResults(opts ...func(*BenchResultQuery)) *BenchQuery {
 // Example:
 //
 //	var v []struct {
-//		OS string `json:"OS,omitempty"`
+//		Os string `json:"os,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Bench.Query().
-//		GroupBy(bench.FieldOS).
+//		GroupBy(bench.FieldOs).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (bq *BenchQuery) GroupBy(field string, fields ...string) *BenchGroupBy {
@@ -324,11 +324,11 @@ func (bq *BenchQuery) GroupBy(field string, fields ...string) *BenchGroupBy {
 // Example:
 //
 //	var v []struct {
-//		OS string `json:"OS,omitempty"`
+//		Os string `json:"os,omitempty"`
 //	}
 //
 //	client.Bench.Query().
-//		Select(bench.FieldOS).
+//		Select(bench.FieldOs).
 //		Scan(ctx, &v)
 func (bq *BenchQuery) Select(fields ...string) *BenchSelect {
 	bq.ctx.Fields = append(bq.ctx.Fields, fields...)
