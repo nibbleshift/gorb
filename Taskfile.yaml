@@ -24,10 +24,10 @@ tasks:
       - go generate .
   build-gorb:
     cmds:
-      - go build -o gorb cmd/gorb/main.go
+      - go build -o dist/gorb cmd/gorb/main.go
   build-gorbd:
     cmds:
-      - go build -o gorbd cmd/gorbd/main.go
+      - go build -o dist/gorbd cmd/gorbd/main.go
   build-all:
     deps:
       - build-gorb
