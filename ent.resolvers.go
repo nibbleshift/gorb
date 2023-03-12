@@ -27,7 +27,7 @@ func (r *queryResolver) Nodes(ctx context.Context, ids []int) ([]ent.Noder, erro
 }
 
 func (r *queryResolver) Benches(ctx context.Context) ([]*ent.Bench, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.client.Bench.Query().All(ctx)
 }
 
 // BenchResult returns BenchResultResolver implementation.

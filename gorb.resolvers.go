@@ -5,13 +5,12 @@ package gorb
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/nibbleshift/gorb/ent"
 )
 
 func (r *mutationResolver) CreateBenchmark(ctx context.Context, input ent.CreateBenchInput) (*ent.Bench, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.client.Bench.Create().SetInput(input).Save(ctx)
 }
 
 // Mutation returns MutationResolver implementation.
