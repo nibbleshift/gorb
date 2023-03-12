@@ -638,7 +638,7 @@ type Query {
 }
 `, BuiltIn: false},
 	{Name: "../gorb.graphql", Input: `type Mutation {
-    createBenchmark(input: CreateBenchInput!, results: [CreateBenchResultInput!]!): Bench!
+    createBenchmark(input: CreateBenchInput!, results: [CreateBenchResultInput]!): Bench!
 }
 `, BuiltIn: false},
 }
@@ -663,7 +663,7 @@ func (ec *executionContext) field_Mutation_createBenchmark_args(ctx context.Cont
 	var arg1 []*ent.CreateBenchResultInput
 	if tmp, ok := rawArgs["results"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("results"))
-		arg1, err = ec.unmarshalNCreateBenchResultInput2ᚕᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInputᚄ(ctx, tmp)
+		arg1, err = ec.unmarshalNCreateBenchResultInput2ᚕᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5552,7 +5552,7 @@ func (ec *executionContext) unmarshalNCreateBenchInput2githubᚗcomᚋnibbleshif
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNCreateBenchResultInput2ᚕᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInputᚄ(ctx context.Context, v interface{}) ([]*ent.CreateBenchResultInput, error) {
+func (ec *executionContext) unmarshalNCreateBenchResultInput2ᚕᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx context.Context, v interface{}) ([]*ent.CreateBenchResultInput, error) {
 	var vSlice []interface{}
 	if v != nil {
 		vSlice = graphql.CoerceList(v)
@@ -5561,17 +5561,12 @@ func (ec *executionContext) unmarshalNCreateBenchResultInput2ᚕᚖgithubᚗcom�
 	res := make([]*ent.CreateBenchResultInput, len(vSlice))
 	for i := range vSlice {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNCreateBenchResultInput2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx, vSlice[i])
+		res[i], err = ec.unmarshalOCreateBenchResultInput2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
 	return res, nil
-}
-
-func (ec *executionContext) unmarshalNCreateBenchResultInput2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx context.Context, v interface{}) (*ent.CreateBenchResultInput, error) {
-	res, err := ec.unmarshalInputCreateBenchResultInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCursor2entgoᚗioᚋcontribᚋentgqlᚐCursor(ctx context.Context, v interface{}) (entgql.Cursor[int], error) {
@@ -6152,6 +6147,14 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOCreateBenchResultInput2ᚖgithubᚗcomᚋnibbleshiftᚋgorbᚋentᚐCreateBenchResultInput(ctx context.Context, v interface{}) (*ent.CreateBenchResultInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputCreateBenchResultInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOCursor2ᚖentgoᚗioᚋcontribᚋentgqlᚐCursor(ctx context.Context, v interface{}) (*entgql.Cursor[int], error) {

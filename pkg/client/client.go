@@ -38,7 +38,7 @@ type CreateBench struct {
 	CreateBenchmark CreateBench_CreateBenchmark "json:\"createBenchmark\" graphql:\"createBenchmark\""
 }
 
-const CreateBenchDocument = `mutation CreateBench ($input: CreateBenchInput!, $results: [CreateBenchResultInput!]!) {
+const CreateBenchDocument = `mutation CreateBench ($input: CreateBenchInput!, $results: [CreateBenchResultInput]!) {
 	createBenchmark(input: $input, results: $results) {
 		id
 	}

@@ -29,7 +29,7 @@ func main() {
 		}))
 	ctx := context.Background()
 
-	var bench client.Bench
+	var bench client.CreateBenchInput
 
 	bench.Os = result.OS
 	bench.Arch = result.Arch
@@ -37,20 +37,22 @@ func main() {
 	bench.Package = result.Package
 	bench.Pass = result.Pass
 
-	for _, r := range result.Results {
-		br := &BenchResult{
+	var benchResults []*client.CreateBenchResultInput
+	for _, r := range result.Bench {
+		br := &client.CreateBenchResultInput{
 			Name:              r.Name,
-			N:                 r.N,
-			NsPerOp:           r.NsPerOp,
-			AllocedBytesPerOp: r.AllocedBytesPerOp,
-			AllocsPerOp:       r.AllocsPerOp,
-			MBPerS:            r.MBPerS,
-			Measured:          r.Measured,
-			Ord:               r.Ord,
+			N:                 int64(r.N),
+			Nsperop:           r.NsPerOp,
+			Allocedbytesperop: int64(r.AllocedBytesPerOp),
+			Allocsperop:       int64(r.AllocsPerOp),
+			Mbpers:            float64(r.MBPerS),
+			Measured:          int64(r.Measured),
+			Ord:               int64(r.Ord),
 		}
+		benchResults = append(benchResults, br)
 	}
 
-	_, err = gorbClient.CreateBench(ctx, bench)
+	_, err = gorbClient.CreateBench(ctx, bench, benchResults)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %s", err.Error())
 		os.Exit(1)

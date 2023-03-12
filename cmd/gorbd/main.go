@@ -7,10 +7,10 @@ import (
 
 	"github.com/nibbleshift/gorb/ent"
 	"github.com/nibbleshift/gorb/ent/migrate"
+	"github.com/nibbleshift/gorb/graph"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/nibbleshift/gorb"
 
 	_ "github.com/lib/pq"
 )
@@ -30,7 +30,7 @@ func main() {
 	}
 
 	// Configure the server and start listening on :8081.
-	srv := handler.NewDefaultServer(gorb.NewSchema(client))
+	srv := handler.NewDefaultServer(graph.NewSchema(client))
 	http.Handle("/",
 		playground.Handler("gorb", "/query"),
 	)
