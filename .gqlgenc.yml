@@ -1,0 +1,18 @@
+model:
+  package: client
+  filename: ./pkg/client/models_gen.go
+client:
+  package: client
+  filename: ./pkg/client/client.go
+models:
+  Int:
+    model: github.com/99designs/gqlgen/graphql.Int64
+  Date:
+    model: github.com/99designs/gqlgen/graphql.Time
+schema:
+  - "./*.graphql"
+query:
+  - "./query/mutation.graphql"
+generate:
+  clientV2: true
+  clientInterfaceName: "GorbClient"

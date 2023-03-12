@@ -22,6 +22,7 @@ tasks:
   generate:
     cmds:
       - go generate .
+      - gqlgenc
   build-gorb:
     cmds:
       - go build -o dist/gorb cmd/gorb/main.go

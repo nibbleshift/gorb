@@ -1,0 +1,6 @@
+mutation CreateBench($input: CreateBenchInput!) {
+    createBenchmark(input: $input) {
+        id
+    }
+}
+
