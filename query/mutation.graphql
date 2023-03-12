@@ -1,6 +1,5 @@
-mutation CreateBench($input: CreateBenchInput!) {
-    createBenchmark(input: $input) {
-        id
+mutation CreateBench($input: Bench!, $results: [BenchResult!]!) {
+    createBenchmark(input: $input, results: $results) {
+    	id
     }
 }
-

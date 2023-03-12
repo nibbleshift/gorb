@@ -11,7 +11,7 @@ import (
 )
 
 type GorbClient interface {
-	CreateBench(ctx context.Context, input CreateBenchInput, interceptors ...clientv2.RequestInterceptor) (*CreateBench, error)
+	CreateBench(ctx context.Context, input CreateBenchInput, results []*CreateBenchResultInput, interceptors ...clientv2.RequestInterceptor) (*CreateBench, error)
 }
 
 type Client struct {
@@ -23,30 +23,32 @@ func NewClient(cli *http.Client, baseURL string, options *clientv2.Options, inte
 }
 
 type Query struct {
-	Node    ent.Noder   "json:\"node,omitempty\" graphql:\"node\""
-	Nodes   []ent.Noder "json:\"nodes\" graphql:\"nodes\""
-	Benches []*Bench    "json:\"benches\" graphql:\"benches\""
+	Node         ent.Noder             "json:\"node,omitempty\" graphql:\"node\""
+	Nodes        []ent.Noder           "json:\"nodes\" graphql:\"nodes\""
+	Benches      BenchConnection       "json:\"benches\" graphql:\"benches\""
+	BenchResults BenchResultConnection "json:\"benchResults\" graphql:\"benchResults\""
 }
 type Mutation struct {
-	CreateBenchmark *Bench "json:\"createBenchmark,omitempty\" graphql:\"createBenchmark\""
+	CreateBenchmark Bench "json:\"createBenchmark\" graphql:\"createBenchmark\""
 }
 type CreateBench_CreateBenchmark struct {
 	ID string "json:\"id\" graphql:\"id\""
 }
 type CreateBench struct {
-	CreateBenchmark *CreateBench_CreateBenchmark "json:\"createBenchmark,omitempty\" graphql:\"createBenchmark\""
+	CreateBenchmark CreateBench_CreateBenchmark "json:\"createBenchmark\" graphql:\"createBenchmark\""
 }
 
-const CreateBenchDocument = `mutation CreateBench ($input: CreateBenchInput!) {
-	createBenchmark(input: $input) {
+const CreateBenchDocument = `mutation CreateBench ($input: CreateBenchInput!, $results: [CreateBenchResultInput!]!) {
+	createBenchmark(input: $input, results: $results) {
 		id
 	}
 }
 `
 
-func (c *Client) CreateBench(ctx context.Context, input CreateBenchInput, interceptors ...clientv2.RequestInterceptor) (*CreateBench, error) {
+func (c *Client) CreateBench(ctx context.Context, input CreateBenchInput, results []*CreateBenchResultInput, interceptors ...clientv2.RequestInterceptor) (*CreateBench, error) {
 	vars := map[string]interface{}{
-		"input": input,
+		"input":   input,
+		"results": results,
 	}
 
 	var res CreateBench

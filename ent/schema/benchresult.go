@@ -1,7 +1,9 @@
 package schema
 
 import (
+	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 )
 
@@ -27,4 +29,12 @@ func (BenchResult) Fields() []ent.Field {
 // Edges of the BenchResult.
 func (BenchResult) Edges() []ent.Edge {
 	return nil
+}
+
+func (BenchResult) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entgql.QueryField(),
+		entgql.Mutations(entgql.MutationCreate()),
+		entgql.RelayConnection(),
+	}
 }

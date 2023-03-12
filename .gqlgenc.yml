@@ -10,9 +10,9 @@ models:
   Date:
     model: github.com/99designs/gqlgen/graphql.Time
 schema:
-  - "./*.graphql"
+  - "./graph/*.graphql"
 query:
-  - "./query/mutation.graphql"
+  - "./query/*.graphql"
 generate:
   clientV2: true
   clientInterfaceName: "GorbClient"

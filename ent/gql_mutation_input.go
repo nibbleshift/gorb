@@ -29,3 +29,33 @@ func (c *BenchCreate) SetInput(i CreateBenchInput) *BenchCreate {
 	i.Mutate(c.Mutation())
 	return c
 }
+
+// CreateBenchResultInput represents a mutation input for creating benchresults.
+type CreateBenchResultInput struct {
+	Name              string
+	N                 int
+	NsPerOp           float64
+	AllocedBytesPerOp uint64
+	AllocsPerOp       uint64
+	MBPerS            float64
+	Measured          int
+	Ord               int
+}
+
+// Mutate applies the CreateBenchResultInput on the BenchResultMutation builder.
+func (i *CreateBenchResultInput) Mutate(m *BenchResultMutation) {
+	m.SetName(i.Name)
+	m.SetN(i.N)
+	m.SetNsPerOp(i.NsPerOp)
+	m.SetAllocedBytesPerOp(i.AllocedBytesPerOp)
+	m.SetAllocsPerOp(i.AllocsPerOp)
+	m.SetMBPerS(i.MBPerS)
+	m.SetMeasured(i.Measured)
+	m.SetOrd(i.Ord)
+}
+
+// SetInput applies the change-set in the CreateBenchResultInput on the BenchResultCreate builder.
+func (c *BenchResultCreate) SetInput(i CreateBenchResultInput) *BenchResultCreate {
+	i.Mutate(c.Mutation())
+	return c
+}

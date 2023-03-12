@@ -6,6 +6,7 @@ require (
 	entgo.io/contrib v0.3.6-0.20230311083543-b32abfbfeac7
 	entgo.io/ent v0.11.9
 	github.com/99designs/gqlgen v0.17.26
+	github.com/Yamashou/gqlgenc v0.11.4
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/lib/pq v1.10.7
 	github.com/vektah/gqlparser/v2 v2.5.1
