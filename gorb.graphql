@@ -1,0 +1,3 @@
+type Mutation {
+    createBenchmark(input: CreateBenchInput!): Bench
+}
