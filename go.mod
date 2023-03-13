@@ -7,8 +7,10 @@ require (
 	entgo.io/ent v0.11.9
 	github.com/99designs/gqlgen v0.17.26
 	github.com/Yamashou/gqlgenc v0.11.4
+	github.com/go-chi/chi v1.5.4
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/lib/pq v1.10.7
+	github.com/rs/cors v1.8.3
 	github.com/vektah/gqlparser/v2 v2.5.1
 	golang.org/x/sync v0.1.0
 	golang.org/x/tools v0.7.0
