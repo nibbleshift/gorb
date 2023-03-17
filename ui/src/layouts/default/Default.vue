@@ -1,9 +1,9 @@
 <template>
-  <v-app>
+  <v-app >
     <v-layout>
-      <v-app-bar elevation=1 title="Gorb" ></v-app-bar>
+      <v-app-bar elevation="2" title="Go Regression and Benchmarks" ></v-app-bar>
       <v-navigation-drawer
-        class="bg-deep-purple"
+        class="primary"
         theme="dark"
         permanent
       >

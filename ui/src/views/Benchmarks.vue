@@ -8,7 +8,7 @@
             :headers="headers" 
             :items="benches.edges">
 	    <template v-slot:top>
-              <v-toolbar class="bg-deep-purple">
+              <v-toolbar>
                 <v-toolbar-title>Benchmarks</v-toolbar-title>
               </v-toolbar>
             </template>
