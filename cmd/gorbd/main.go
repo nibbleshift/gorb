@@ -43,7 +43,7 @@ func main() {
 
 	// Configure the server and start listening on :8081.
 	srv := handler.NewDefaultServer(graph.NewSchema(client))
-	router.Handle("/", playground.Handler("Starwars", "/query"))
+	router.Handle("/", playground.Handler("gorb", "/query"))
 	router.Handle("/query", srv)
 
 	err = http.ListenAndServe(":8081", router)
