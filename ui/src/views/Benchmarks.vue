@@ -1,7 +1,6 @@
 <template>
     <v-container  fluid>
       <v-responsive class="pa-3 align-center  ">
-        <div class="text-h4 pb-3">Benchmarks</div>
         <v-card elevation="1" class="mb-5">
 	  <v-data-table
             show-expand

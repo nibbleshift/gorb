@@ -4,6 +4,8 @@ Gorb is an experimental toolkit that allows you to execute and record Go benchma
 
 Gorb is currently under heavy development currently and not ready for use.
 
+![Dashboard](/assets/dashboard.png)
+
 ![Benchmarks](/assets/benchmarks.png)
 
 ![Benchmarks Expanded](/assets/benchmarks_expanded.png)
