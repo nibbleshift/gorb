@@ -168,10 +168,7 @@ func (bc *BenchCreate) createSpec() (*Bench, *sqlgraph.CreateSpec) {
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

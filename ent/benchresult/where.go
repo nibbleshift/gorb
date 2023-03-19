@@ -68,12 +68,12 @@ func NsPerOp(v float64) predicate.BenchResult {
 }
 
 // AllocedBytesPerOp applies equality check predicate on the "alloced_bytes_per_op" field. It's identical to AllocedBytesPerOpEQ.
-func AllocedBytesPerOp(v uint64) predicate.BenchResult {
+func AllocedBytesPerOp(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldAllocedBytesPerOp, v))
 }
 
 // AllocsPerOp applies equality check predicate on the "allocs_per_op" field. It's identical to AllocsPerOpEQ.
-func AllocsPerOp(v uint64) predicate.BenchResult {
+func AllocsPerOp(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldAllocsPerOp, v))
 }
 
@@ -83,12 +83,12 @@ func MBPerS(v float64) predicate.BenchResult {
 }
 
 // Measured applies equality check predicate on the "measured" field. It's identical to MeasuredEQ.
-func Measured(v int) predicate.BenchResult {
+func Measured(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldMeasured, v))
 }
 
 // Ord applies equality check predicate on the "ord" field. It's identical to OrdEQ.
-func Ord(v int) predicate.BenchResult {
+func Ord(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldOrd, v))
 }
 
@@ -238,82 +238,82 @@ func NsPerOpLTE(v float64) predicate.BenchResult {
 }
 
 // AllocedBytesPerOpEQ applies the EQ predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpEQ(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldAllocedBytesPerOp, v))
 }
 
 // AllocedBytesPerOpNEQ applies the NEQ predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpNEQ(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpNEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNEQ(FieldAllocedBytesPerOp, v))
 }
 
 // AllocedBytesPerOpIn applies the In predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpIn(vs ...uint64) predicate.BenchResult {
+func AllocedBytesPerOpIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldIn(FieldAllocedBytesPerOp, vs...))
 }
 
 // AllocedBytesPerOpNotIn applies the NotIn predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpNotIn(vs ...uint64) predicate.BenchResult {
+func AllocedBytesPerOpNotIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNotIn(FieldAllocedBytesPerOp, vs...))
 }
 
 // AllocedBytesPerOpGT applies the GT predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpGT(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpGT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGT(FieldAllocedBytesPerOp, v))
 }
 
 // AllocedBytesPerOpGTE applies the GTE predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpGTE(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpGTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGTE(FieldAllocedBytesPerOp, v))
 }
 
 // AllocedBytesPerOpLT applies the LT predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpLT(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpLT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLT(FieldAllocedBytesPerOp, v))
 }
 
 // AllocedBytesPerOpLTE applies the LTE predicate on the "alloced_bytes_per_op" field.
-func AllocedBytesPerOpLTE(v uint64) predicate.BenchResult {
+func AllocedBytesPerOpLTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLTE(FieldAllocedBytesPerOp, v))
 }
 
 // AllocsPerOpEQ applies the EQ predicate on the "allocs_per_op" field.
-func AllocsPerOpEQ(v uint64) predicate.BenchResult {
+func AllocsPerOpEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldAllocsPerOp, v))
 }
 
 // AllocsPerOpNEQ applies the NEQ predicate on the "allocs_per_op" field.
-func AllocsPerOpNEQ(v uint64) predicate.BenchResult {
+func AllocsPerOpNEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNEQ(FieldAllocsPerOp, v))
 }
 
 // AllocsPerOpIn applies the In predicate on the "allocs_per_op" field.
-func AllocsPerOpIn(vs ...uint64) predicate.BenchResult {
+func AllocsPerOpIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldIn(FieldAllocsPerOp, vs...))
 }
 
 // AllocsPerOpNotIn applies the NotIn predicate on the "allocs_per_op" field.
-func AllocsPerOpNotIn(vs ...uint64) predicate.BenchResult {
+func AllocsPerOpNotIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNotIn(FieldAllocsPerOp, vs...))
 }
 
 // AllocsPerOpGT applies the GT predicate on the "allocs_per_op" field.
-func AllocsPerOpGT(v uint64) predicate.BenchResult {
+func AllocsPerOpGT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGT(FieldAllocsPerOp, v))
 }
 
 // AllocsPerOpGTE applies the GTE predicate on the "allocs_per_op" field.
-func AllocsPerOpGTE(v uint64) predicate.BenchResult {
+func AllocsPerOpGTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGTE(FieldAllocsPerOp, v))
 }
 
 // AllocsPerOpLT applies the LT predicate on the "allocs_per_op" field.
-func AllocsPerOpLT(v uint64) predicate.BenchResult {
+func AllocsPerOpLT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLT(FieldAllocsPerOp, v))
 }
 
 // AllocsPerOpLTE applies the LTE predicate on the "allocs_per_op" field.
-func AllocsPerOpLTE(v uint64) predicate.BenchResult {
+func AllocsPerOpLTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLTE(FieldAllocsPerOp, v))
 }
 
@@ -358,82 +358,82 @@ func MBPerSLTE(v float64) predicate.BenchResult {
 }
 
 // MeasuredEQ applies the EQ predicate on the "measured" field.
-func MeasuredEQ(v int) predicate.BenchResult {
+func MeasuredEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldMeasured, v))
 }
 
 // MeasuredNEQ applies the NEQ predicate on the "measured" field.
-func MeasuredNEQ(v int) predicate.BenchResult {
+func MeasuredNEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNEQ(FieldMeasured, v))
 }
 
 // MeasuredIn applies the In predicate on the "measured" field.
-func MeasuredIn(vs ...int) predicate.BenchResult {
+func MeasuredIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldIn(FieldMeasured, vs...))
 }
 
 // MeasuredNotIn applies the NotIn predicate on the "measured" field.
-func MeasuredNotIn(vs ...int) predicate.BenchResult {
+func MeasuredNotIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNotIn(FieldMeasured, vs...))
 }
 
 // MeasuredGT applies the GT predicate on the "measured" field.
-func MeasuredGT(v int) predicate.BenchResult {
+func MeasuredGT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGT(FieldMeasured, v))
 }
 
 // MeasuredGTE applies the GTE predicate on the "measured" field.
-func MeasuredGTE(v int) predicate.BenchResult {
+func MeasuredGTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGTE(FieldMeasured, v))
 }
 
 // MeasuredLT applies the LT predicate on the "measured" field.
-func MeasuredLT(v int) predicate.BenchResult {
+func MeasuredLT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLT(FieldMeasured, v))
 }
 
 // MeasuredLTE applies the LTE predicate on the "measured" field.
-func MeasuredLTE(v int) predicate.BenchResult {
+func MeasuredLTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLTE(FieldMeasured, v))
 }
 
 // OrdEQ applies the EQ predicate on the "ord" field.
-func OrdEQ(v int) predicate.BenchResult {
+func OrdEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldEQ(FieldOrd, v))
 }
 
 // OrdNEQ applies the NEQ predicate on the "ord" field.
-func OrdNEQ(v int) predicate.BenchResult {
+func OrdNEQ(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNEQ(FieldOrd, v))
 }
 
 // OrdIn applies the In predicate on the "ord" field.
-func OrdIn(vs ...int) predicate.BenchResult {
+func OrdIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldIn(FieldOrd, vs...))
 }
 
 // OrdNotIn applies the NotIn predicate on the "ord" field.
-func OrdNotIn(vs ...int) predicate.BenchResult {
+func OrdNotIn(vs ...int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldNotIn(FieldOrd, vs...))
 }
 
 // OrdGT applies the GT predicate on the "ord" field.
-func OrdGT(v int) predicate.BenchResult {
+func OrdGT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGT(FieldOrd, v))
 }
 
 // OrdGTE applies the GTE predicate on the "ord" field.
-func OrdGTE(v int) predicate.BenchResult {
+func OrdGTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldGTE(FieldOrd, v))
 }
 
 // OrdLT applies the LT predicate on the "ord" field.
-func OrdLT(v int) predicate.BenchResult {
+func OrdLT(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLT(FieldOrd, v))
 }
 
 // OrdLTE applies the LTE predicate on the "ord" field.
-func OrdLTE(v int) predicate.BenchResult {
+func OrdLTE(v int64) predicate.BenchResult {
 	return predicate.BenchResult(sql.FieldLTE(FieldOrd, v))
 }
 

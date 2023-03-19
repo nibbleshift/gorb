@@ -29,11 +29,11 @@ var (
 		{Name: "name", Type: field.TypeString},
 		{Name: "n", Type: field.TypeInt64},
 		{Name: "ns_per_op", Type: field.TypeFloat64},
-		{Name: "alloced_bytes_per_op", Type: field.TypeUint64},
-		{Name: "allocs_per_op", Type: field.TypeUint64},
+		{Name: "alloced_bytes_per_op", Type: field.TypeInt64},
+		{Name: "allocs_per_op", Type: field.TypeInt64},
 		{Name: "mb_per_s", Type: field.TypeFloat64},
-		{Name: "measured", Type: field.TypeInt},
-		{Name: "ord", Type: field.TypeInt},
+		{Name: "measured", Type: field.TypeInt64},
+		{Name: "ord", Type: field.TypeInt64},
 		{Name: "bench_bench_result", Type: field.TypeInt, Nullable: true},
 	}
 	// BenchResultsTable holds the schema information for the "bench_results" table.

@@ -674,16 +674,16 @@ type BenchResultMutation struct {
 	addn                    *int64
 	ns_per_op               *float64
 	addns_per_op            *float64
-	alloced_bytes_per_op    *uint64
+	alloced_bytes_per_op    *int64
 	addalloced_bytes_per_op *int64
-	allocs_per_op           *uint64
+	allocs_per_op           *int64
 	addallocs_per_op        *int64
 	mb_per_s                *float64
 	addmb_per_s             *float64
-	measured                *int
-	addmeasured             *int
-	ord                     *int
-	addord                  *int
+	measured                *int64
+	addmeasured             *int64
+	ord                     *int64
+	addord                  *int64
 	clearedFields           map[string]struct{}
 	done                    bool
 	oldValue                func(context.Context) (*BenchResult, error)
@@ -937,13 +937,13 @@ func (m *BenchResultMutation) ResetNsPerOp() {
 }
 
 // SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
-func (m *BenchResultMutation) SetAllocedBytesPerOp(u uint64) {
-	m.alloced_bytes_per_op = &u
+func (m *BenchResultMutation) SetAllocedBytesPerOp(i int64) {
+	m.alloced_bytes_per_op = &i
 	m.addalloced_bytes_per_op = nil
 }
 
 // AllocedBytesPerOp returns the value of the "alloced_bytes_per_op" field in the mutation.
-func (m *BenchResultMutation) AllocedBytesPerOp() (r uint64, exists bool) {
+func (m *BenchResultMutation) AllocedBytesPerOp() (r int64, exists bool) {
 	v := m.alloced_bytes_per_op
 	if v == nil {
 		return
@@ -954,7 +954,7 @@ func (m *BenchResultMutation) AllocedBytesPerOp() (r uint64, exists bool) {
 // OldAllocedBytesPerOp returns the old "alloced_bytes_per_op" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchResultMutation) OldAllocedBytesPerOp(ctx context.Context) (v uint64, err error) {
+func (m *BenchResultMutation) OldAllocedBytesPerOp(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAllocedBytesPerOp is only allowed on UpdateOne operations")
 	}
@@ -968,12 +968,12 @@ func (m *BenchResultMutation) OldAllocedBytesPerOp(ctx context.Context) (v uint6
 	return oldValue.AllocedBytesPerOp, nil
 }
 
-// AddAllocedBytesPerOp adds u to the "alloced_bytes_per_op" field.
-func (m *BenchResultMutation) AddAllocedBytesPerOp(u int64) {
+// AddAllocedBytesPerOp adds i to the "alloced_bytes_per_op" field.
+func (m *BenchResultMutation) AddAllocedBytesPerOp(i int64) {
 	if m.addalloced_bytes_per_op != nil {
-		*m.addalloced_bytes_per_op += u
+		*m.addalloced_bytes_per_op += i
 	} else {
-		m.addalloced_bytes_per_op = &u
+		m.addalloced_bytes_per_op = &i
 	}
 }
 
@@ -993,13 +993,13 @@ func (m *BenchResultMutation) ResetAllocedBytesPerOp() {
 }
 
 // SetAllocsPerOp sets the "allocs_per_op" field.
-func (m *BenchResultMutation) SetAllocsPerOp(u uint64) {
-	m.allocs_per_op = &u
+func (m *BenchResultMutation) SetAllocsPerOp(i int64) {
+	m.allocs_per_op = &i
 	m.addallocs_per_op = nil
 }
 
 // AllocsPerOp returns the value of the "allocs_per_op" field in the mutation.
-func (m *BenchResultMutation) AllocsPerOp() (r uint64, exists bool) {
+func (m *BenchResultMutation) AllocsPerOp() (r int64, exists bool) {
 	v := m.allocs_per_op
 	if v == nil {
 		return
@@ -1010,7 +1010,7 @@ func (m *BenchResultMutation) AllocsPerOp() (r uint64, exists bool) {
 // OldAllocsPerOp returns the old "allocs_per_op" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchResultMutation) OldAllocsPerOp(ctx context.Context) (v uint64, err error) {
+func (m *BenchResultMutation) OldAllocsPerOp(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAllocsPerOp is only allowed on UpdateOne operations")
 	}
@@ -1024,12 +1024,12 @@ func (m *BenchResultMutation) OldAllocsPerOp(ctx context.Context) (v uint64, err
 	return oldValue.AllocsPerOp, nil
 }
 
-// AddAllocsPerOp adds u to the "allocs_per_op" field.
-func (m *BenchResultMutation) AddAllocsPerOp(u int64) {
+// AddAllocsPerOp adds i to the "allocs_per_op" field.
+func (m *BenchResultMutation) AddAllocsPerOp(i int64) {
 	if m.addallocs_per_op != nil {
-		*m.addallocs_per_op += u
+		*m.addallocs_per_op += i
 	} else {
-		m.addallocs_per_op = &u
+		m.addallocs_per_op = &i
 	}
 }
 
@@ -1105,13 +1105,13 @@ func (m *BenchResultMutation) ResetMBPerS() {
 }
 
 // SetMeasured sets the "measured" field.
-func (m *BenchResultMutation) SetMeasured(i int) {
+func (m *BenchResultMutation) SetMeasured(i int64) {
 	m.measured = &i
 	m.addmeasured = nil
 }
 
 // Measured returns the value of the "measured" field in the mutation.
-func (m *BenchResultMutation) Measured() (r int, exists bool) {
+func (m *BenchResultMutation) Measured() (r int64, exists bool) {
 	v := m.measured
 	if v == nil {
 		return
@@ -1122,7 +1122,7 @@ func (m *BenchResultMutation) Measured() (r int, exists bool) {
 // OldMeasured returns the old "measured" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchResultMutation) OldMeasured(ctx context.Context) (v int, err error) {
+func (m *BenchResultMutation) OldMeasured(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldMeasured is only allowed on UpdateOne operations")
 	}
@@ -1137,7 +1137,7 @@ func (m *BenchResultMutation) OldMeasured(ctx context.Context) (v int, err error
 }
 
 // AddMeasured adds i to the "measured" field.
-func (m *BenchResultMutation) AddMeasured(i int) {
+func (m *BenchResultMutation) AddMeasured(i int64) {
 	if m.addmeasured != nil {
 		*m.addmeasured += i
 	} else {
@@ -1146,7 +1146,7 @@ func (m *BenchResultMutation) AddMeasured(i int) {
 }
 
 // AddedMeasured returns the value that was added to the "measured" field in this mutation.
-func (m *BenchResultMutation) AddedMeasured() (r int, exists bool) {
+func (m *BenchResultMutation) AddedMeasured() (r int64, exists bool) {
 	v := m.addmeasured
 	if v == nil {
 		return
@@ -1161,13 +1161,13 @@ func (m *BenchResultMutation) ResetMeasured() {
 }
 
 // SetOrd sets the "ord" field.
-func (m *BenchResultMutation) SetOrd(i int) {
+func (m *BenchResultMutation) SetOrd(i int64) {
 	m.ord = &i
 	m.addord = nil
 }
 
 // Ord returns the value of the "ord" field in the mutation.
-func (m *BenchResultMutation) Ord() (r int, exists bool) {
+func (m *BenchResultMutation) Ord() (r int64, exists bool) {
 	v := m.ord
 	if v == nil {
 		return
@@ -1178,7 +1178,7 @@ func (m *BenchResultMutation) Ord() (r int, exists bool) {
 // OldOrd returns the old "ord" field's value of the BenchResult entity.
 // If the BenchResult object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *BenchResultMutation) OldOrd(ctx context.Context) (v int, err error) {
+func (m *BenchResultMutation) OldOrd(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldOrd is only allowed on UpdateOne operations")
 	}
@@ -1193,7 +1193,7 @@ func (m *BenchResultMutation) OldOrd(ctx context.Context) (v int, err error) {
 }
 
 // AddOrd adds i to the "ord" field.
-func (m *BenchResultMutation) AddOrd(i int) {
+func (m *BenchResultMutation) AddOrd(i int64) {
 	if m.addord != nil {
 		*m.addord += i
 	} else {
@@ -1202,7 +1202,7 @@ func (m *BenchResultMutation) AddOrd(i int) {
 }
 
 // AddedOrd returns the value that was added to the "ord" field in this mutation.
-func (m *BenchResultMutation) AddedOrd() (r int, exists bool) {
+func (m *BenchResultMutation) AddedOrd() (r int64, exists bool) {
 	v := m.addord
 	if v == nil {
 		return
@@ -1355,14 +1355,14 @@ func (m *BenchResultMutation) SetField(name string, value ent.Value) error {
 		m.SetNsPerOp(v)
 		return nil
 	case benchresult.FieldAllocedBytesPerOp:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetAllocedBytesPerOp(v)
 		return nil
 	case benchresult.FieldAllocsPerOp:
-		v, ok := value.(uint64)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1376,14 +1376,14 @@ func (m *BenchResultMutation) SetField(name string, value ent.Value) error {
 		m.SetMBPerS(v)
 		return nil
 	case benchresult.FieldMeasured:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMeasured(v)
 		return nil
 	case benchresult.FieldOrd:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1485,14 +1485,14 @@ func (m *BenchResultMutation) AddField(name string, value ent.Value) error {
 		m.AddMBPerS(v)
 		return nil
 	case benchresult.FieldMeasured:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddMeasured(v)
 		return nil
 	case benchresult.FieldOrd:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

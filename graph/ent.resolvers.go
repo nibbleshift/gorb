@@ -13,16 +13,6 @@ import (
 	"github.com/nibbleshift/gorb/graph/generated"
 )
 
-// AllocedBytesPerOp is the resolver for the allocedbytesperop field.
-func (r *benchResultResolver) AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResult) (int, error) {
-	return int(obj.AllocedBytesPerOp), nil
-}
-
-// AllocsPerOp is the resolver for the allocsperop field.
-func (r *benchResultResolver) AllocsPerOp(ctx context.Context, obj *ent.BenchResult) (int, error) {
-	return int(obj.AllocsPerOp), nil
-}
-
 // Node is the resolver for the node field.
 func (r *queryResolver) Node(ctx context.Context, id int) (ent.Noder, error) {
 	return r.client.Noder(ctx, id)
@@ -44,113 +34,7 @@ func (r *queryResolver) BenchResults(ctx context.Context, after *entgql.Cursor[i
 	panic(fmt.Errorf("not implemented: BenchResults - benchResults"))
 }
 
-// AllocedBytesPerOp is the resolver for the allocedBytesPerOp field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOp - allocedBytesPerOp"))
-}
-
-// AllocedBytesPerOpNeq is the resolver for the allocedBytesPerOpNEQ field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpNeq(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpNeq - allocedBytesPerOpNEQ"))
-}
-
-// AllocedBytesPerOpIn is the resolver for the allocedBytesPerOpIn field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpIn - allocedBytesPerOpIn"))
-}
-
-// AllocedBytesPerOpNotIn is the resolver for the allocedBytesPerOpNotIn field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpNotIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpNotIn - allocedBytesPerOpNotIn"))
-}
-
-// AllocedBytesPerOpGt is the resolver for the allocedBytesPerOpGT field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpGt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpGt - allocedBytesPerOpGT"))
-}
-
-// AllocedBytesPerOpGte is the resolver for the allocedBytesPerOpGTE field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpGte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpGte - allocedBytesPerOpGTE"))
-}
-
-// AllocedBytesPerOpLt is the resolver for the allocedBytesPerOpLT field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpLt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpLt - allocedBytesPerOpLT"))
-}
-
-// AllocedBytesPerOpLte is the resolver for the allocedBytesPerOpLTE field.
-func (r *benchResultWhereInputResolver) AllocedBytesPerOpLte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocedBytesPerOpLte - allocedBytesPerOpLTE"))
-}
-
-// AllocsPerOp is the resolver for the allocsPerOp field.
-func (r *benchResultWhereInputResolver) AllocsPerOp(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOp - allocsPerOp"))
-}
-
-// AllocsPerOpNeq is the resolver for the allocsPerOpNEQ field.
-func (r *benchResultWhereInputResolver) AllocsPerOpNeq(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpNeq - allocsPerOpNEQ"))
-}
-
-// AllocsPerOpIn is the resolver for the allocsPerOpIn field.
-func (r *benchResultWhereInputResolver) AllocsPerOpIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpIn - allocsPerOpIn"))
-}
-
-// AllocsPerOpNotIn is the resolver for the allocsPerOpNotIn field.
-func (r *benchResultWhereInputResolver) AllocsPerOpNotIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpNotIn - allocsPerOpNotIn"))
-}
-
-// AllocsPerOpGt is the resolver for the allocsPerOpGT field.
-func (r *benchResultWhereInputResolver) AllocsPerOpGt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpGt - allocsPerOpGT"))
-}
-
-// AllocsPerOpGte is the resolver for the allocsPerOpGTE field.
-func (r *benchResultWhereInputResolver) AllocsPerOpGte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpGte - allocsPerOpGTE"))
-}
-
-// AllocsPerOpLt is the resolver for the allocsPerOpLT field.
-func (r *benchResultWhereInputResolver) AllocsPerOpLt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpLt - allocsPerOpLT"))
-}
-
-// AllocsPerOpLte is the resolver for the allocsPerOpLTE field.
-func (r *benchResultWhereInputResolver) AllocsPerOpLte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error {
-	panic(fmt.Errorf("not implemented: AllocsPerOpLte - allocsPerOpLTE"))
-}
-
-// AllocedBytesPerOp is the resolver for the allocedBytesPerOp field.
-func (r *createBenchResultInputResolver) AllocedBytesPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
-	return nil
-}
-
-// AllocsPerOp is the resolver for the allocsPerOp field.
-func (r *createBenchResultInputResolver) AllocsPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error {
-	return nil
-}
-
-// BenchResult returns generated.BenchResultResolver implementation.
-func (r *Resolver) BenchResult() generated.BenchResultResolver { return &benchResultResolver{r} }
-
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
-// BenchResultWhereInput returns generated.BenchResultWhereInputResolver implementation.
-func (r *Resolver) BenchResultWhereInput() generated.BenchResultWhereInputResolver {
-	return &benchResultWhereInputResolver{r}
-}
-
-// CreateBenchResultInput returns generated.CreateBenchResultInputResolver implementation.
-func (r *Resolver) CreateBenchResultInput() generated.CreateBenchResultInputResolver {
-	return &createBenchResultInputResolver{r}
-}
-
-type benchResultResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-type benchResultWhereInputResolver struct{ *Resolver }
-type createBenchResultInputResolver struct{ *Resolver }

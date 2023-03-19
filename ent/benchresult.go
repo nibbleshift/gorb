@@ -22,15 +22,15 @@ type BenchResult struct {
 	// NsPerOp holds the value of the "ns_per_op" field.
 	NsPerOp float64 `json:"ns_per_op,omitempty"`
 	// AllocedBytesPerOp holds the value of the "alloced_bytes_per_op" field.
-	AllocedBytesPerOp uint64 `json:"alloced_bytes_per_op,omitempty"`
+	AllocedBytesPerOp int64 `json:"alloced_bytes_per_op,omitempty"`
 	// AllocsPerOp holds the value of the "allocs_per_op" field.
-	AllocsPerOp uint64 `json:"allocs_per_op,omitempty"`
+	AllocsPerOp int64 `json:"allocs_per_op,omitempty"`
 	// MBPerS holds the value of the "mb_per_s" field.
 	MBPerS float64 `json:"mb_per_s,omitempty"`
 	// Measured holds the value of the "measured" field.
-	Measured int `json:"measured,omitempty"`
+	Measured int64 `json:"measured,omitempty"`
 	// Ord holds the value of the "ord" field.
-	Ord                int `json:"ord,omitempty"`
+	Ord                int64 `json:"ord,omitempty"`
 	bench_bench_result *int
 }
 
@@ -90,13 +90,13 @@ func (br *BenchResult) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field alloced_bytes_per_op", values[i])
 			} else if value.Valid {
-				br.AllocedBytesPerOp = uint64(value.Int64)
+				br.AllocedBytesPerOp = value.Int64
 			}
 		case benchresult.FieldAllocsPerOp:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field allocs_per_op", values[i])
 			} else if value.Valid {
-				br.AllocsPerOp = uint64(value.Int64)
+				br.AllocsPerOp = value.Int64
 			}
 		case benchresult.FieldMBPerS:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
@@ -108,13 +108,13 @@ func (br *BenchResult) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field measured", values[i])
 			} else if value.Valid {
-				br.Measured = int(value.Int64)
+				br.Measured = value.Int64
 			}
 		case benchresult.FieldOrd:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field ord", values[i])
 			} else if value.Valid {
-				br.Ord = int(value.Int64)
+				br.Ord = value.Int64
 			}
 		case benchresult.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {

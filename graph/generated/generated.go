@@ -37,11 +37,8 @@ type Config struct {
 }
 
 type ResolverRoot interface {
-	BenchResult() BenchResultResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
-	BenchResultWhereInput() BenchResultWhereInputResolver
-	CreateBenchResultInput() CreateBenchResultInputResolver
 }
 
 type DirectiveRoot struct {
@@ -111,10 +108,6 @@ type ComplexityRoot struct {
 	}
 }
 
-type BenchResultResolver interface {
-	AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResult) (int, error)
-	AllocsPerOp(ctx context.Context, obj *ent.BenchResult) (int, error)
-}
 type MutationResolver interface {
 	CreateBenchmark(ctx context.Context, input ent.CreateBenchInput, results []*ent.CreateBenchResultInput) (*ent.Bench, error)
 }
@@ -123,29 +116,6 @@ type QueryResolver interface {
 	Nodes(ctx context.Context, ids []int) ([]ent.Noder, error)
 	Benches(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int, where *ent.BenchWhereInput) (*ent.BenchConnection, error)
 	BenchResults(ctx context.Context, after *entgql.Cursor[int], first *int, before *entgql.Cursor[int], last *int, where *ent.BenchResultWhereInput) (*ent.BenchResultConnection, error)
-}
-
-type BenchResultWhereInputResolver interface {
-	AllocedBytesPerOp(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocedBytesPerOpNeq(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocedBytesPerOpIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error
-	AllocedBytesPerOpNotIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error
-	AllocedBytesPerOpGt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocedBytesPerOpGte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocedBytesPerOpLt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocedBytesPerOpLte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOp(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOpNeq(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOpIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error
-	AllocsPerOpNotIn(ctx context.Context, obj *ent.BenchResultWhereInput, data []int) error
-	AllocsPerOpGt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOpGte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOpLt(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-	AllocsPerOpLte(ctx context.Context, obj *ent.BenchResultWhereInput, data *int) error
-}
-type CreateBenchResultInputResolver interface {
-	AllocedBytesPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error
-	AllocsPerOp(ctx context.Context, obj *ent.CreateBenchResultInput, data int) error
 }
 
 type executableSchema struct {
@@ -1820,7 +1790,7 @@ func (ec *executionContext) _BenchResult_allocedBytesPerOp(ctx context.Context, 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.BenchResult().AllocedBytesPerOp(rctx, obj)
+		return obj.AllocedBytesPerOp, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1832,17 +1802,17 @@ func (ec *executionContext) _BenchResult_allocedBytesPerOp(ctx context.Context, 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(int64)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_BenchResult_allocedBytesPerOp(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "BenchResult",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
@@ -1864,7 +1834,7 @@ func (ec *executionContext) _BenchResult_allocsPerOp(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.BenchResult().AllocsPerOp(rctx, obj)
+		return obj.AllocsPerOp, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1876,17 +1846,17 @@ func (ec *executionContext) _BenchResult_allocsPerOp(ctx context.Context, field 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(int64)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_BenchResult_allocsPerOp(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "BenchResult",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
@@ -1964,9 +1934,9 @@ func (ec *executionContext) _BenchResult_measured(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(int64)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_BenchResult_measured(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2008,9 +1978,9 @@ func (ec *executionContext) _BenchResult_ord(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(int64)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_BenchResult_ord(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -4990,176 +4960,128 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOp"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOp, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOp(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpNEQ"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOpNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpIn"))
-			data, err := ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.AllocedBytesPerOpIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpNotIn"))
-			data, err := ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.AllocedBytesPerOpNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpGT"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOpGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpGTE"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOpGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpLT"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOpLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocedBytesPerOpLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOpLTE"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocedBytesPerOpLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocedBytesPerOpLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOp":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOp"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOp, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOp(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpNEQ":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpNEQ"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOpNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpNeq(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpIn"))
-			data, err := ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.AllocsPerOpIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpNotIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpNotIn"))
-			data, err := ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.AllocsPerOpNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpNotIn(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpGT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpGT"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOpGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpGt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpGTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpGTE"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOpGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpGte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpLT":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpLT"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOpLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpLt(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOpLTE":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOpLTE"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
+			it.AllocsPerOpLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.BenchResultWhereInput().AllocsPerOpLte(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "mbPerS":
@@ -5230,7 +5152,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measured"))
-			it.Measured, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.Measured, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5238,7 +5160,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredNEQ"))
-			it.MeasuredNEQ, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.MeasuredNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5246,7 +5168,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredIn"))
-			it.MeasuredIn, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.MeasuredIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5254,7 +5176,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredNotIn"))
-			it.MeasuredNotIn, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.MeasuredNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5262,7 +5184,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredGT"))
-			it.MeasuredGT, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.MeasuredGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5270,7 +5192,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredGTE"))
-			it.MeasuredGTE, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.MeasuredGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5278,7 +5200,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredLT"))
-			it.MeasuredLT, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.MeasuredLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5286,7 +5208,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measuredLTE"))
-			it.MeasuredLTE, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.MeasuredLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5294,7 +5216,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ord"))
-			it.Ord, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.Ord, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5302,7 +5224,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordNEQ"))
-			it.OrdNEQ, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.OrdNEQ, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5310,7 +5232,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordIn"))
-			it.OrdIn, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.OrdIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5318,7 +5240,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordNotIn"))
-			it.OrdNotIn, err = ec.unmarshalOInt2ᚕintᚄ(ctx, v)
+			it.OrdNotIn, err = ec.unmarshalOInt2ᚕint64ᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5326,7 +5248,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordGT"))
-			it.OrdGT, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.OrdGT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5334,7 +5256,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordGTE"))
-			it.OrdGTE, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.OrdGTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5342,7 +5264,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordLT"))
-			it.OrdLT, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.OrdLT, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -5350,7 +5272,7 @@ func (ec *executionContext) unmarshalInputBenchResultWhereInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ordLTE"))
-			it.OrdLTE, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			it.OrdLTE, err = ec.unmarshalOInt2ᚖint64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6026,22 +5948,16 @@ func (ec *executionContext) unmarshalInputCreateBenchResultInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocedBytesPerOp"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			it.AllocedBytesPerOp, err = ec.unmarshalNInt2int64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.CreateBenchResultInput().AllocedBytesPerOp(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "allocsPerOp":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("allocsPerOp"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			it.AllocsPerOp, err = ec.unmarshalNInt2int64(ctx, v)
 			if err != nil {
-				return it, err
-			}
-			if err = ec.resolvers.CreateBenchResultInput().AllocsPerOp(ctx, &it, data); err != nil {
 				return it, err
 			}
 		case "mbPerS":
@@ -6056,7 +5972,7 @@ func (ec *executionContext) unmarshalInputCreateBenchResultInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("measured"))
-			it.Measured, err = ec.unmarshalNInt2int(ctx, v)
+			it.Measured, err = ec.unmarshalNInt2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6064,7 +5980,7 @@ func (ec *executionContext) unmarshalInputCreateBenchResultInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ord"))
-			it.Ord, err = ec.unmarshalNInt2int(ctx, v)
+			it.Ord, err = ec.unmarshalNInt2int64(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6267,89 +6183,63 @@ func (ec *executionContext) _BenchResult(ctx context.Context, sel ast.SelectionS
 			out.Values[i] = ec._BenchResult_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "name":
 
 			out.Values[i] = ec._BenchResult_name(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "n":
 
 			out.Values[i] = ec._BenchResult_n(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "nsPerOp":
 
 			out.Values[i] = ec._BenchResult_nsPerOp(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "allocedBytesPerOp":
-			field := field
 
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._BenchResult_allocedBytesPerOp(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._BenchResult_allocedBytesPerOp(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
 			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
 		case "allocsPerOp":
-			field := field
 
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._BenchResult_allocsPerOp(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._BenchResult_allocsPerOp(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
 			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
 		case "mbPerS":
 
 			out.Values[i] = ec._BenchResult_mbPerS(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "measured":
 
 			out.Values[i] = ec._BenchResult_measured(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		case "ord":
 
 			out.Values[i] = ec._BenchResult_ord(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+				invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -7873,44 +7763,6 @@ func (ec *executionContext) marshalOInt2ᚕint64ᚄ(ctx context.Context, sel ast
 	ret := make(graphql.Array, len(v))
 	for i := range v {
 		ret[i] = ec.marshalNInt2int64(ctx, sel, v[i])
-	}
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) unmarshalOInt2ᚕintᚄ(ctx context.Context, v interface{}) ([]int, error) {
-	if v == nil {
-		return nil, nil
-	}
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]int, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNInt2int(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) marshalOInt2ᚕintᚄ(ctx context.Context, sel ast.SelectionSet, v []int) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	for i := range v {
-		ret[i] = ec.marshalNInt2int(ctx, sel, v[i])
 	}
 
 	for _, e := range ret {

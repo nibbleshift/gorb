@@ -38,14 +38,14 @@ func (brc *BenchResultCreate) SetNsPerOp(f float64) *BenchResultCreate {
 }
 
 // SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
-func (brc *BenchResultCreate) SetAllocedBytesPerOp(u uint64) *BenchResultCreate {
-	brc.mutation.SetAllocedBytesPerOp(u)
+func (brc *BenchResultCreate) SetAllocedBytesPerOp(i int64) *BenchResultCreate {
+	brc.mutation.SetAllocedBytesPerOp(i)
 	return brc
 }
 
 // SetAllocsPerOp sets the "allocs_per_op" field.
-func (brc *BenchResultCreate) SetAllocsPerOp(u uint64) *BenchResultCreate {
-	brc.mutation.SetAllocsPerOp(u)
+func (brc *BenchResultCreate) SetAllocsPerOp(i int64) *BenchResultCreate {
+	brc.mutation.SetAllocsPerOp(i)
 	return brc
 }
 
@@ -56,13 +56,13 @@ func (brc *BenchResultCreate) SetMBPerS(f float64) *BenchResultCreate {
 }
 
 // SetMeasured sets the "measured" field.
-func (brc *BenchResultCreate) SetMeasured(i int) *BenchResultCreate {
+func (brc *BenchResultCreate) SetMeasured(i int64) *BenchResultCreate {
 	brc.mutation.SetMeasured(i)
 	return brc
 }
 
 // SetOrd sets the "ord" field.
-func (brc *BenchResultCreate) SetOrd(i int) *BenchResultCreate {
+func (brc *BenchResultCreate) SetOrd(i int64) *BenchResultCreate {
 	brc.mutation.SetOrd(i)
 	return brc
 }
@@ -164,11 +164,11 @@ func (brc *BenchResultCreate) createSpec() (*BenchResult, *sqlgraph.CreateSpec) 
 		_node.NsPerOp = value
 	}
 	if value, ok := brc.mutation.AllocedBytesPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeInt64, value)
 		_node.AllocedBytesPerOp = value
 	}
 	if value, ok := brc.mutation.AllocsPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeInt64, value)
 		_node.AllocsPerOp = value
 	}
 	if value, ok := brc.mutation.MBPerS(); ok {
@@ -176,11 +176,11 @@ func (brc *BenchResultCreate) createSpec() (*BenchResult, *sqlgraph.CreateSpec) 
 		_node.MBPerS = value
 	}
 	if value, ok := brc.mutation.Measured(); ok {
-		_spec.SetField(benchresult.FieldMeasured, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldMeasured, field.TypeInt64, value)
 		_node.Measured = value
 	}
 	if value, ok := brc.mutation.Ord(); ok {
-		_spec.SetField(benchresult.FieldOrd, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldOrd, field.TypeInt64, value)
 		_node.Ord = value
 	}
 	return _node, _spec

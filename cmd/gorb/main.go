@@ -3,22 +3,36 @@ package main
 import (
 	"context"
 
-	_ "github.com/lib/pq"
-	"github.com/nibbleshift/gorb/internal/exec"
-
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/davecgh/go-spew/spew"
+	_ "github.com/lib/pq"
+	"github.com/nibbleshift/gorb/internal/exec"
+	"gitlab.com/nibbleshift/argenv"
 
 	"github.com/Yamashou/gqlgenc/clientv2"
 	"github.com/nibbleshift/gorb/pkg/client"
 	gorb "github.com/nibbleshift/gorb/pkg/client"
 )
 
+type Config struct {
+	Debug bool `default:"false" description:"Enable debug"`
+}
+
+var config *Config
+
 func main() {
 	var (
 		err error
 	)
+
+	argEnv := &argenv.ArgEnv{}
+	config = &Config{}
+
+	argEnv.Load(config)
+
 	e := exec.NewExec()
 	result := e.Run("/usr/local/bin/go", "-test", "-bench=.")
 
@@ -50,6 +64,10 @@ func main() {
 			Ord:               int64(r.Ord),
 		}
 		benchResults = append(benchResults, br)
+	}
+
+	if config.Debug {
+		spew.Dump(benchResults)
 	}
 
 	_, err = gorbClient.CreateBench(ctx, bench, benchResults)

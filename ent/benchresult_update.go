@@ -60,28 +60,28 @@ func (bru *BenchResultUpdate) AddNsPerOp(f float64) *BenchResultUpdate {
 }
 
 // SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
-func (bru *BenchResultUpdate) SetAllocedBytesPerOp(u uint64) *BenchResultUpdate {
+func (bru *BenchResultUpdate) SetAllocedBytesPerOp(i int64) *BenchResultUpdate {
 	bru.mutation.ResetAllocedBytesPerOp()
-	bru.mutation.SetAllocedBytesPerOp(u)
+	bru.mutation.SetAllocedBytesPerOp(i)
 	return bru
 }
 
-// AddAllocedBytesPerOp adds u to the "alloced_bytes_per_op" field.
-func (bru *BenchResultUpdate) AddAllocedBytesPerOp(u int64) *BenchResultUpdate {
-	bru.mutation.AddAllocedBytesPerOp(u)
+// AddAllocedBytesPerOp adds i to the "alloced_bytes_per_op" field.
+func (bru *BenchResultUpdate) AddAllocedBytesPerOp(i int64) *BenchResultUpdate {
+	bru.mutation.AddAllocedBytesPerOp(i)
 	return bru
 }
 
 // SetAllocsPerOp sets the "allocs_per_op" field.
-func (bru *BenchResultUpdate) SetAllocsPerOp(u uint64) *BenchResultUpdate {
+func (bru *BenchResultUpdate) SetAllocsPerOp(i int64) *BenchResultUpdate {
 	bru.mutation.ResetAllocsPerOp()
-	bru.mutation.SetAllocsPerOp(u)
+	bru.mutation.SetAllocsPerOp(i)
 	return bru
 }
 
-// AddAllocsPerOp adds u to the "allocs_per_op" field.
-func (bru *BenchResultUpdate) AddAllocsPerOp(u int64) *BenchResultUpdate {
-	bru.mutation.AddAllocsPerOp(u)
+// AddAllocsPerOp adds i to the "allocs_per_op" field.
+func (bru *BenchResultUpdate) AddAllocsPerOp(i int64) *BenchResultUpdate {
+	bru.mutation.AddAllocsPerOp(i)
 	return bru
 }
 
@@ -99,27 +99,27 @@ func (bru *BenchResultUpdate) AddMBPerS(f float64) *BenchResultUpdate {
 }
 
 // SetMeasured sets the "measured" field.
-func (bru *BenchResultUpdate) SetMeasured(i int) *BenchResultUpdate {
+func (bru *BenchResultUpdate) SetMeasured(i int64) *BenchResultUpdate {
 	bru.mutation.ResetMeasured()
 	bru.mutation.SetMeasured(i)
 	return bru
 }
 
 // AddMeasured adds i to the "measured" field.
-func (bru *BenchResultUpdate) AddMeasured(i int) *BenchResultUpdate {
+func (bru *BenchResultUpdate) AddMeasured(i int64) *BenchResultUpdate {
 	bru.mutation.AddMeasured(i)
 	return bru
 }
 
 // SetOrd sets the "ord" field.
-func (bru *BenchResultUpdate) SetOrd(i int) *BenchResultUpdate {
+func (bru *BenchResultUpdate) SetOrd(i int64) *BenchResultUpdate {
 	bru.mutation.ResetOrd()
 	bru.mutation.SetOrd(i)
 	return bru
 }
 
 // AddOrd adds i to the "ord" field.
-func (bru *BenchResultUpdate) AddOrd(i int) *BenchResultUpdate {
+func (bru *BenchResultUpdate) AddOrd(i int64) *BenchResultUpdate {
 	bru.mutation.AddOrd(i)
 	return bru
 }
@@ -181,16 +181,16 @@ func (bru *BenchResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.AddField(benchresult.FieldNsPerOp, field.TypeFloat64, value)
 	}
 	if value, ok := bru.mutation.AllocedBytesPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.AddedAllocedBytesPerOp(); ok {
-		_spec.AddField(benchresult.FieldAllocedBytesPerOp, field.TypeUint64, value)
+		_spec.AddField(benchresult.FieldAllocedBytesPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.AllocsPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.AddedAllocsPerOp(); ok {
-		_spec.AddField(benchresult.FieldAllocsPerOp, field.TypeUint64, value)
+		_spec.AddField(benchresult.FieldAllocsPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.MBPerS(); ok {
 		_spec.SetField(benchresult.FieldMBPerS, field.TypeFloat64, value)
@@ -199,16 +199,16 @@ func (bru *BenchResultUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.AddField(benchresult.FieldMBPerS, field.TypeFloat64, value)
 	}
 	if value, ok := bru.mutation.Measured(); ok {
-		_spec.SetField(benchresult.FieldMeasured, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldMeasured, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.AddedMeasured(); ok {
-		_spec.AddField(benchresult.FieldMeasured, field.TypeInt, value)
+		_spec.AddField(benchresult.FieldMeasured, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.Ord(); ok {
-		_spec.SetField(benchresult.FieldOrd, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldOrd, field.TypeInt64, value)
 	}
 	if value, ok := bru.mutation.AddedOrd(); ok {
-		_spec.AddField(benchresult.FieldOrd, field.TypeInt, value)
+		_spec.AddField(benchresult.FieldOrd, field.TypeInt64, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, bru.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -263,28 +263,28 @@ func (bruo *BenchResultUpdateOne) AddNsPerOp(f float64) *BenchResultUpdateOne {
 }
 
 // SetAllocedBytesPerOp sets the "alloced_bytes_per_op" field.
-func (bruo *BenchResultUpdateOne) SetAllocedBytesPerOp(u uint64) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) SetAllocedBytesPerOp(i int64) *BenchResultUpdateOne {
 	bruo.mutation.ResetAllocedBytesPerOp()
-	bruo.mutation.SetAllocedBytesPerOp(u)
+	bruo.mutation.SetAllocedBytesPerOp(i)
 	return bruo
 }
 
-// AddAllocedBytesPerOp adds u to the "alloced_bytes_per_op" field.
-func (bruo *BenchResultUpdateOne) AddAllocedBytesPerOp(u int64) *BenchResultUpdateOne {
-	bruo.mutation.AddAllocedBytesPerOp(u)
+// AddAllocedBytesPerOp adds i to the "alloced_bytes_per_op" field.
+func (bruo *BenchResultUpdateOne) AddAllocedBytesPerOp(i int64) *BenchResultUpdateOne {
+	bruo.mutation.AddAllocedBytesPerOp(i)
 	return bruo
 }
 
 // SetAllocsPerOp sets the "allocs_per_op" field.
-func (bruo *BenchResultUpdateOne) SetAllocsPerOp(u uint64) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) SetAllocsPerOp(i int64) *BenchResultUpdateOne {
 	bruo.mutation.ResetAllocsPerOp()
-	bruo.mutation.SetAllocsPerOp(u)
+	bruo.mutation.SetAllocsPerOp(i)
 	return bruo
 }
 
-// AddAllocsPerOp adds u to the "allocs_per_op" field.
-func (bruo *BenchResultUpdateOne) AddAllocsPerOp(u int64) *BenchResultUpdateOne {
-	bruo.mutation.AddAllocsPerOp(u)
+// AddAllocsPerOp adds i to the "allocs_per_op" field.
+func (bruo *BenchResultUpdateOne) AddAllocsPerOp(i int64) *BenchResultUpdateOne {
+	bruo.mutation.AddAllocsPerOp(i)
 	return bruo
 }
 
@@ -302,27 +302,27 @@ func (bruo *BenchResultUpdateOne) AddMBPerS(f float64) *BenchResultUpdateOne {
 }
 
 // SetMeasured sets the "measured" field.
-func (bruo *BenchResultUpdateOne) SetMeasured(i int) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) SetMeasured(i int64) *BenchResultUpdateOne {
 	bruo.mutation.ResetMeasured()
 	bruo.mutation.SetMeasured(i)
 	return bruo
 }
 
 // AddMeasured adds i to the "measured" field.
-func (bruo *BenchResultUpdateOne) AddMeasured(i int) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) AddMeasured(i int64) *BenchResultUpdateOne {
 	bruo.mutation.AddMeasured(i)
 	return bruo
 }
 
 // SetOrd sets the "ord" field.
-func (bruo *BenchResultUpdateOne) SetOrd(i int) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) SetOrd(i int64) *BenchResultUpdateOne {
 	bruo.mutation.ResetOrd()
 	bruo.mutation.SetOrd(i)
 	return bruo
 }
 
 // AddOrd adds i to the "ord" field.
-func (bruo *BenchResultUpdateOne) AddOrd(i int) *BenchResultUpdateOne {
+func (bruo *BenchResultUpdateOne) AddOrd(i int64) *BenchResultUpdateOne {
 	bruo.mutation.AddOrd(i)
 	return bruo
 }
@@ -414,16 +414,16 @@ func (bruo *BenchResultUpdateOne) sqlSave(ctx context.Context) (_node *BenchResu
 		_spec.AddField(benchresult.FieldNsPerOp, field.TypeFloat64, value)
 	}
 	if value, ok := bruo.mutation.AllocedBytesPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocedBytesPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.AddedAllocedBytesPerOp(); ok {
-		_spec.AddField(benchresult.FieldAllocedBytesPerOp, field.TypeUint64, value)
+		_spec.AddField(benchresult.FieldAllocedBytesPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.AllocsPerOp(); ok {
-		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeUint64, value)
+		_spec.SetField(benchresult.FieldAllocsPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.AddedAllocsPerOp(); ok {
-		_spec.AddField(benchresult.FieldAllocsPerOp, field.TypeUint64, value)
+		_spec.AddField(benchresult.FieldAllocsPerOp, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.MBPerS(); ok {
 		_spec.SetField(benchresult.FieldMBPerS, field.TypeFloat64, value)
@@ -432,16 +432,16 @@ func (bruo *BenchResultUpdateOne) sqlSave(ctx context.Context) (_node *BenchResu
 		_spec.AddField(benchresult.FieldMBPerS, field.TypeFloat64, value)
 	}
 	if value, ok := bruo.mutation.Measured(); ok {
-		_spec.SetField(benchresult.FieldMeasured, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldMeasured, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.AddedMeasured(); ok {
-		_spec.AddField(benchresult.FieldMeasured, field.TypeInt, value)
+		_spec.AddField(benchresult.FieldMeasured, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.Ord(); ok {
-		_spec.SetField(benchresult.FieldOrd, field.TypeInt, value)
+		_spec.SetField(benchresult.FieldOrd, field.TypeInt64, value)
 	}
 	if value, ok := bruo.mutation.AddedOrd(); ok {
-		_spec.AddField(benchresult.FieldOrd, field.TypeInt, value)
+		_spec.AddField(benchresult.FieldOrd, field.TypeInt64, value)
 	}
 	_node = &BenchResult{config: bruo.config}
 	_spec.Assign = _node.assignValues

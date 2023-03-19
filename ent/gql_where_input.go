@@ -436,24 +436,24 @@ type BenchResultWhereInput struct {
 	NsPerOpLTE   *float64  `json:"nsPerOpLTE,omitempty"`
 
 	// "alloced_bytes_per_op" field predicates.
-	AllocedBytesPerOp      *uint64  `json:"allocedBytesPerOp,omitempty"`
-	AllocedBytesPerOpNEQ   *uint64  `json:"allocedBytesPerOpNEQ,omitempty"`
-	AllocedBytesPerOpIn    []uint64 `json:"allocedBytesPerOpIn,omitempty"`
-	AllocedBytesPerOpNotIn []uint64 `json:"allocedBytesPerOpNotIn,omitempty"`
-	AllocedBytesPerOpGT    *uint64  `json:"allocedBytesPerOpGT,omitempty"`
-	AllocedBytesPerOpGTE   *uint64  `json:"allocedBytesPerOpGTE,omitempty"`
-	AllocedBytesPerOpLT    *uint64  `json:"allocedBytesPerOpLT,omitempty"`
-	AllocedBytesPerOpLTE   *uint64  `json:"allocedBytesPerOpLTE,omitempty"`
+	AllocedBytesPerOp      *int64  `json:"allocedBytesPerOp,omitempty"`
+	AllocedBytesPerOpNEQ   *int64  `json:"allocedBytesPerOpNEQ,omitempty"`
+	AllocedBytesPerOpIn    []int64 `json:"allocedBytesPerOpIn,omitempty"`
+	AllocedBytesPerOpNotIn []int64 `json:"allocedBytesPerOpNotIn,omitempty"`
+	AllocedBytesPerOpGT    *int64  `json:"allocedBytesPerOpGT,omitempty"`
+	AllocedBytesPerOpGTE   *int64  `json:"allocedBytesPerOpGTE,omitempty"`
+	AllocedBytesPerOpLT    *int64  `json:"allocedBytesPerOpLT,omitempty"`
+	AllocedBytesPerOpLTE   *int64  `json:"allocedBytesPerOpLTE,omitempty"`
 
 	// "allocs_per_op" field predicates.
-	AllocsPerOp      *uint64  `json:"allocsPerOp,omitempty"`
-	AllocsPerOpNEQ   *uint64  `json:"allocsPerOpNEQ,omitempty"`
-	AllocsPerOpIn    []uint64 `json:"allocsPerOpIn,omitempty"`
-	AllocsPerOpNotIn []uint64 `json:"allocsPerOpNotIn,omitempty"`
-	AllocsPerOpGT    *uint64  `json:"allocsPerOpGT,omitempty"`
-	AllocsPerOpGTE   *uint64  `json:"allocsPerOpGTE,omitempty"`
-	AllocsPerOpLT    *uint64  `json:"allocsPerOpLT,omitempty"`
-	AllocsPerOpLTE   *uint64  `json:"allocsPerOpLTE,omitempty"`
+	AllocsPerOp      *int64  `json:"allocsPerOp,omitempty"`
+	AllocsPerOpNEQ   *int64  `json:"allocsPerOpNEQ,omitempty"`
+	AllocsPerOpIn    []int64 `json:"allocsPerOpIn,omitempty"`
+	AllocsPerOpNotIn []int64 `json:"allocsPerOpNotIn,omitempty"`
+	AllocsPerOpGT    *int64  `json:"allocsPerOpGT,omitempty"`
+	AllocsPerOpGTE   *int64  `json:"allocsPerOpGTE,omitempty"`
+	AllocsPerOpLT    *int64  `json:"allocsPerOpLT,omitempty"`
+	AllocsPerOpLTE   *int64  `json:"allocsPerOpLTE,omitempty"`
 
 	// "mb_per_s" field predicates.
 	MBPerS      *float64  `json:"mbPerS,omitempty"`
@@ -466,24 +466,24 @@ type BenchResultWhereInput struct {
 	MBPerSLTE   *float64  `json:"mbPerSLTE,omitempty"`
 
 	// "measured" field predicates.
-	Measured      *int  `json:"measured,omitempty"`
-	MeasuredNEQ   *int  `json:"measuredNEQ,omitempty"`
-	MeasuredIn    []int `json:"measuredIn,omitempty"`
-	MeasuredNotIn []int `json:"measuredNotIn,omitempty"`
-	MeasuredGT    *int  `json:"measuredGT,omitempty"`
-	MeasuredGTE   *int  `json:"measuredGTE,omitempty"`
-	MeasuredLT    *int  `json:"measuredLT,omitempty"`
-	MeasuredLTE   *int  `json:"measuredLTE,omitempty"`
+	Measured      *int64  `json:"measured,omitempty"`
+	MeasuredNEQ   *int64  `json:"measuredNEQ,omitempty"`
+	MeasuredIn    []int64 `json:"measuredIn,omitempty"`
+	MeasuredNotIn []int64 `json:"measuredNotIn,omitempty"`
+	MeasuredGT    *int64  `json:"measuredGT,omitempty"`
+	MeasuredGTE   *int64  `json:"measuredGTE,omitempty"`
+	MeasuredLT    *int64  `json:"measuredLT,omitempty"`
+	MeasuredLTE   *int64  `json:"measuredLTE,omitempty"`
 
 	// "ord" field predicates.
-	Ord      *int  `json:"ord,omitempty"`
-	OrdNEQ   *int  `json:"ordNEQ,omitempty"`
-	OrdIn    []int `json:"ordIn,omitempty"`
-	OrdNotIn []int `json:"ordNotIn,omitempty"`
-	OrdGT    *int  `json:"ordGT,omitempty"`
-	OrdGTE   *int  `json:"ordGTE,omitempty"`
-	OrdLT    *int  `json:"ordLT,omitempty"`
-	OrdLTE   *int  `json:"ordLTE,omitempty"`
+	Ord      *int64  `json:"ord,omitempty"`
+	OrdNEQ   *int64  `json:"ordNEQ,omitempty"`
+	OrdIn    []int64 `json:"ordIn,omitempty"`
+	OrdNotIn []int64 `json:"ordNotIn,omitempty"`
+	OrdGT    *int64  `json:"ordGT,omitempty"`
+	OrdGTE   *int64  `json:"ordGTE,omitempty"`
+	OrdLT    *int64  `json:"ordLT,omitempty"`
+	OrdLTE   *int64  `json:"ordLTE,omitempty"`
 }
 
 // AddPredicates adds custom predicates to the where input to be used during the filtering phase.

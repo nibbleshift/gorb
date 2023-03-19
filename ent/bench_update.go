@@ -158,10 +158,7 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -174,10 +171,7 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -193,10 +187,7 @@ func (bu *BenchUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -384,10 +375,7 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -400,10 +388,7 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -419,10 +404,7 @@ func (buo *BenchUpdateOne) sqlSave(ctx context.Context) (_node *Bench, err error
 			Columns: []string{bench.BenchResultColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeInt,
-					Column: benchresult.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(benchresult.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

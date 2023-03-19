@@ -35,11 +35,11 @@ type CreateBenchResultInput struct {
 	Name              string
 	N                 int64
 	NsPerOp           float64
-	AllocedBytesPerOp uint64
-	AllocsPerOp       uint64
+	AllocedBytesPerOp int64
+	AllocsPerOp       int64
 	MBPerS            float64
-	Measured          int
-	Ord               int
+	Measured          int64
+	Ord               int64
 }
 
 // Mutate applies the CreateBenchResultInput on the BenchResultMutation builder.

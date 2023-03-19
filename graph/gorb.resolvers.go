@@ -8,6 +8,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/nibbleshift/gorb/ent"
 	"github.com/nibbleshift/gorb/graph/generated"
 )
@@ -16,6 +17,7 @@ import (
 func (r *mutationResolver) CreateBenchmark(ctx context.Context, input ent.CreateBenchInput, results []*ent.CreateBenchResultInput) (*ent.Bench, error) {
 	benchResultIds := make([]int, 0, len(results))
 
+	spew.Dump(results)
 	for _, result := range results {
 		res, err := r.client.BenchResult.Create().
 			SetName(result.Name).
